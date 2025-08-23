@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mentor: Your Roadmap</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Consistent base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        /* Container */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .navbar-logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #8b5cf6;
+        }
+
+        .nav-links a {
+            color: #4b5563;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Roadmap header */
+        .roadmap-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .roadmap-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-header p {
+            font-size: 1.125rem;
+            color: #6b7280;
+        }
+
+        /* Timeline */
+        .roadmap-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Cards */
+        .roadmap-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+
+        .progress-bar {
+            background-color: #e5e7eb;
+            height: 0.75rem;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #8b5cf6;
+            border-radius: 9999px;
+        }
+
+        .roadmap-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .roadmap-card p {
+            font-size: 1rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <span class="navbar-logo">AI Mentor</span>
+            <div class="nav-links">
+                <a href="#" onclick="navigate('dashboard.html')">Dashboard</a>
+                <a href="#" onclick="navigate('roadmap.html')" style="color: #8b5cf6;">Roadmap</a>
+                <a href="#" onclick="navigate('resources.html')">Resources</a>
+                <a href="#" onclick="navigate('Ai_mentor.html')">AI Mentor</a>
+            </div>
+        </nav>
+
+        <!-- Roadmap Header -->
+        <header class="roadmap-header">
+            <h1>Your Learning Roadmap</h1>
+            <p>Here is your personalized path to your career goal: *Software Developer*.</p>
+        </header>
+
+        <!-- Roadmap Cards -->
+        <main class="roadmap-timeline">
+            <div class="roadmap-card">
+                <h3>Phase 1: Foundations</h3>
+                <p>Build the core skills in programming and data structures.</p>
+                <p style="font-size: 0.875rem; color: #4b5563;">Status: *Completed*</p>
+            </div>
+
+            <div class="roadmap-card">
+                <h3>Phase 2: Web Development Fundamentals</h3>
+                <p>Learn the languages of the web: HTML, CSS, and JavaScript.</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 75%;"></div>
+                </div>
+            </div>
+
+            <div class="roadmap-card">
+                <h3>Phase 3: Front-End Frameworks</h3>
+                <p>Dive into modern frameworks like React.js and gain professional experience.</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 20%;"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        function navigate(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>

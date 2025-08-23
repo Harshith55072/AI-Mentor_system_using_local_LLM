@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding - AI Mentor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+            color: #1f2937;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .onboarding-container {
+            width: 90%;
+            max-width: 700px; /* Adjusted max-width for a balanced feel */
+            background-color: #ffffff;
+            padding: 4rem 3.5rem;
+            border-radius: 2rem;
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .onboarding-container h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+        }
+
+        .onboarding-container p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 3rem;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.75rem;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            height: 200px;
+            padding: 1.25rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+        }
+
+        .onboarding-button {
+            width: 100%;
+            padding: 1.25rem;
+            background-color: #8b5cf6;
+            color: #ffffff;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .onboarding-button:hover {
+            background-color: #7c3aed;
+        }
+
+        .onboarding-button:active {
+            transform: scale(0.99);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="onboarding-container">
+        <h1>Forge Your Path</h1>
+        <p>Define the engineering professional you aspire to become. A clear vision is the first step toward a successful journey.</p>
+        
+        <form id="onboardingForm">
+            <div class="form-group">
+                <label for="careerGoal">My career goal is...</label>
+                <textarea id="careerGoal" name="careerGoal" placeholder="e.g., Become a Senior AI/ML Engineer, a Cybersecurity Analyst, or a Data Scientist specializing in bioinformatics." required></textarea>
+            </div>
+            
+            <button type="submit" class="onboarding-button">Launch My Journey</button>
+        </form>
+    </div>
+
+    <script>
+        const onboardingForm = document.getElementById('onboardingForm');
+
+        onboardingForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const careerGoal = document.getElementById('careerGoal').value;
+            localStorage.setItem('careerGoal', careerGoal);
+
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+
+</body>
+</html>

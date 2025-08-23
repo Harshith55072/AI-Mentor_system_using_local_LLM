@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AI Mentor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+            color: #1f2937;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px; /* Increased max-width for a slightly larger box */
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 2rem;
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .login-container h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+        }
+
+        .login-container p {
+            font-size: 1rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: #8b5cf6;
+            color: #ffffff;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .login-button:hover {
+            background-color: #7c3aed;
+        }
+
+        .login-button:active {
+            transform: scale(0.99);
+        }
+
+        .register-link {
+            display: block;
+            margin-top: 1.5rem;
+            color: #4b5563;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .register-link:hover {
+            color: #8b5cf6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>Welcome Back</h1>
+        <p>Log in to continue your journey to becoming an expert developer.</p>
+        
+        <!-- Added an id to the form for easy JavaScript access -->
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="login-button">Log In</button>
+        </form>
+        
+        <!-- Changed this to a button with an event listener -->
+        <a href="#" onclick="navigateToRegistration()" class="register-link">Don't have an account? Sign up</a>
+    </div>
+
+    <script>
+        // Get the form element
+        const loginForm = document.getElementById('loginForm');
+
+        // Add a submit event listener to the form
+        loginForm.addEventListener('submit', (event) => {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            // In a real app, you would handle authentication here.
+            // For now, we'll just redirect to the onboarding page.
+            window.location.href = 'onboarding.html';
+        });
+
+        // A function to handle the registration link click
+        function navigateToRegistration() {
+            // The link is now correctly updated to the new register page
+            window.location.href = 'register.html';
+        }
+    </script>
+
+</body>
+</html>

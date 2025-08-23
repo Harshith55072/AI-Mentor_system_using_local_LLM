@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mentor: Resources Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Consistent base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        /* Container */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .navbar-logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #8b5cf6;
+        }
+
+        .nav-links a {
+            color: #4b5563;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Header */
+        .resources-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .resources-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .resources-header p {
+            font-size: 1.125rem;
+            color: #6b7280;
+        }
+
+        /* Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Cards */
+        .resource-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .resource-card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #8b5cf6;
+        }
+        
+        .resource-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .resource-card p {
+            font-size: 1rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .resource-card .learn-more {
+            color: #8b5cf6;
+            font-weight: 600;
+            align-self: flex-start;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <span class="navbar-logo">AI Mentor</span>
+            <div class="nav-links">
+                <a href="#" onclick="navigate('dashboard.html')">Dashboard</a>
+                <a href="#" onclick="navigate('roadmap.html')">Roadmap</a>
+                <a href="#" onclick="navigate('resources.html')" style="color: #8b5cf6;">Resources</a>
+                <a href="#" onclick="navigate('Ai_mentor.html')">AI Mentor</a>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <header class="resources-header">
+            <h1>Resources Hub</h1>
+            <p>A curated list of tutorials, articles, and tools to help you on your path.</p>
+        </header>
+
+        <!-- Resource Cards -->
+        <main class="resources-grid">
+            <a href="#" class="resource-card">
+                <span class="resource-card-icon">📚</span>
+                <h3>Books & Articles</h3>
+                <p>Essential reading material to deepen your knowledge of fundamental concepts and best practices.</p>
+                <span class="learn-more">Explore Now &rarr;</span>
+            </a>
+
+            <a href="#" class="resource-card">
+                <span class="resource-card-icon">💻</span>
+                <h3>Coding Platforms</h3>
+                <p>Practice your skills with a variety of coding challenges and real-world problems from top platforms.</p>
+                <span class="learn-more">Practice Now &rarr;</span>
+            </a>
+            
+            <a href="#" class="resource-card">
+                <span class="resource-card-icon">🎓</span>
+                <h3>Online Courses</h3>
+                <p>Structured courses and video tutorials on key topics, from basic programming to advanced frameworks.</p>
+                <span class="learn-more">Enroll Now &rarr;</span>
+            </a>
+            
+            <a href="#" class="resource-card">
+                <span class="resource-card-icon">🤝</span>
+                <h3>Communities</h3>
+                <p>Connect with other learners and professionals. Ask questions, get feedback, and collaborate on projects.</p>
+                <span class="learn-more">Join Now &rarr;</span>
+            </a>
+        </main>
+    </div>
+
+    <script>
+        function navigate(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mentor Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Consistent base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        /* Container for the whole page */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation bar styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .navbar-logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #8b5cf6;
+        }
+
+        .nav-links a {
+            color: #4b5563;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #8b5cf6;
+        }
+
+        /* Dashboard header */
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            font-size: 1.125rem;
+            color: #6b7280;
+        }
+
+        /* Section card */
+        .card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+        
+        /* Grid layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .progress-section h3, .next-steps-section h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar {
+            background-color: #e5e7eb;
+            height: 1rem;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 75%;
+            background-color: #8b5cf6;
+            border-radius: 9999px;
+        }
+        
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            background-color: #f9fafb;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .task-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .task-item .task-title {
+            font-weight: 600;
+        }
+
+        .task-item .task-subtitle {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        
+        .task-item .task-icon {
+            margin-right: 1rem;
+        }
+
+        /* Responsive grid */
+        @media (min-width: 768px) {
+            .main-grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <span class="navbar-logo">AI Mentor</span>
+            <div class="nav-links">
+                <a href="#" onclick="navigate('dashboard.html')" style="color: #8b5cf6;">Dashboard</a>
+                <a href="#" onclick="navigate('roadmap.html')">Roadmap</a>
+                <a href="#" onclick="navigate('resources.html')">Resources</a>
+                <a href="#" onclick="navigate('Ai_mentor.html')">AI Mentor</a> <!-- New Link -->
+            </div>
+        </nav>
+
+        <!-- Dashboard Header -->
+        <header class="dashboard-header">
+            <h1 id="welcomeMessage">Welcome, [User Name]!</h1>
+            <p>Your journey to becoming a software developer is on track. Here's a quick look at your progress.</p>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-grid">
+            <!-- Progress Section -->
+            <div class="progress-section card">
+                <h3>Your Progress</h3>
+                
+                <h4>Data Structures & Algorithms</h4>
+                <p style="font-size: 0.875rem; color: #6b7280; margin-top: -1rem;">Completed: 75%</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+
+                <h3 style="margin-top: 2rem;">Latest Achievements</h3>
+                <ul class="task-list">
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #10b981;">✔</span>
+                        <div>
+                            <span class="task-title">Completed: "Introduction to JavaScript"</span>
+                            <div class="task-subtitle">From Coursera</div>
+                        </div>
+                    </li>
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #10b981;">✔</span>
+                        <div>
+                            <span class="task-title">Milestone: Completed 20 coding challenges</span>
+                            <div class="task-subtitle">Challenge accepted!</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Next Steps Section -->
+            <div class="next-steps-section card">
+                <h3>Your Next Steps</h3>
+                <ul class="task-list">
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #8b5cf6;">🚀</span>
+                        <div>
+                            <span class="task-title">Start "Introduction to React.js"</span>
+                            <div class="task-subtitle">Estimated time: 3 hours</div>
+                        </div>
+                    </li>
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #8b5cf6;">📚</span>
+                        <div>
+                            <span class="task-title">Read "The Clean Coder"</span>
+                            <div class="task-subtitle">Resource Hub</div>
+                        </div>
+                    </li>
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #8b5cf6;">💡</span>
+                        <div>
+                            <span class="task-title">Practice: Binary Search problems</span>
+                            <div class="task-subtitle">From LeetCode</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Navigation function
+        function navigate(page) {
+            window.location.href = page;
+        }
+
+        // Update welcome message
+        document.addEventListener('DOMContentLoaded', () => {
+            const userName = localStorage.getItem('userName') || 'User';
+            document.getElementById('welcomeMessage').innerText = `Welcome, ${userName}!`;
+        });
+    </script>
+
+</body>
+</html>
