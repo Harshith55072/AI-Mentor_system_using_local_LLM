@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Progress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .parts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .parts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .part-card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 1.5rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+            color: inherit;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .part-card:hover {
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.2);
+        }
+
+        .part-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #8b5cf6;
+        }
+
+        .part-description {
+            font-size: 0.95rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>Data Structures & Algorithms</h1>
+            <p>Choose a part to begin or continue your journey</p>
+        </header>
+
+        <div class="parts-grid">
+            <a href="dsa1.html" class="part-card">
+                <div class="part-title">Part 1: Basics & Arrays</div>
+                <div class="part-description">
+                    Learn about time complexity, arrays, and strings — the foundations of DSA.
+                </div>
+            </a>
+
+            <a href="dsa2.html" class="part-card">
+                <div class="part-title">Part 2: Linked Lists & Stacks/Queues</div>
+                <div class="part-description">
+                    Dive into linked lists, stack and queue data structures — key interview topics.
+                </div>
+            </a>
+
+            <a href="dsa3.html" class="part-card">
+                <div class="part-title">Part 3: Trees & Recursion</div>
+                <div class="part-description">
+                    Understand recursion and tree structures like BSTs, and learn DFS/BFS.
+                </div>
+            </a>
+
+            <a href="dsa4.html" class="part-card">
+                <div class="part-title">Part 4: Advanced Topics</div>
+                <div class="part-description">
+                    Cover searching, sorting, basic graphs, and an introduction to dynamic programming.
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

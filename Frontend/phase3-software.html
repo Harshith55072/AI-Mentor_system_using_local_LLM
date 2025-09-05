@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phase 3: Front-End Frameworks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: #f9fafb;
+      color: #1f2937;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 1rem;
+      padding: 2.5rem 3rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+    }
+    h1 {
+      font-size: 2rem;
+      color: #7c3aed;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    p {
+      max-width: 700px;
+      margin: 0 0 2.5rem 0;
+      line-height: 1.6;
+      color: #374151;
+    }
+
+    /* Roadmap style for left alignment */
+    .roadmap {
+      border-left: 4px solid #e5e7eb;
+      padding-left: 2rem;
+      position: relative;
+      max-width: 700px;
+      margin-bottom: 3rem;
+    }
+    .roadmap-step {
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .roadmap-step::before {
+      content: '';
+      position: absolute;
+      left: -2.2rem;
+      top: 0.35rem;
+      width: 1rem;
+      height: 1rem;
+      background-color: #8b5cf6;
+      border-radius: 50%;
+    }
+    .step-title {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-bottom: 0.4rem;
+      color: #7c3aed;
+      display: flex;
+      align-items: center;
+    }
+    .step-description {
+      color: #4b5563;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    ul {
+      padding-left: 1.5rem;
+      color: #4b5563;
+      margin: 0;
+      line-height: 1.5;
+    }
+    ul li {
+      margin-bottom: 0.5rem;
+    }
+    a {
+      color: #7c3aed;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Images aligned left with some spacing */
+    .images {
+      max-width: 700px;
+      margin-left: 2rem;
+      margin-bottom: 3rem;
+      display: flex;
+      gap: 1.5rem;
+    }
+    .images img {
+      width: 80px;
+      height: auto;
+      border-radius: 0.75rem;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    iframe {
+      max-width: 700px;
+      width: 100%;
+      height: 350px;
+      border-radius: 0.75rem;
+      margin-bottom: 3rem;
+      display: block;
+      margin-left: 2rem;
+    }
+
+    .complete-btn {
+      display: block;
+      margin-left: 2rem;
+      padding: 0.75rem 2rem;
+      background: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-align: center;
+      max-width: 700px;
+    }
+    .complete-btn:hover {
+      background: #5b21b6;
+    }
+
+    @media (max-width: 768px) {
+      .images {
+        justify-content: center;
+        margin-left: 0;
+      }
+      .images img {
+        width: 30%;
+      }
+      iframe {
+        margin-left: 0;
+      }
+      .complete-btn {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚛️ Phase 3: Front-End Frameworks</h1>
+    <p> This phase introduces you to modern front-end frameworks, which help you build dynamic and professional web applications efficiently. We’ll focus on React.js, but also provide references for Angular and Vue.js.</p>
+
+    <div class="roadmap">
+      <div class="roadmap-step">
+        <div class="step-title">Topics to Learn</div>
+        <ul>
+          <li>React.js: Components, Props, State, Hooks</li>
+          <li>Building single-page applications (SPAs)</li>
+          <li>Routing using React Router</li>
+          <li>Basics of Angular and Vue.js for comparison</li>
+          <li>Project structure and modular development</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="step-title">Recommended Tutorials</div>
+        <ul>
+          <li><a href="https://www.youtube.com/playlist?list=PL4cUxeGkcC9gXdVXVJBmHpSI7zCEcjLUX" target="_blank" rel="noopener noreferrer">React JS Crash Course - YouTube</a></li>
+          <li><a href="https://reactjs.org/tutorial/tutorial.html" target="_blank" rel="noopener noreferrer">Official React Tutorial</a></li>
+          <li><a href="https://www.youtube.com/watch?v=htPYk6QxacQ" target="_blank" rel="noopener noreferrer">Angular Full Course - YouTube</a></li>
+          <li><a href="https://vuejs.org/guide/introduction.html" target="_blank" rel="noopener noreferrer">Vue.js Official Guide</a></li>
+          <li><a href="https://www.freecodecamp.org/news/learn-react-by-building-a-simple-app-e8b3b53b0ad2/" target="_blank" rel="noopener noreferrer">React Project Tutorial - FreeCodeCamp</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 style="margin-left: 2rem; margin-bottom: 1rem; color: #7c3aed;">Images & Examples</h2>
+    <div class="images">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React Logo" />
+      <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="Angular Logo" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="Vue.js Logo" />
+    </div>
+
+    <h2 style="margin-left: 2rem; margin-bottom: 1rem; color: #7c3aed;">Video Tutorial</h2>
+    <iframe
+      src="https://www.youtube.com/embed/w7ejDZ8SWv8"
+      title="React JS Tutorial"
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+
+    <button class="complete-btn" onclick="alert('Phase 3 marked as completed!')">
+      ✅ Mark Phase 3 as Complete
+    </button>
+  </div>
+</body>
+</html>

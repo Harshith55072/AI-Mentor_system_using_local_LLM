@@ -82,7 +82,7 @@
       width: 100%;
       max-width: 1000px;
       margin: 0 auto;
-      height: 300px; /* Fixed height */
+      height: 350px;
     }
 
     .chat-messages {
@@ -113,6 +113,7 @@
       font-size: 0.95rem;
       line-height: 1.4;
       word-wrap: break-word;
+      position: relative;
     }
 
     .message.user {
@@ -127,7 +128,46 @@
       color: #1f2937;
       margin-right: auto;
       border-bottom-left-radius: 0.25rem;
+      display: flex;
+      flex-direction: column;
     }
+
+    /* Divider line above buttons */
+    .divider {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+    }
+
+/* Action buttons row */
+.actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.actions button {
+  background: #8b5cf6;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;   /* smaller padding */
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.actions button:hover {
+  background: #7c3aed;
+}
+
+.actions svg {
+  width: 14px;   /* smaller icon */
+  height: 14px;  /* smaller icon */
+  fill: white;
+}
+
 
     .chat-input {
       display: flex;
@@ -189,7 +229,24 @@
     <!-- Chatbox -->
     <div class="chat-container">
       <div class="chat-messages" id="chatMessages">
-        <div class="message bot">👋 Hi! I’m your AI Mentor. How can I help you today?</div>
+        <div class="message bot">
+          👋 Hi! I’m your AI Mentor. How can I help you today?
+          <div class="divider"></div>
+          <div class="actions">
+            <button onclick="copyMessage(this)">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+            <button>
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41 1.01 4.13 2.44h1.74C14.09 5.01 15.76 4 17.5 4 20 4 22 6 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </button>
+            <button>
+              <svg viewBox="0 0 24 24"><path d="M15 3h4c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2h-4V3zm-6 0h4v18H9V3zm-6 0h4v18H3V3z"/></svg>
+            </button>
+            <button onclick="speakMessage(this)">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03z"/></svg>
+            </button>
+          </div>
+        </div>
         <div id="scrollAnchor"></div>
       </div>
       <div class="chat-input">
@@ -215,7 +272,6 @@
       const userText = input.value.trim();
       if (!userText) return;
 
-      // User message
       const userMsg = document.createElement("div");
       userMsg.className = "message user";
       userMsg.textContent = userText;
@@ -224,14 +280,40 @@
       input.value = "";
       scrollToBottom();
 
-      // Fake bot response
       setTimeout(() => {
         const botMsg = document.createElement("div");
         botMsg.className = "message bot";
-        botMsg.textContent = "🤖 That's interesting! (This is a placeholder response.)";
+        botMsg.innerHTML = `🤖 That's interesting! (This is a placeholder response.)
+          <div class="divider"></div>
+          <div class="actions">
+            <button onclick="copyMessage(this)">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+            <button>
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41 1.01 4.13 2.44h1.74C14.09 5.01 15.76 4 17.5 4 20 4 22 6 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </button>
+            <button>
+              <svg viewBox="0 0 24 24"><path d="M15 3h4c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2h-4V3zm-6 0h4v18H9V3zm-6 0h4v18H3V3z"/></svg>
+            </button>
+            <button onclick="speakMessage(this)">
+              <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03z"/></svg>
+            </button>
+          </div>`;
         messages.insertBefore(botMsg, document.getElementById("scrollAnchor"));
         scrollToBottom();
       }, 700);
+    }
+
+    function copyMessage(btn) {
+      const text = btn.closest(".message").textContent.trim();
+      navigator.clipboard.writeText(text);
+      alert("Message copied!");
+    }
+
+    function speakMessage(btn) {
+      const text = btn.closest(".message").textContent.trim();
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
     }
   </script>
 </body>

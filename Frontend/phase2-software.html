@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phase 2: Web Development Fundamentals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2.5rem 3rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+    }
+    h1 {
+      font-size: 2rem;
+      color: #7c3aed;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-weight: 700;
+    }
+    p {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      font-size: 1.1rem;
+      color: #374151;
+    }
+
+    .roadmap {
+      border-left: 4px solid #e5e7eb;
+      padding-left: 2rem;
+      position: relative;
+    }
+    .roadmap-step {
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .roadmap-step::before {
+      content: '';
+      position: absolute;
+      left: -2.2rem;
+      top: 0.35rem;
+      width: 1rem;
+      height: 1rem;
+      background-color: #8b5cf6;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #a78bfa;
+    }
+    .step-title {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      color: #5b21b6;
+    }
+    .icon {
+      width: 22px;
+      height: 22px;
+      margin-right: 10px;
+      fill: #8b5cf6;
+      flex-shrink: 0;
+    }
+    .step-description {
+      color: #4b5563;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .resources {
+      margin-top: 1rem;
+      margin-bottom: 3rem;
+      font-size: 1rem;
+      color: #7c3aed;
+    }
+    .resources a {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      color: #7c3aed;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .resources a:hover,
+    .resources a:focus {
+      text-decoration: underline;
+      color: #5b21b6;
+      outline: none;
+    }
+
+    .media-section {
+      margin-top: 3rem;
+    }
+    .media-section h2 {
+      color: #7c3aed;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    img {
+      width: 30%;
+      border-radius: 0.75rem;
+      margin: 0 1rem 1.5rem 0;
+      vertical-align: top;
+      box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    img:hover,
+    img:focus {
+      transform: scale(1.05);
+      outline: none;
+    }
+
+    iframe {
+      width: 100%;
+      height: 360px;
+      border-radius: 0.75rem;
+      box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
+      border: none;
+      margin-top: 1rem;
+    }
+
+    .complete-btn {
+      display: block;
+      margin: 3rem auto 0;
+      padding: 0.85rem 2.5rem;
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 10px rgba(139, 92, 246, 0.4);
+    }
+    .complete-btn:hover,
+    .complete-btn:focus {
+      background: #6d28d9;
+      outline: none;
+      box-shadow: 0 6px 14px rgba(107, 40, 217, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      img {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <h1>🌐 Phase 2: Web Development Fundamentals</h1>
+    <p>Master the core building blocks of websites. Learn how HTML structures content, CSS styles it, and JavaScript adds interactivity.</p>
+
+    <div class="roadmap" aria-label="Web development fundamentals roadmap">
+
+      <!-- HTML -->
+      <div class="roadmap-step">
+        <div class="step-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 4l2.25 16L12 20l6.75-2L21 4H3Zm5.68 4h6.65l-.18 2H9.16l.26 3h5.16l-.17 2H9.53l.23 2h4.45l.1 1.3-2.28.63-2.3-.63L9.53 16H8.1l.58 3.27L12 20l3.32-.73L16.9 8H8.68Z"/></svg>
+          HTML: Structure the Web
+        </div>
+        <div class="step-description">Learn about elements, tags, forms, links, and how HTML organizes content.</div>
+      </div>
+
+      <!-- CSS -->
+      <div class="roadmap-step">
+        <div class="step-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 4l2.25 16L12 20l6.75-2L21 4H3Zm5.78 4h6.47l-.2 2H9.3l.26 3h5.1l-.18 2H9.66l.21 2h4.27l.1 1.28L12 18l-2.29-.64L9.3 16H8.03l.53 2.98L12 20l3.46-.73L16.94 8H8.78Z"/></svg>
+          CSS: Styling with Power
+        </div>
+        <div class="step-description">Flexbox, Grid, media queries — everything you need to make websites look great on any device.</div>
+      </div>
+
+      <!-- JavaScript -->
+      <div class="roadmap-step">
+        <div class="step-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 3h18v18H3V3Zm10.43 13.84c.31.51.73.91 1.45.91.6 0 1.03-.3 1.03-.72 0-.5-.4-.68-1.09-.97l-.38-.16c-1.1-.47-1.83-1.06-1.83-2.31 0-1.15.87-2.03 2.23-2.03.97 0 1.67.34 2.17 1.21l-1.18.76c-.26-.47-.55-.66-1-.66-.46 0-.75.3-.75.66 0 .46.3.64.98.92l.38.16c1.3.56 2.04 1.11 2.04 2.39 0 1.37-1.08 2.13-2.53 2.13-1.41 0-2.32-.67-2.76-1.54l1.21-.7Zm-5.9.12c.24.43.45.8.98.8.5 0 .82-.2.82-.99v-5.33h1.5v5.35c0 1.56-.91 2.27-2.23 2.27-1.2 0-1.89-.62-2.24-1.37l1.17-.73Z"/></svg>
+          JavaScript: Make it Interactive
+        </div>
+        <div class="step-description">Manipulate the DOM, handle events, and bring your pages to life with basic JS & ES6 features.</div>
+      </div>
+
+      <!-- Integration -->
+      <div class="roadmap-step">
+        <div class="step-title">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2 1.5 9l2 13h17l2-13L12 2Zm0 2.7L19.3 9H4.7L12 4.7ZM12 20a1.5 1.5 0 1 1 .001-3.001A1.5 1.5 0 0 1 12 20Zm4.95-4.32H7.05l-.55-4h11l-.55 4Z"/></svg>
+          Build Projects: Combine HTML, CSS & JS
+        </div>
+        <div class="step-description">Practice what you've learned by building basic pages and small interactive components.</div>
+      </div>
+    </div>
+
+    <h2>📚 Recommended Resources</h2>
+    <div class="resources" aria-label="Recommended web development resources">
+      <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener noreferrer">HTML – MDN Web Docs</a><br/>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener noreferrer">CSS – MDN Web Docs</a><br/>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer">JavaScript – MDN Web Docs</a><br/>
+      <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="noopener noreferrer">CSS Flexbox Guide – CSS-Tricks</a><br/>
+      <a href="https://javascript.info/" target="_blank" rel="noopener noreferrer">The Modern JavaScript Tutorial</a><br/>
+      <a href="https://frontendmentor.io" target="_blank" rel="noopener noreferrer">Frontend Mentor – Practice Projects</a><br/>
+      <a href="https://freecodecamp.org" target="_blank" rel="noopener noreferrer">freeCodeCamp – Interactive Web Dev Lessons</a>
+    </div>
+
+    <div class="media-section">
+      <h2>🎥 Learn Visually</h2>
+      <iframe src="https://www.youtube.com/embed/pQN-pnXPaVg" title="Web Development Full Course - 10 Hours | HTML, CSS & JavaScript for Beginners" allowfullscreen></iframe>
+    </div>
+
+    <div class="media-section" aria-label="Examples in Action">
+      <h2>🖼️ Examples in Action</h2>
+      <img src="https://via.placeholder.com/400x250.png?text=HTML+Example" alt="HTML Example">
+      <img src="https://via.placeholder.com/400x250.png?text=CSS+Example" alt="CSS Example">
+      <img src="https://via.placeholder.com/400x250.png?text=JavaScript+Example" alt="JavaScript Example">
+    </div>
+
+    <button class="complete-btn" onclick="alert('🎉 Phase 2 marked as completed!')">✅ Mark Phase 2 as Complete</button>
+  </div>
+</body>
+</html>

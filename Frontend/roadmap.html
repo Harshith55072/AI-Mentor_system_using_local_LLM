@@ -1,169 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Mentor: Your Roadmap</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Consistent base styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
-            color: #1f2937;
-            min-height: 100vh;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Mentor: Your Roadmap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+      color: #1f2937;
+      min-height: 100vh;
+    }
 
-        /* Container */
-        .page-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+    .page-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem;
+    }
 
-        /* Navigation bar */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: #ffffff;
-            border-radius: 1.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
-        }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+      margin-bottom: 1rem;
+    }
 
-        .navbar-logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: #8b5cf6;
-        }
+    .navbar-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #8b5cf6;
+    }
 
-        .nav-links a {
-            color: #4b5563;
-            text-decoration: none;
-            font-weight: 500;
-            margin-left: 1.5rem;
-            transition: color 0.3s ease;
-        }
+    .nav-links a {
+      margin-left: 1.5rem;
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
 
-        .nav-links a:hover {
-            color: #8b5cf6;
-        }
+    .nav-links a:hover {
+      color: #8b5cf6;
+    }
 
-        /* Roadmap header */
-        .roadmap-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+    .roadmap-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
 
-        .roadmap-header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
+    .roadmap-nav button {
+      background: #8b5cf6;
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
 
-        .roadmap-header p {
-            font-size: 1.125rem;
-            color: #6b7280;
-        }
+    .roadmap-nav button:hover {
+      background: #6d28d9;
+    }
 
-        /* Timeline */
-        .roadmap-timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
+    .roadmap-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
 
-        /* Cards */
-        .roadmap-card {
-            background-color: #ffffff;
-            border-radius: 1.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
-            padding: 2rem;
-        }
+    .roadmap-header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
 
-        .progress-bar {
-            background-color: #e5e7eb;
-            height: 0.75rem;
-            border-radius: 9999px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-        }
+    .roadmap-header p {
+      font-size: 1.125rem;
+      color: #6b7280;
+    }
 
-        .progress-fill {
-            height: 100%;
-            background-color: #8b5cf6;
-            border-radius: 9999px;
-        }
+    .roadmap-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
 
-        .roadmap-card h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0 0 0.5rem 0;
-        }
+    .roadmap-card {
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+    }
 
-        .roadmap-card p {
-            font-size: 1rem;
-            color: #6b7280;
-            margin-bottom: 1rem;
-        }
-    </style>
+    .roadmap-card h3 a {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #8b5cf6;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .roadmap-card h3 a:hover {
+      color: #6d28d9;
+    }
+
+    .roadmap-card p {
+      font-size: 1rem;
+      color: #6b7280;
+      margin-bottom: 1rem;
+    }
+
+    .status-label {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+    }
+
+    .status-completed {
+      background: #d1fae5;
+      color: #047857;
+    }
+
+    .status-inprogress {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-notstarted {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+  </style>
 </head>
 <body>
+  <div class="page-container">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <span class="navbar-logo">AI Mentor</span>
+      <div class="nav-links">
+        <a href="#" onclick="navigate('dashboard.html')">Dashboard</a>
+        <a href="#" onclick="navigate('roadmap.html')" style="color: #8b5cf6;">Roadmap</a>
+        <a href="#" onclick="navigate('resources.html')">Resources</a>
+        <a href="#" onclick="navigate('ai-mentor.html')">AI Mentor</a>
+      </div>
+    </nav>
 
-    <div class="page-container">
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <span class="navbar-logo">AI Mentor</span>
-            <div class="nav-links">
-                <a href="#" onclick="navigate('dashboard.html')">Dashboard</a>
-                <a href="#" onclick="navigate('roadmap.html')" style="color: #8b5cf6;">Roadmap</a>
-                <a href="#" onclick="navigate('resources.html')">Resources</a>
-                <a href="#" onclick="navigate('Ai_mentor.html')">AI Mentor</a>
-            </div>
-        </nav>
-
-        <!-- Roadmap Header -->
-        <header class="roadmap-header">
-            <h1>Your Learning Roadmap</h1>
-            <p>Here is your personalized path to your career goal: *Software Developer*.</p>
-        </header>
-
-        <!-- Roadmap Cards -->
-        <main class="roadmap-timeline">
-            <div class="roadmap-card">
-                <h3>Phase 1: Foundations</h3>
-                <p>Build the core skills in programming and data structures.</p>
-                <p style="font-size: 0.875rem; color: #4b5563;">Status: *Completed*</p>
-            </div>
-
-            <div class="roadmap-card">
-                <h3>Phase 2: Web Development Fundamentals</h3>
-                <p>Learn the languages of the web: HTML, CSS, and JavaScript.</p>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 75%;"></div>
-                </div>
-            </div>
-
-            <div class="roadmap-card">
-                <h3>Phase 3: Front-End Frameworks</h3>
-                <p>Dive into modern frameworks like React.js and gain professional experience.</p>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 20%;"></div>
-                </div>
-            </div>
-        </main>
+    <!-- Roadmap Navigation -->
+    <div class="roadmap-nav">
+      <button onclick="prevRoadmap()">← Prev</button>
+      <span id="roadmap-title">Roadmap 1: Software Developer</span>
+      <button onclick="nextRoadmap()">Next →</button>
     </div>
-    
-    <script>
-        function navigate(page) {
-            window.location.href = page;
-        }
-    </script>
+
+    <!-- Roadmap Header -->
+    <header class="roadmap-header">
+      <h1>Your Learning Roadmap</h1>
+      <p id="roadmap-desc"></p>
+    </header>
+
+    <!-- Roadmap Timeline -->
+    <main class="roadmap-timeline" id="roadmap-content"></main>
+  </div>
+
+  <script>
+    const roadmaps = [
+      {
+        title: "Roadmap 1: Software Developer",
+        desc:
+          "Here is your personalized path to your career goal: <b>Software Developer</b>.",
+        phases: [
+          { title: "Phase 1: Foundations", text: "Build core skills in programming and data structures.", href: "phase1-software.html" },
+          { title: "Phase 2: Web Development Fundamentals", text: "Learn HTML, CSS, and JavaScript.", href: "phase2-software.html" },
+          { title: "Phase 3: Front-End Frameworks", text: "Dive into React.js and front-end development.", href: "phase3-software.html" },
+          { title: "Phase 4: Back-End Development", text: "Learn Node.js, Express, and databases.", href: "phase4-software.html" },
+          { title: "Phase 5: Projects & Deployment", text: "Build full-stack projects and deploy on cloud.", href: "phase5-software.html" }
+        ]
+      },
+      {
+        title: "Roadmap 2: Data Scientist",
+        desc: "Your path to becoming a <b>Data Scientist</b>.",
+        phases: [
+          { title: "Phase 1: Statistics & Math", text: "Learn probability, linear algebra, and statistics.", href: "phase1-ds.html" },
+          { title: "Phase 2: Python for Data Science", text: "Master NumPy, Pandas, and visualization libraries.", href: "phase2-ds.html" },
+          { title: "Phase 3: Machine Learning", text: "Explore supervised and unsupervised algorithms.", href: "phase3-ds.html" },
+          { title: "Phase 4: Deep Learning", text: "Implement neural networks and CNNs using TensorFlow/PyTorch.", href: "phase4-ds.html" },
+          { title: "Phase 5: Real-World Projects", text: "Work on Kaggle datasets and deploy ML models.", href: "phase5-ds.html" }
+        ]
+      },
+      {
+        title: "Roadmap 3: AI/ML Engineer",
+        desc: "Your path to becoming an <b>AI/ML Engineer</b>.",
+        phases: [
+          { title: "Phase 1: Core AI Concepts", text: "Learn neural networks and backpropagation.", href: "phase1-aiml.html" },
+          { title: "Phase 2: Deep Learning Frameworks", text: "Work with TensorFlow and PyTorch.", href: "phase2-aiml.html" },
+          { title: "Phase 3: Advanced AI Systems", text: "Build NLP, CV, and RL models.", href: "phase3-aiml.html" },
+          { title: "Phase 4: MLOps & Deployment", text: "Learn model serving and containerization.", href: "phase4-aiml.html" },
+          { title: "Phase 5: Research & Innovation", text: "Experiment with cutting-edge AI projects.", href: "phase5-aiml.html" }
+        ]
+      }
+    ];
+
+    let currentIndex = 0;
+
+    // Track which phases are In Progress per roadmap, default none
+    // Store as an object: { roadmapIndex: { phaseIndex: true } }
+    const inProgressStatus = {};
+
+    function navigate(page) {
+      window.location.href = page;
+    }
+
+    function prevRoadmap() {
+      currentIndex = (currentIndex - 1 + roadmaps.length) % roadmaps.length;
+      loadRoadmap(currentIndex);
+    }
+
+    function nextRoadmap() {
+      currentIndex = (currentIndex + 1) % roadmaps.length;
+      loadRoadmap(currentIndex);
+    }
+
+    function getStatusLabel(roadmapIdx, phaseIdx) {
+      // If marked in progress
+      if (
+        inProgressStatus[roadmapIdx] &&
+        inProgressStatus[roadmapIdx][phaseIdx]
+      ) {
+        return `<span class="status-label status-inprogress">In Progress</span>`;
+      } else {
+        return `<span class="status-label status-notstarted">Not Started</span>`;
+      }
+    }
+
+    function loadRoadmap(index) {
+      const roadmap = roadmaps[index];
+      document.getElementById("roadmap-title").innerHTML = roadmap.title;
+      document.getElementById("roadmap-desc").innerHTML = roadmap.desc;
+
+      const content = document.getElementById("roadmap-content");
+      content.innerHTML = "";
+
+      roadmap.phases.forEach((phase, i) => {
+        const card = document.createElement("div");
+        card.className = "roadmap-card";
+
+        const link = document.createElement("a");
+        link.href = phase.href;
+        link.textContent = phase.title;
+
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          const confirmStart = confirm(
+            "Do you want to start this step?"
+          );
+
+          if (confirmStart) {
+            // Mark this phase as in progress for this roadmap
+            if (!inProgressStatus[index]) {
+              inProgressStatus[index] = {};
+            }
+            inProgressStatus[index][i] = true;
+
+            loadRoadmap(currentIndex);
+
+            // Redirect to the phase page after a short delay so UI updates
+            setTimeout(() => {
+              window.location.href = phase.href;
+            }, 200);
+          }
+          // If cancel, do nothing (stay on page)
+        });
+
+        const title = document.createElement("h3");
+        title.appendChild(link);
+
+        const text = document.createElement("p");
+        text.textContent = phase.text;
+
+        const statusHTML = getStatusLabel(index, i);
+        const status = document.createElement("div");
+        status.innerHTML = statusHTML;
+
+        card.appendChild(title);
+        card.appendChild(text);
+        card.appendChild(status);
+
+        content.appendChild(card);
+      });
+    }
+
+    // Initialize page
+    loadRoadmap(currentIndex);
+  </script>
 </body>
 </html>

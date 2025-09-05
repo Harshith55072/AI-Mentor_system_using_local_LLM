@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phase 1: Foundations</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Reset and base */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 2.5rem 1.5rem;
+      background: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2.5rem 3rem;
+      box-shadow: 0 0.75rem 1.75rem rgba(0, 0, 0, 0.07);
+      transition: box-shadow 0.3s ease;
+    }
+    .container:hover {
+      box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #7c3aed;
+      margin-bottom: 1.25rem;
+      text-align: center;
+      letter-spacing: 0.03em;
+      user-select: none;
+    }
+
+    p.intro {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-size: 1.125rem;
+      color: #4b5563;
+      font-weight: 500;
+    }
+
+    .roadmap {
+      border-left: 4px solid #ddd6fe;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .roadmap-step {
+      margin-bottom: 3rem;
+      position: relative;
+      padding-left: 1.8rem;
+      transition: background-color 0.3s ease;
+      border-radius: 0.75rem;
+    }
+    .roadmap-step:hover {
+      background-color: #f5f3ff;
+    }
+
+    .roadmap-step::before {
+      content: '';
+      position: absolute;
+      left: -2.3rem;
+      top: 0.45rem;
+      width: 1.1rem;
+      height: 1.1rem;
+      background-color: #7c3aed;
+      border-radius: 9999px;
+      box-shadow: 0 0 5px rgba(124, 58, 237, 0.5);
+      transition: background-color 0.3s ease;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1.375rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      user-select: none;
+      color: #5b21b6;
+    }
+
+    .step-title svg.icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      fill: #7c3aed;
+      transition: fill 0.3s ease;
+    }
+    .roadmap-step:hover .step-title svg.icon {
+      fill: #5b21b6;
+    }
+
+    .step-description {
+      margin-bottom: 0.9rem;
+      color: #6b7280;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .resources a {
+      display: inline-block;
+      margin-bottom: 0.6rem;
+      color: #7c3aed;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.25s ease, transform 0.2s ease;
+      user-select: text;
+    }
+    .resources a:hover,
+    .resources a:focus {
+      color: #5b21b6;
+      text-decoration: underline;
+      transform: translateX(3px);
+      outline: none;
+    }
+
+    /* Button */
+    .complete-btn {
+      display: block;
+      margin: 3rem auto 0;
+      padding: 0.85rem 3rem;
+      background: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1.125rem;
+      box-shadow: 0 6px 12px rgba(124, 58, 237, 0.35);
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
+      user-select: none;
+      letter-spacing: 0.02em;
+    }
+    .complete-btn:hover {
+      background: #5b21b6;
+      box-shadow: 0 8px 18px rgba(91, 33, 182, 0.45);
+      transform: translateY(-2px);
+    }
+    .complete-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 8px rgba(91, 33, 182, 0.4);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.8rem 1.5rem;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .step-title {
+        font-size: 1.1rem;
+      }
+      .step-description, .resources a {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <h1>🚀 Phase 1: Foundations Roadmap</h1>
+    <p class="intro">
+      Build the essential skills that form the core of software development. Each step lays a foundational block for your programming journey.
+    </p>
+
+    <section class="roadmap" aria-label="Foundations roadmap steps">
+      <!-- Step 1 -->
+      <article class="roadmap-step" tabindex="0">
+        <h2 class="step-title">
+          <svg
+            class="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M9 14h6v-2H9v2Zm-2 4h10v-2H7v2Zm2-8h6V8H9v2Zm10-8H5a2 2 0 0 0-2 2v16l4-4h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z"
+            />
+          </svg>
+          Programming Basics
+        </h2>
+        <p class="step-description">
+          Learn about variables, loops, conditionals, and core syntax.
+        </p>
+        <div class="resources">
+          <a
+            href="https://www.youtube.com/playlist?list=PL9gnSGHSqcnp8YdR6_PiTxJ-2g9V3H1dH"
+            target="_blank"
+            rel="noopener noreferrer"
+            >▶ YouTube: Programming Basics</a
+          >
+        </div>
+      </article>
+
+      <!-- Step 2 -->
+      <article class="roadmap-step" tabindex="0">
+        <h2 class="step-title">
+          <svg
+            class="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M3 5h18v2H3zm2 4h14v2H5zm-2 4h18v2H3zm2 4h14v2H5z" />
+          </svg>
+          Data Structures
+        </h2>
+        <p class="step-description">
+          Understand how data is stored and accessed: Arrays, Linked Lists, Stacks, and Queues.
+        </p>
+        <div class="resources">
+          <a
+            href="https://www.geeksforgeeks.org/data-structures/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >📘 GeeksforGeeks: Data Structures</a
+          >
+        </div>
+      </article>
+
+      <!-- Step 3 -->
+      <article class="roadmap-step" tabindex="0">
+        <h2 class="step-title">
+          <svg
+            class="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M12 2a10 10 0 0 0 0 20V2Z" />
+          </svg>
+          Algorithms
+        </h2>
+        <p class="step-description">
+          Learn how to solve problems with Sorting (Bubble, Merge, Quick) and Searching algorithms.
+        </p>
+        <div class="resources">
+          <a
+            href="https://www.youtube.com/watch?v=8hly31xKli0"
+            target="_blank"
+            rel="noopener noreferrer"
+            >📺 Intro to Algorithms (YouTube)</a
+          >
+        </div>
+      </article>
+
+      <!-- Step 4 -->
+      <article class="roadmap-step" tabindex="0">
+        <h2 class="step-title">
+          <svg
+            class="icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M4 4v16h16V4H4Zm8 14H6v-2h6v2Zm6-4H6v-2h12v2Zm0-4H6V8h12v2Z"
+            />
+          </svg>
+          Problem Solving
+        </h2>
+        <p class="step-description">
+          Sharpen your logic with daily practice using coding challenges.
+        </p>
+        <div class="resources">
+          <a
+            href="https://www.hackerrank.com/domains/tutorials/10-days-of-javascript"
+            target="_blank"
+            rel="noopener noreferrer"
+            >💻 HackerRank: 10 Days of JS</a
+          >
+        </div>
+      </article>
+    </section>
+
+    <button class="complete-btn" onclick="alert('🎉 Phase 1 marked as completed!')">
+      Mark as Completed ✅
+    </button>
+  </div>
+</body>
+</html>
