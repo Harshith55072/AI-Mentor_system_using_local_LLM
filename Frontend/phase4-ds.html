@@ -104,7 +104,17 @@
     <h2>Video Tutorial</h2>
     <iframe src="https://www.youtube.com/embed/aircAruvnKk" title="Neural Networks from Scratch" allowfullscreen></iframe>
 
-    <button class="btn" onclick="alert('✅ Phase 4 marked as completed!')">Mark as Completed</button>
+    <button class="btn" onclick="markCompleted()">Mark as Completed</button>
   </div>
+
+  <script>
+    const ROADMAP_ID = 2; // Data Science Roadmap
+    const PHASE_NUMBER = 4;
+
+    function markCompleted() {
+      alert(`✅ Phase ${PHASE_NUMBER} marked as completed for roadmap ${ROADMAP_ID}!`);
+      // Future: send completion data via fetch/AJAX
+    }
+  </script>
 </body>
 </html>

@@ -235,14 +235,42 @@
         const registerForm = document.getElementById('registerForm');
 
         // Add a submit event listener to the form
-        registerForm.addEventListener('submit', (event) => {
-            // Prevent the default form submission
-            event.preventDefault();
+        registerForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-            // In a real app, we would handle user registration here.
-            // For now, we'll just redirect to the onboarding page.
-            window.location.href = 'onboarding.html';
+    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    const data = { username, email, password };
+
+    try {
+        const response = await fetch('http://localhost:8081/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            alert(`⚠️ Registration failed: ${errorText}`);
+            return;
+        }
+
+        const result = await response.json();
+        console.log('✅ Registered:', result);
+
+        alert('🎉 Registration successful!');
+        window.location.href = 'login.html';
+
+    } catch (err) {
+        console.error('Error:', err);
+        alert('⚠️ Something went wrong: ' + err.message);
+    }
+});
+
     </script>
 </body>
 </html>

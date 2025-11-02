@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Mentor Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -40,6 +38,11 @@
             color: #8b5cf6;
         }
 
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
         .nav-links a {
             color: #4b5563;
             text-decoration: none;
@@ -50,6 +53,70 @@
 
         .nav-links a:hover {
             color: #8b5cf6;
+        }
+
+        .logout-btn {
+            background-color: #8b5cf6;
+            color: #fff;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            margin-left: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #7c3aed;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(31, 41, 55, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-box {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-btn {
+            padding: 0.5rem 1.25rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-btn.cancel {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+
+        .modal-btn.confirm {
+            background-color: #8b5cf6;
+            color: white;
         }
 
         .dashboard-header {
@@ -123,9 +190,9 @@
 
         .progress-fill {
             height: 100%;
-            width: 75%;
             background-color: #8b5cf6;
             border-radius: 9999px;
+            transition: width 0.5s ease;
         }
 
         .section-divider {
@@ -148,10 +215,6 @@
             margin-bottom: 1rem;
         }
 
-        .task-item:last-child {
-            margin-bottom: 0;
-        }
-
         .task-icon {
             margin-right: 1rem;
             font-size: 1.2rem;
@@ -168,84 +231,57 @@
     </style>
 </head>
 <body>
-
     <div class="page-container">
-        <!-- Navigation Bar -->
         <nav class="navbar">
             <span class="navbar-logo">AI Mentor</span>
             <div class="nav-links">
-                <a href="#" onclick="navigate('dashboard.html')" style="color: #8b5cf6;">Dashboard</a>
-                <a href="#" onclick="navigate('roadmap.html')">Roadmap</a>
-                <a href="#" onclick="navigate('resources.html')">Resources</a>
-                <a href="#" onclick="navigate('Ai_mentor.html')">AI Mentor</a>
+                <a href="dashboard.html" style="color: #8b5cf6;">Dashboard</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="resources.html">Resources</a>
+                <a href="ai-mentor.html">AI Mentor</a>
+                <button class="logout-btn" onclick="showLogoutModal()">Logout</button>
             </div>
         </nav>
 
-        <!-- Dashboard Header -->
         <header class="dashboard-header">
-            <h1 id="welcomeMessage">Welcome, [User Name]!</h1>
+            <h1 id="welcomeMessage">Welcome!</h1>
             <p>Your journey to becoming a software developer is on track. Here's a quick look at your progress.</p>
         </header>
 
-        <!-- Main Grid Layout -->
         <main class="main-grid">
-            <!-- Your Progress Section -->
             <section class="progress-section card">
                 <h3>Your Progress</h3>
 
-                <!-- Clickable DSA Box -->
                 <a href="dsa.html" class="progress-box">
                     <h4>Data Structures & Algorithms</h4>
-                    <p>Completed: 75%</p>
+                    <p id="progressText">Completed: Loading...</p>
                     <div class="progress-bar">
-                        <div class="progress-fill"></div>
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                     </div>
                 </a>
 
                 <div class="section-divider"></div>
 
                 <h3>Latest Achievements</h3>
-                <ul class="task-list">
+                <ul class="task-list" id="achievementsList">
                     <li class="task-item">
                         <span class="task-icon" style="color: #10b981;">✔</span>
                         <div>
-                            <span class="task-title">Completed: "Introduction to JavaScript"</span>
-                            <div class="task-subtitle">From Coursera</div>
-                        </div>
-                    </li>
-                    <li class="task-item">
-                        <span class="task-icon" style="color: #10b981;">✔</span>
-                        <div>
-                            <span class="task-title">Milestone: Completed 20 coding challenges</span>
-                            <div class="task-subtitle">Challenge accepted!</div>
+                            <span class="task-title">Getting started!</span>
+                            <div class="task-subtitle">Begin your learning journey</div>
                         </div>
                     </li>
                 </ul>
             </section>
 
-            <!-- Your Next Steps Section -->
             <section class="next-steps-section card">
                 <h3>Your Next Steps</h3>
-                <ul class="task-list">
+                <ul class="task-list" id="nextStepsList">
                     <li class="task-item">
                         <span class="task-icon" style="color: #8b5cf6;">🚀</span>
                         <div>
-                            <span class="task-title">Start "Introduction to React.js"</span>
-                            <div class="task-subtitle">Estimated time: 3 hours</div>
-                        </div>
-                    </li>
-                    <li class="task-item">
-                        <span class="task-icon" style="color: #8b5cf6;">📚</span>
-                        <div>
-                            <span class="task-title">Read "The Clean Coder"</span>
-                            <div class="task-subtitle">Resource Hub</div>
-                        </div>
-                    </li>
-                    <li class="task-item">
-                        <span class="task-icon" style="color: #8b5cf6;">💡</span>
-                        <div>
-                            <span class="task-title">Practice: Binary Search problems</span>
-                            <div class="task-subtitle">From LeetCode</div>
+                            <span class="task-title">Start DSA Part 1</span>
+                            <div class="task-subtitle">Basics & Arrays</div>
                         </div>
                     </li>
                 </ul>
@@ -253,16 +289,329 @@
         </main>
     </div>
 
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-box">
+            <h3>Are you sure you want to log out?</h3>
+            <p style="color:#6b7280;">Your progress will be saved securely.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeLogoutModal()">Cancel</button>
+                <button class="modal-btn confirm" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function navigate(page) {
-            window.location.href = page;
+        function showLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'flex';
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function closeLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        function logout() {
+            localStorage.removeItem('userName');
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        }
+
+        // Load user progress on page load
+        document.addEventListener('DOMContentLoaded', async () => {
             const userName = localStorage.getItem('userName') || 'User';
             document.getElementById('welcomeMessage').innerText = `Welcome, ${userName}!`;
-        });
-    </script>
 
+            const token = localStorage.getItem('token');
+            if (!token) {
+                document.getElementById('progressText').innerText = 'Completed: 0%';
+                return;
+            }
+
+            try {
+                // Load both DSA and Roadmap progress
+                const [dsaResponse, roadmapResponse] = await Promise.all([
+                    fetch('http://localhost:8081/api/progress', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    }),
+                    fetch('http://localhost:8081/api/roadmap/progress', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                ]);
+
+                if (!dsaResponse.ok) throw new Error('Failed to load DSA progress');
+
+                const dsaProgress = await dsaResponse.json();
+                const roadmapProgress = roadmapResponse.ok ? await roadmapResponse.json() : {};
+
+                console.log("🔍 DSA Progress:", dsaProgress);
+                console.log("🔍 Roadmap Progress:", roadmapProgress);
+                console.log("🔍 Roadmap keys:", Object.keys(roadmapProgress));
+
+                const percentage = dsaProgress.progressPercentage;
+
+                // Update progress bar
+                document.getElementById('progressFill').style.width = percentage + '%';
+                document.getElementById('progressText').innerText = `Completed: ${percentage}%`;
+
+                // Update achievements with both DSA and Roadmap
+                updateAchievements(dsaProgress, roadmapProgress);
+
+                // Update next steps
+                updateNextSteps(dsaProgress, roadmapProgress);
+
+            } catch (error) {
+                console.error('Error loading progress:', error);
+                document.getElementById('progressText').innerText = 'Completed: 0%';
+            }
+        });
+
+        function updateAchievements(dsaProgress, roadmapProgress) {
+            const list = document.getElementById('achievementsList');
+            list.innerHTML = '';
+
+            let achievements = [];
+
+            // Collect DSA Achievements
+            if (dsaProgress.part1Complete) {
+                achievements.push({
+                    icon: '✔',
+                    color: '#10b981',
+                    title: 'Completed DSA Part 1',
+                    subtitle: 'Basics & Arrays',
+                    order: 1
+                });
+            }
+            if (dsaProgress.part2Complete) {
+                achievements.push({
+                    icon: '✔',
+                    color: '#10b981',
+                    title: 'Completed DSA Part 2',
+                    subtitle: 'Linked Lists & Stacks/Queues',
+                    order: 2
+                });
+            }
+            if (dsaProgress.part3Complete) {
+                achievements.push({
+                    icon: '✔',
+                    color: '#10b981',
+                    title: 'Completed DSA Part 3',
+                    subtitle: 'Trees & Recursion',
+                    order: 3
+                });
+            }
+            if (dsaProgress.part4Complete) {
+                achievements.push({
+                    icon: '✔',
+                    color: '#10b981',
+                    title: 'Completed DSA Part 4',
+                    subtitle: 'Advanced Topics',
+                    order: 4
+                });
+            }
+
+            // Collect Roadmap Achievements
+            const roadmapNames = {
+                1: "Software Developer",
+                2: "Data Scientist", 
+                3: "AI/ML Engineer"
+            };
+
+            const phaseNames = {
+                1: "Foundations",
+                2: "Intermediate Concepts",
+                3: "Advanced Topics",
+                4: "Specialization",
+                5: "Real-World Projects"
+            };
+
+            console.log("🔍 Processing roadmap achievements...");
+            console.log("🔍 Roadmap progress:", roadmapProgress);
+
+            Object.entries(roadmapProgress).forEach(([roadmapId, phases]) => {
+                console.log(`🔍 Roadmap ${roadmapId}:`, phases);
+                
+                Object.entries(phases).forEach(([phaseNum, status]) => {
+                    console.log(`  Phase ${phaseNum}: ${status}`);
+                    
+                    if (status === "COMPLETED") {
+                        const roadmapName = roadmapNames[roadmapId] || `Roadmap ${roadmapId}`;
+                        const phaseName = phaseNames[phaseNum] || `Phase ${phaseNum}`;
+                        
+                        console.log(`  ✅ Adding achievement: ${roadmapName} - Phase ${phaseNum}`);
+                        
+                        achievements.push({
+                            icon: '🎯',
+                            color: '#8b5cf6',
+                            title: `Completed ${roadmapName} - Phase ${phaseNum}`,
+                            subtitle: phaseName,
+                            order: 100 + (parseInt(roadmapId) * 10) + parseInt(phaseNum)
+                        });
+                    }
+                });
+            });
+
+            // Sort by order (higher = more recent) and take last 2
+            achievements.sort((a, b) => b.order - a.order);
+            const latestTwo = achievements.slice(0, 2);
+
+            console.log("📊 Total achievements:", achievements.length);
+            console.log("📊 Showing latest 2:", latestTwo);
+
+            // Display latest 2 achievements
+            if (latestTwo.length > 0) {
+                latestTwo.forEach(achievement => {
+                    list.innerHTML += `
+                        <li class="task-item">
+                            <span class="task-icon" style="color: ${achievement.color};">${achievement.icon}</span>
+                            <div>
+                                <span class="task-title">${achievement.title}</span>
+                                <div class="task-subtitle">${achievement.subtitle}</div>
+                            </div>
+                        </li>
+                    `;
+                });
+            } else {
+                list.innerHTML = `
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #8b5cf6;">🎯</span>
+                        <div>
+                            <span class="task-title">Start your journey!</span>
+                            <div class="task-subtitle">Complete tasks to track achievements</div>
+                        </div>
+                    </li>
+                `;
+            }
+        }
+
+        function updateNextSteps(dsaProgress, roadmapProgress) {
+            const list = document.getElementById('nextStepsList');
+            list.innerHTML = '';
+
+            let hasNextSteps = false;
+
+            // DSA Next Steps
+            if (!dsaProgress.part1Complete) {
+                list.innerHTML += `
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #8b5cf6;">🚀</span>
+                        <div>
+                            <span class="task-title">Start DSA Part 1</span>
+                            <div class="task-subtitle">Basics & Arrays</div>
+                        </div>
+                    </li>
+                `;
+                hasNextSteps = true;
+            } else if (!dsaProgress.part2Complete) {
+                list.innerHTML += `
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #8b5cf6;">🚀</span>
+                        <div>
+                            <span class="task-title">Continue with DSA Part 2</span>
+                            <div class="task-subtitle">Linked Lists & Stacks/Queues</div>
+                        </div>
+                    </li>
+                `;
+                hasNextSteps = true;
+            } else if (!dsaProgress.part3Complete) {
+                list.innerHTML += `
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #8b5cf6;">🚀</span>
+                        <div>
+                            <span class="task-title">Continue with DSA Part 3</span>
+                            <div class="task-subtitle">Trees & Recursion</div>
+                        </div>
+                    </li>
+                `;
+                hasNextSteps = true;
+            } else if (!dsaProgress.part4Complete) {
+                list.innerHTML += `
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #8b5cf6;">🚀</span>
+                        <div>
+                            <span class="task-title">Complete DSA Part 4</span>
+                            <div class="task-subtitle">Advanced Topics</div>
+                        </div>
+                    </li>
+                `;
+                hasNextSteps = true;
+            }
+
+            // Roadmap Next Steps - find first in-progress or not-started phase
+            const roadmapNames = {
+                1: "Software Developer",
+                2: "Data Scientist",
+                3: "AI/ML Engineer"
+            };
+
+            console.log("🔍 Processing next steps for roadmaps...");
+            
+            Object.entries(roadmapProgress).forEach(([roadmapId, phases]) => {
+                console.log(`🔍 Checking roadmap ${roadmapId}:`, phases);
+                
+                // Find first incomplete phase
+                for (let phaseNum = 1; phaseNum <= 5; phaseNum++) {
+                    const status = phases[phaseNum];
+                    console.log(`  Phase ${phaseNum}: ${status || 'undefined'}`);
+                    
+                    if (status === "IN_PROGRESS") {
+                        console.log(`  ⏳ Found in-progress: Phase ${phaseNum}`);
+                        list.innerHTML += `
+                            <li class="task-item">
+                                <span class="task-icon" style="color: #f59e0b;">⏳</span>
+                                <div>
+                                    <span class="task-title">Continue ${roadmapNames[roadmapId]} - Phase ${phaseNum}</span>
+                                    <div class="task-subtitle">In Progress</div>
+                                </div>
+                            </li>
+                        `;
+                        hasNextSteps = true;
+                        break; // Only show first incomplete per roadmap
+                    } else if (!status || status === "NOT_STARTED") {
+                        // Only show if previous phase is completed or it's phase 1
+                        if (phaseNum === 1 || phases[phaseNum - 1] === "COMPLETED") {
+                            console.log(`  📚 Found next step: Phase ${phaseNum}`);
+                            list.innerHTML += `
+                                <li class="task-item">
+                                    <span class="task-icon" style="color: #8b5cf6;">📚</span>
+                                    <div>
+                                        <span class="task-title">Start ${roadmapNames[roadmapId]} - Phase ${phaseNum}</span>
+                                        <div class="task-subtitle">Ready to begin</div>
+                                    </div>
+                                </li>
+                            `;
+                            hasNextSteps = true;
+                            break;
+                        }
+                    }
+                }
+            });
+
+            // If all DSA completed
+            if (dsaProgress.part1Complete && dsaProgress.part2Complete && 
+                dsaProgress.part3Complete && dsaProgress.part4Complete) {
+                list.innerHTML += `
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #10b981;">🎉</span>
+                        <div>
+                            <span class="task-title">DSA Completed!</span>
+                            <div class="task-subtitle">Great job on finishing all parts</div>
+                        </div>
+                    </li>
+                `;
+                hasNextSteps = true;
+            }
+
+            if (!hasNextSteps) {
+                list.innerHTML += `
+                    <li class="task-item">
+                        <span class="task-icon" style="color: #8b5cf6;">🎯</span>
+                        <div>
+                            <span class="task-title">Explore learning paths</span>
+                            <div class="task-subtitle">Check out DSA and Roadmap sections</div>
+                        </div>
+                    </li>
+                `;
+            }
+        }
+    </script>
 </body>
 </html>

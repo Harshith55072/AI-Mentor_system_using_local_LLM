@@ -1,7 +1,7 @@
 # =========================
 # Imports and Dependencies
 # =========================
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -13,6 +13,7 @@ import numpy as np
 import json
 import uvicorn
 import threading
+
 
 # ===================
 # Model Configuration
@@ -34,7 +35,7 @@ model = AutoModelForCausalLM.from_pretrained(
     MODEL_PATH,
     device_map="auto",
     trust_remote_code=True,
-    torch_dtype=torch.float16,
+    torch_dtype=torch.bfloat16,
     local_files_only=True
 )
 model.config.pad_token_id = model.config.eos_token_id
@@ -64,6 +65,10 @@ roles = {
     ),
     "Career_mentor-v2": (
         "### Instruction:\nYou are a friendly software mentor. Only answer what the student asks. Do not assume the field or topic. Keep answers short and clear. Ask questions only if you need clarification.\n\n{context}\n{user}\n\n### Response:"
+    ),
+    "USER": (
+        "### Instruction:\nYou are a friendly mentor.Who helps softwear enginnering students, answer there doubts and guide them. dont assume anything until they ask and dont mention any fields until they ask,"
+        " try asking a quetion at the end for your information if needed. try keeping it short and to the point\n\n{context}\n{user}\n\n### Response:"
     )
 }
 active_role = "Career_mentor"  # default role
@@ -104,11 +109,15 @@ class ChatRequest(BaseModel):
     role: str = active_role  # optional, defaults to Career_mentor
 
 @app.post("/chat/stream")
-def chat_stream(request: ChatRequest):
-    user_input = request.user_input
-    role = request.role if request.role in roles else active_role
+async def chat_stream(request: Request):
+    data = await request.json()
+    user_input = data.get("userInput")
+    role = data.get("role", active_role)
 
-    # RAG context
+    if not user_input:
+        return StreamingResponse(iter(["data: Error: Missing user input\n\n"]), media_type="text/event-stream")
+
+    # ===== RAG retrieval =====
     greetings = ["hi", "hello", "hey", "good morning", "good afternoon", "good evening"]
     if user_input.strip().lower() in greetings or len(user_input.strip().split()) <= 2:
         context = ""
@@ -123,11 +132,10 @@ def chat_stream(request: ChatRequest):
                 retrieved_docs.append(str(docs[i]))
         context = "\n".join(retrieved_docs)
 
-    # Build prompt
-    full_prompt = roles[role].format(context=context, user=user_input)
+    # ===== Build prompt =====
+    full_prompt = roles.get(role, roles["Career_mentor"]).format(context=context, user=user_input)
     inputs = tokenizer(full_prompt, return_tensors="pt").to(model.device)
 
-    # Create a streamer
     streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
 
     # Background thread for generation
@@ -145,14 +153,16 @@ def chat_stream(request: ChatRequest):
     thread = threading.Thread(target=model.generate, kwargs=generation_kwargs)
     thread.start()
 
-    # Generator for StreamingResponse
-    def token_generator():
+    # ===== Stream tokens as Server-Sent Events =====
+    def sse_generator():
         for token in streamer:
-            yield token
+            yield f"data: {token}\n\n"
+        yield "data: [DONE]\n\n"
 
-    return StreamingResponse(token_generator(), media_type="text/plain")
+    return StreamingResponse(sse_generator(), media_type="text/event-stream")
 
-
+# ===============================
 # Run server
+# ===============================
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)

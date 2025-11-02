@@ -1,183 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Mentor: Resources Hub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Consistent base styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
-            color: #1f2937;
-            min-height: 100vh;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Mentor: Resources Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+      color: #1f2937;
+      min-height: 100vh;
+    }
 
-        /* Container */
-        .page-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
 
-        /* Navigation bar */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: #ffffff;
-            border-radius: 1.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
-        }
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
 
-        .navbar-logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: #8b5cf6;
-        }
+    .navbar-logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #8b5cf6;
+    }
 
-        .nav-links a {
-            color: #4b5563;
-            text-decoration: none;
-            font-weight: 500;
-            margin-left: 1.5rem;
-            transition: color 0.3s ease;
-        }
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
 
-        .nav-links a:hover {
-            color: #8b5cf6;
-        }
+    .nav-links a {
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 1.5rem;
+      transition: color 0.3s ease;
+    }
 
-        /* Header */
-        .resources-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+    .nav-links a:hover {
+      color: #8b5cf6;
+    }
 
-        .resources-header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
+    /* Logout button */
+    .logout-btn {
+      background-color: #8b5cf6;
+      color: #fff;
+      border: none;
+      border-radius: 0.75rem;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      margin-left: 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-        .resources-header p {
-            font-size: 1.125rem;
-            color: #6b7280;
-        }
+    .logout-btn:hover {
+      background-color: #7c3aed;
+    }
 
-        /* Grid */
-        .resources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
+    /* Logout Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(31, 41, 55, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
 
-        /* Cards */
-        .resource-card {
-            background-color: #ffffff;
-            border-radius: 1.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-        }
+    .modal-box {
+      background-color: #ffffff;
+      border-radius: 1rem;
+      padding: 2rem;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
 
-        .resource-card:hover {
-            transform: translateY(-5px);
-        }
+    .modal-box h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
 
-        .resource-card-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #8b5cf6;
-        }
-        
-        .resource-card h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0 0 0.5rem 0;
-        }
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
 
-        .resource-card p {
-            font-size: 1rem;
-            color: #6b7280;
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
-        }
-        
-        .resource-card .learn-more {
-            color: #8b5cf6;
-            font-weight: 600;
-            align-self: flex-start;
-        }
-    </style>
+    .modal-btn {
+      padding: 0.5rem 1.25rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-btn.cancel {
+      background-color: #e5e7eb;
+      color: #374151;
+    }
+
+    .modal-btn.cancel:hover {
+      background-color: #d1d5db;
+    }
+
+    .modal-btn.confirm {
+      background-color: #8b5cf6;
+      color: white;
+    }
+
+    .modal-btn.confirm:hover {
+      background-color: #7c3aed;
+    }
+
+    /* Header */
+    .resources-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .resources-header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .resources-header p {
+      font-size: 1.125rem;
+      color: #6b7280;
+    }
+
+    /* Grid */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Cards */
+    .resource-card {
+      background-color: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .resource-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .resource-card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #8b5cf6;
+    }
+    
+    .resource-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .resource-card p {
+      font-size: 1rem;
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+    
+    .resource-card .learn-more {
+      color: #8b5cf6;
+      font-weight: 600;
+      align-self: flex-start;
+    }
+  </style>
 </head>
 <body>
+  <div class="page-container">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <span class="navbar-logo">AI Mentor</span>
+      <div class="nav-links">
+        <a href="#" onclick="navigate('dashboard.html')">Dashboard</a>
+        <a href="#" onclick="navigate('roadmap.html')">Roadmap</a>
+        <a href="#" onclick="navigate('resources.html')" style="color: #8b5cf6;">Resources</a>
+        <a href="#" onclick="navigate('ai-mentor.html')">AI Mentor</a>
+        <button class="logout-btn" onclick="showLogoutModal()">Logout</button>
+      </div>
+    </nav>
 
-    <div class="page-container">
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <span class="navbar-logo">AI Mentor</span>
-            <div class="nav-links">
-                <a href="#" onclick="navigate('dashboard.html')">Dashboard</a>
-                <a href="#" onclick="navigate('roadmap.html')">Roadmap</a>
-                <a href="#" onclick="navigate('resources.html')" style="color: #8b5cf6;">Resources</a>
-                <a href="#" onclick="navigate('Ai_mentor.html')">AI Mentor</a>
-            </div>
-        </nav>
+    <!-- Header -->
+    <header class="resources-header">
+      <h1>Resources Hub</h1>
+      <p>A curated list of tutorials, articles, and tools to help you on your path.</p>
+    </header>
 
-        <!-- Header -->
-        <header class="resources-header">
-            <h1>Resources Hub</h1>
-            <p>A curated list of tutorials, articles, and tools to help you on your path.</p>
-        </header>
+    <!-- Resource Cards -->
+    <main class="resources-grid">
+      <a href="https://www.sciencedirect.com/journal/science-of-computer-programming" class="resource-card">
+        <span class="resource-card-icon">📚</span>
+        <h3>Books & Articles</h3>
+        <p>Essential reading material to deepen your knowledge of fundamental concepts and best practices.</p>
+        <span class="learn-more">Explore Now &rarr;</span>
+      </a>
 
-        <!-- Resource Cards -->
-        <main class="resources-grid">
-            <a href="https://www.sciencedirect.com/journal/science-of-computer-programming" class="resource-card">
-                <span class="resource-card-icon">📚</span>
-                <h3>Books & Articles</h3>
-                <p>Essential reading material to deepen your knowledge of fundamental concepts and best practices.</p>
-                <span class="learn-more">Explore Now &rarr;</span>
-            </a>
+      <a href="https://leetcode.com/" class="resource-card">
+        <span class="resource-card-icon">💻</span>
+        <h3>Coding Platforms</h3>
+        <p>Practice your skills with a variety of coding challenges and real-world problems from top platforms.</p>
+        <span class="learn-more">Practice Now &rarr;</span>
+      </a>
+      
+      <a href="https://skillsbuild.org/learners" class="resource-card">
+        <span class="resource-card-icon">🎓</span>
+        <h3>Online Courses</h3>
+        <p>Structured courses and video tutorials on key topics, from basic programming to advanced frameworks.</p>
+        <span class="learn-more">Enroll Now &rarr;</span>
+      </a>
+      
+      <a href="https://discord.com/invite/code" class="resource-card">
+        <span class="resource-card-icon">🤝</span>
+        <h3>Communities</h3>
+        <p>Connect with other learners and professionals. Ask questions, get feedback, and collaborate on projects.</p>
+        <span class="learn-more">Join Now &rarr;</span>
+      </a>
+    </main>
+  </div>
 
-            <a href="https://leetcode.com/" class="resource-card">
-                <span class="resource-card-icon">💻</span>
-                <h3>Coding Platforms</h3>
-                <p>Practice your skills with a variety of coding challenges and real-world problems from top platforms.</p>
-                <span class="learn-more">Practice Now &rarr;</span>
-            </a>
-            
-            <a href="https://skillsbuild.org/learners" class="resource-card">
-                <span class="resource-card-icon">🎓</span>
-                <h3>Online Courses</h3>
-                <p>Structured courses and video tutorials on key topics, from basic programming to advanced frameworks.</p>
-                <span class="learn-more">Enroll Now &rarr;</span>
-            </a>
-            
-            <a href="https://discord.com/invite/code" class="resource-card">
-                <span class="resource-card-icon">🤝</span>
-                <h3>Communities</h3>
-                <p>Connect with other learners and professionals. Ask questions, get feedback, and collaborate on projects.</p>
-                <span class="learn-more">Join Now &rarr;</span>
-            </a>
-        </main>
+  <!-- Logout Confirmation Modal -->
+  <div class="modal-overlay" id="logoutModal">
+    <div class="modal-box">
+      <h3>Are you sure you want to log out?</h3>
+      <p style="color:#6b7280;">Your progress will be saved securely.</p>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="closeLogoutModal()">Cancel</button>
+        <button class="modal-btn confirm" onclick="logout()">Logout</button>
+      </div>
     </div>
+  </div>
 
-    <script>
-        function navigate(page) {
-            window.location.href = page;
-        }
-    </script>
+  <script>
+    function navigate(page) {
+      window.location.href = page;
+    }
+
+    function showLogoutModal() {
+      document.getElementById("logoutModal").style.display = "flex";
+    }
+
+    function closeLogoutModal() {
+      document.getElementById("logoutModal").style.display = "none";
+    }
+
+    function logout() {
+      localStorage.removeItem("userName");
+      window.location.href = "login.html";
+    }
+  </script>
 </body>
 </html>

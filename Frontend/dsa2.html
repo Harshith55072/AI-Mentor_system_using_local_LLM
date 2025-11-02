@@ -69,6 +69,11 @@
       background-color: #059669;
     }
 
+    .complete-btn:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+    }
+
     .completed-message {
       margin-top: 1rem;
       text-align: center;
@@ -76,10 +81,24 @@
       font-weight: 600;
       display: none;
     }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: #8b5cf6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .back-btn:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <a href="dsa.html" class="back-btn">← Back to DSA</a>
+
     <header class="header">
       <h1>Part 2: Linked Lists & Stacks/Queues</h1>
       <p>Learn the essential building blocks of efficient data processing and memory management.</p>
@@ -105,20 +124,74 @@
       <iframe src="https://www.youtube.com/embed/-DzowlcaUmE" allowfullscreen></iframe>
     </section>
 
-    <button class="complete-btn" onclick="markComplete()">✔ Mark as Complete</button>
+    <button class="complete-btn" id="completeBtn" onclick="markComplete()">✔ Mark as Complete</button>
     <div class="completed-message" id="completedMessage">✅ Marked as Complete!</div>
   </div>
 
   <script>
-    function markComplete() {
-      localStorage.setItem('part2Complete', 'true');
-      const msg = document.getElementById('completedMessage');
-      msg.style.display = 'block';
+    const PART_NUMBER = 2; // Update for this DSA section
+
+    async function markComplete() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please log in to track your progress');
+        return;
+      }
+
+      const btn = document.getElementById('completeBtn');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+
+      try {
+        const response = await fetch(`http://localhost:8081/api/progress/complete/${PART_NUMBER}`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to save progress');
+
+        const progress = await response.json();
+        console.log('✅ Progress saved:', progress);
+
+        document.getElementById('completedMessage').style.display = 'block';
+        btn.textContent = '✔ Completed';
+        
+        // Optional redirect after 2 seconds
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 2000);
+
+      } catch (error) {
+        console.error('Error saving progress:', error);
+        alert('Failed to save progress. Please try again.');
+        btn.disabled = false;
+        btn.textContent = '✔ Mark as Complete';
+      }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('part2Complete') === 'true') {
-        document.getElementById('completedMessage').style.display = 'block';
+    // Check progress on load
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const response = await fetch('http://localhost:8081/api/progress', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) return;
+
+        const progress = await response.json();
+        const isComplete = progress[`part${PART_NUMBER}Complete`];
+
+        if (isComplete) {
+          document.getElementById('completedMessage').style.display = 'block';
+          const btn = document.getElementById('completeBtn');
+          btn.textContent = '✔ Completed';
+          btn.disabled = true;
+        }
+      } catch (error) {
+        console.error('Error checking progress:', error);
       }
     });
   </script>

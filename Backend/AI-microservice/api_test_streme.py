@@ -3,7 +3,7 @@ import requests
 url = "http://127.0.0.1:8000/chat/stream"   # <-- FIXED
 
 payload = {
-    "user_input": "ok, if i wanted to be a backend developer what should i learn or study?",
+    "user_input": "hi",
     "role": "Career_mentor"
 }
 

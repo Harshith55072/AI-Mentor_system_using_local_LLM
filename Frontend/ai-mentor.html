@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Mentor: Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+      color: #1f2937;
+      min-height: 100vh;
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
+
+    .navbar-logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #8b5cf6;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 1.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #8b5cf6;
+    }
+
+    .logout-btn {
+      background-color: #8b5cf6;
+      color: #fff;
+      border: none;
+      border-radius: 0.75rem;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      margin-left: 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #7c3aed;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(31, 41, 55, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-box {
+      background-color: #ffffff;
+      border-radius: 1rem;
+      padding: 2rem;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-btn.cancel {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .modal-btn.confirm {
+      background: #8b5cf6;
+      color: white;
+    }
+
+    .chat-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .chat-container {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      height: 300px;
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .message {
+      max-width: 70%;
+      margin-bottom: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      word-wrap: break-word;
+      position: relative;
+    }
+
+    .message.user {
+      background: #8b5cf6;
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    .message.bot {
+      background: #f3f4f6;
+      color: #1f2937;
+      margin-right: auto;
+      border-bottom-left-radius: 0.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .divider {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.25rem;
+    }
+
+    .actions button {
+      background: #8b5cf6;
+      border: none;
+      cursor: pointer;
+      padding: 0.3rem;
+      border-radius: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .actions button:hover {
+      background: #7c3aed;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 0.75rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 1rem;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 1rem;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    .chat-input input:focus {
+      border-color: #8b5cf6;
+    }
+
+    .chat-input button {
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      padding: 0 1.5rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .chat-input button:hover {
+      background: #7c3aed;
+    }
+
+    .loading-indicator {
+      color: #6b7280;
+      font-style: italic;
+      text-align: center;
+      padding: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-container">
+    <nav class="navbar">
+      <span class="navbar-logo">AI Mentor</span>
+      <div class="nav-links">
+        <a href="#" onclick="navigate('dashboard.html')">Dashboard</a>
+        <a href="#" onclick="navigate('roadmap.html')">Roadmap</a>
+        <a href="#" onclick="navigate('resources.html')">Resources</a>
+        <a href="#" onclick="navigate('ai-mentor.html')" style="color: #8b5cf6;">AI Mentor</a>
+        <button class="logout-btn" onclick="showLogoutModal()">Logout</button>
+      </div>
+    </nav>
+
+    <header class="chat-header">
+      <h1>AI Mentor</h1>
+      <p>Ask questions, get guidance, and explore ideas with your AI mentor.</p>
+    </header>
+
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages">
+        <div class="loading-indicator" id="loadingHistory">Loading chat history...</div>
+        <div id="scrollAnchor"></div>
+      </div>
+
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your message..." onkeypress="handleEnter(event)" />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="logoutModal">
+    <div class="modal-box">
+      <h3>Are you sure you want to log out?</h3>
+      <p style="color:#6b7280;">Your progress will be saved securely.</p>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="closeLogoutModal()">Cancel</button>
+        <button class="modal-btn confirm" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Navigation =====
+    function navigate(page) {
+      window.location.href = page;
+    }
+
+    function showLogoutModal() {
+      document.getElementById("logoutModal").style.display = "flex";
+    }
+
+    function closeLogoutModal() {
+      document.getElementById("logoutModal").style.display = "none";
+    }
+
+    function logout() {
+      localStorage.removeItem("userName");
+      localStorage.removeItem("token");
+      window.location.href = "login.html";
+    }
+
+    function scrollToBottom() {
+      document.getElementById("scrollAnchor").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function handleEnter(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    }
+
+    // ===== Load chat history on page load =====
+    window.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      const loadingDiv = document.getElementById("loadingHistory");
+      const messagesDiv = document.getElementById("chatMessages");
+
+      console.log("🔍 Loading chat history...");
+      console.log("Token exists:", !!token);
+
+      if (!token) {
+        console.log("❌ No token found - showing welcome message");
+        loadingDiv.innerHTML = '<div class="message bot">👋 Hi! I\'m your AI Mentor. How can I help you today?</div>';
+        return;
+      }
+
+      try {
+        console.log("📡 Fetching history from API...");
+        const response = await fetch("http://localhost:8081/api/chat/history", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        console.log("Response status:", response.status);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("❌ API error:", errorText);
+          throw new Error("Failed to load history: " + response.status);
+        }
+
+        const history = await response.json();
+        console.log("✅ History loaded:", history.length, "messages");
+        console.log("History data:", history);
+
+        loadingDiv.remove();
+
+        if (history.length === 0) {
+          console.log("📭 No previous chats - showing welcome");
+          const welcomeMsg = document.createElement("div");
+          welcomeMsg.className = "message bot";
+          welcomeMsg.textContent = "👋 Hi! I'm your AI Mentor. How can I help you today?";
+          messagesDiv.insertBefore(welcomeMsg, document.getElementById("scrollAnchor"));
+        } else {
+          console.log("📝 Displaying", history.length, "previous chats");
+          history.forEach(chat => {
+            addUserMessage(chat.message, false);
+            addBotMessage(chat.response, false);
+          });
+        }
+
+        scrollToBottom();
+      } catch (error) {
+        console.error("❌ Error loading history:", error);
+        loadingDiv.innerHTML = '<div class="message bot">⚠️ Could not load chat history. ' + error.message + '</div>';
+      }
+    });
+
+    // ===== Add message to UI =====
+    function addUserMessage(text, scroll = true) {
+      const messages = document.getElementById("chatMessages");
+      const userMsg = document.createElement("div");
+      userMsg.className = "message user";
+      userMsg.textContent = text;
+      messages.insertBefore(userMsg, document.getElementById("scrollAnchor"));
+      if (scroll) scrollToBottom();
+    }
+
+    function addBotMessage(text, scroll = true) {
+      const messages = document.getElementById("chatMessages");
+      const botMsg = document.createElement("div");
+      botMsg.className = "message bot";
+      botMsg.innerHTML = `
+        <div class="bot-text">${text}</div>
+        <div class="divider"></div>
+        <div class="actions">
+          <button onclick="copyMessage(this)" title="Copy">📋</button>
+          <button onclick="toggleSpeech(this)" title="Speak">🔊</button>
+          <button onclick="toggleLike(this)" title="Like">👍</button>
+          <button onclick="toggleDislike(this)" title="Dislike">👎</button>
+        </div>
+      `;
+      messages.insertBefore(botMsg, document.getElementById("scrollAnchor"));
+      if (scroll) scrollToBottom();
+    }
+
+    // ===== Send message =====
+    async function sendMessage() {
+      const input = document.getElementById("userInput");
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      addUserMessage(userText);
+      input.value = "";
+
+      const botPlaceholder = document.createElement("div");
+      botPlaceholder.className = "message bot";
+      const botTextElement = document.createElement("span");
+      botPlaceholder.appendChild(botTextElement);
+      document.getElementById("chatMessages").insertBefore(
+        botPlaceholder,
+        document.getElementById("scrollAnchor")
+      );
+      scrollToBottom();
+
+      try {
+        const token = localStorage.getItem("token");
+        const headers = { "Content-Type": "application/json" };
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`;
+          console.log("🔐 Sending message with auth token");
+        } else {
+          console.log("⚠️ Sending message without auth (won't be saved)");
+        }
+
+        const response = await fetch("http://localhost:8081/api/chat/stream", {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({ userInput: userText, role: "USER" }),
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          botTextElement.textContent = `⚠️ Server error: ${errText || response.status}`;
+          return;
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let fullText = "";
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split("\n");
+
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            if (line.startsWith("data:")) {
+              const text = line.replace(/^data:\s*/, "");
+              if (text === "[DONE]") continue;
+              fullText += text;
+            } else {
+              fullText += line;
+            }
+            botTextElement.textContent = fullText;
+            scrollToBottom();
+          }
+        }
+
+        botPlaceholder.innerHTML = `
+          <div class="bot-text">${fullText}</div>
+          <div class="divider"></div>
+          <div class="actions">
+            <button onclick="copyMessage(this)" title="Copy">📋</button>
+            <button onclick="toggleSpeech(this)" title="Speak">🔊</button>
+            <button onclick="toggleLike(this)" title="Like">👍</button>
+            <button onclick="toggleDislike(this)" title="Dislike">👎</button>
+          </div>
+        `;
+        scrollToBottom();
+
+      } catch (error) {
+        console.error("Chat stream failed:", error);
+        botPlaceholder.textContent = `⚠️ Something went wrong: ${error.message}`;
+      }
+    }
+
+    // ===== Action buttons =====
+    function copyMessage(btn) {
+      const text = btn.closest(".message").querySelector(".bot-text")?.textContent.trim();
+      if (!text) return;
+      navigator.clipboard.writeText(text);
+      btn.textContent = "✅";
+      setTimeout(() => (btn.textContent = "📋"), 1000);
+    }
+
+    let currentSpeech = null;
+    function toggleSpeech(btn) {
+      const text = btn.closest(".message").querySelector(".bot-text")?.textContent.trim();
+      if (!text) return;
+
+      if (currentSpeech && speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        currentSpeech = null;
+        btn.textContent = "🔊";
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.onend = () => (btn.textContent = "🔊");
+      speechSynthesis.speak(utterance);
+      currentSpeech = utterance;
+      btn.textContent = "⏸️";
+    }
+
+    function toggleLike(btn) {
+      const message = btn.closest(".message");
+      const dislikeBtn = message.querySelector('button[title="Dislike"]');
+      btn.classList.toggle("active");
+      if (btn.classList.contains("active")) {
+        btn.textContent = "👍🏻";
+        dislikeBtn.classList.remove("active");
+        dislikeBtn.textContent = "👎";
+      } else {
+        btn.textContent = "👍";
+      }
+    }
+
+    function toggleDislike(btn) {
+      const message = btn.closest(".message");
+      const likeBtn = message.querySelector('button[title="Like"]');
+      btn.classList.toggle("active");
+      if (btn.classList.contains("active")) {
+        btn.textContent = "👎🏻";
+        likeBtn.classList.remove("active");
+        likeBtn.textContent = "👍";
+      } else {
+        btn.textContent = "👎";
+      }
+    }
+  </script>
+</body>
+</html>

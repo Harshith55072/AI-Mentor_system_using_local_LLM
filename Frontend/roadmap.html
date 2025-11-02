@@ -6,10 +6,7 @@
   <title>AI Mentor: Your Roadmap</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: "Inter", sans-serif;
@@ -43,6 +40,11 @@
       color: #8b5cf6;
     }
 
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
     .nav-links a {
       margin-left: 1.5rem;
       color: #4b5563;
@@ -53,6 +55,70 @@
 
     .nav-links a:hover {
       color: #8b5cf6;
+    }
+
+    .logout-btn {
+      background-color: #8b5cf6;
+      color: #fff;
+      border: none;
+      border-radius: 0.75rem;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      margin-left: 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #7c3aed;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(31, 41, 55, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-box {
+      background-color: #ffffff;
+      border-radius: 1rem;
+      padding: 2rem;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .modal-btn {
+      padding: 0.5rem 1.25rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .modal-btn.cancel {
+      background-color: #e5e7eb;
+      color: #374151;
+    }
+
+    .modal-btn.confirm {
+      background-color: #8b5cf6;
+      color: white;
     }
 
     .roadmap-nav {
@@ -109,19 +175,19 @@
       border-radius: 1.5rem;
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
       padding: 2rem;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
     }
 
-    .roadmap-card h3 a {
+    .roadmap-card:hover {
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    }
+
+    .roadmap-card h3 {
       font-size: 1.5rem;
       font-weight: 600;
       color: #8b5cf6;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      cursor: pointer;
-    }
-
-    .roadmap-card h3 a:hover {
-      color: #6d28d9;
+      margin-bottom: 0.5rem;
     }
 
     .roadmap-card p {
@@ -156,40 +222,48 @@
 </head>
 <body>
   <div class="page-container">
-    <!-- Navbar -->
     <nav class="navbar">
       <span class="navbar-logo">AI Mentor</span>
       <div class="nav-links">
-        <a href="#" onclick="navigate('dashboard.html')">Dashboard</a>
-        <a href="#" onclick="navigate('roadmap.html')" style="color: #8b5cf6;">Roadmap</a>
-        <a href="#" onclick="navigate('resources.html')">Resources</a>
-        <a href="#" onclick="navigate('ai-mentor.html')">AI Mentor</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="roadmap.html" style="color: #8b5cf6;">Roadmap</a>
+        <a href="resources.html">Resources</a>
+        <a href="ai-mentor.html">AI Mentor</a>
+        <button class="logout-btn" onclick="showLogoutModal()">Logout</button>
       </div>
     </nav>
 
-    <!-- Roadmap Navigation -->
     <div class="roadmap-nav">
       <button onclick="prevRoadmap()">← Prev</button>
       <span id="roadmap-title">Roadmap 1: Software Developer</span>
       <button onclick="nextRoadmap()">Next →</button>
     </div>
 
-    <!-- Roadmap Header -->
     <header class="roadmap-header">
       <h1>Your Learning Roadmap</h1>
       <p id="roadmap-desc"></p>
     </header>
 
-    <!-- Roadmap Timeline -->
     <main class="roadmap-timeline" id="roadmap-content"></main>
+  </div>
+
+  <div class="modal-overlay" id="logoutModal">
+    <div class="modal-box">
+      <h3>Are you sure you want to log out?</h3>
+      <p style="color:#6b7280;">Your progress will be saved securely.</p>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="closeLogoutModal()">Cancel</button>
+        <button class="modal-btn confirm" onclick="logout()">Logout</button>
+      </div>
+    </div>
   </div>
 
   <script>
     const roadmaps = [
       {
+        id: 1,
         title: "Roadmap 1: Software Developer",
-        desc:
-          "Here is your personalized path to your career goal: <b>Software Developer</b>.",
+        desc: "Your personalized path to becoming a <b>Software Developer</b>.",
         phases: [
           { title: "Phase 1: Foundations", text: "Build core skills in programming and data structures.", href: "phase1-software.html" },
           { title: "Phase 2: Web Development Fundamentals", text: "Learn HTML, CSS, and JavaScript.", href: "phase2-software.html" },
@@ -199,6 +273,7 @@
         ]
       },
       {
+        id: 2,
         title: "Roadmap 2: Data Scientist",
         desc: "Your path to becoming a <b>Data Scientist</b>.",
         phases: [
@@ -210,6 +285,7 @@
         ]
       },
       {
+        id: 3,
         title: "Roadmap 3: AI/ML Engineer",
         desc: "Your path to becoming an <b>AI/ML Engineer</b>.",
         phases: [
@@ -223,13 +299,20 @@
     ];
 
     let currentIndex = 0;
+    let userProgress = {}; // {roadmapId: {phaseNumber: status}}
 
-    // Track which phases are In Progress per roadmap, default none
-    // Store as an object: { roadmapIndex: { phaseIndex: true } }
-    const inProgressStatus = {};
+    function showLogoutModal() {
+      document.getElementById("logoutModal").style.display = "flex";
+    }
 
-    function navigate(page) {
-      window.location.href = page;
+    function closeLogoutModal() {
+      document.getElementById("logoutModal").style.display = "none";
+    }
+
+    function logout() {
+      localStorage.removeItem("userName");
+      localStorage.removeItem("token");
+      window.location.href = "login.html";
     }
 
     function prevRoadmap() {
@@ -242,15 +325,55 @@
       loadRoadmap(currentIndex);
     }
 
-    function getStatusLabel(roadmapIdx, phaseIdx) {
-      // If marked in progress
-      if (
-        inProgressStatus[roadmapIdx] &&
-        inProgressStatus[roadmapIdx][phaseIdx]
-      ) {
-        return `<span class="status-label status-inprogress">In Progress</span>`;
-      } else {
-        return `<span class="status-label status-notstarted">Not Started</span>`;
+    function getStatus(roadmapId, phaseNum) {
+      return userProgress[roadmapId]?.[phaseNum] || "NOT_STARTED";
+    }
+
+    function getStatusLabel(status) {
+      const labels = {
+        "COMPLETED": '<span class="status-label status-completed">Completed ✓</span>',
+        "IN_PROGRESS": '<span class="status-label status-inprogress">In Progress</span>',
+        "NOT_STARTED": '<span class="status-label status-notstarted">Not Started</span>'
+      };
+      return labels[status] || labels["NOT_STARTED"];
+    }
+
+    async function startPhase(roadmapId, phaseNum, phaseHref) {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please log in to track progress");
+        return;
+      }
+
+      const currentStatus = getStatus(roadmapId, phaseNum);
+      if (currentStatus === "COMPLETED") {
+        window.location.href = phaseHref;
+        return;
+      }
+
+      const confirmStart = confirm("Start this phase?");
+      if (!confirmStart) return;
+
+      try {
+        const response = await fetch(`http://localhost:8081/api/roadmap/start/${roadmapId}/${phaseNum}`, {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error("Failed to start phase");
+
+        // Update local state
+        if (!userProgress[roadmapId]) userProgress[roadmapId] = {};
+        userProgress[roadmapId][phaseNum] = "IN_PROGRESS";
+
+        loadRoadmap(currentIndex);
+        setTimeout(() => {
+          window.location.href = phaseHref;
+        }, 200);
+
+      } catch (error) {
+        console.error("Error starting phase:", error);
+        alert("Failed to update progress. Please try again.");
       }
     }
 
@@ -263,57 +386,46 @@
       content.innerHTML = "";
 
       roadmap.phases.forEach((phase, i) => {
+        const phaseNum = i + 1;
+        const status = getStatus(roadmap.id, phaseNum);
+
         const card = document.createElement("div");
         card.className = "roadmap-card";
+        card.onclick = () => startPhase(roadmap.id, phaseNum, phase.href);
 
-        const link = document.createElement("a");
-        link.href = phase.href;
-        link.textContent = phase.title;
-
-        link.addEventListener("click", (e) => {
-          e.preventDefault();
-
-          const confirmStart = confirm(
-            "Do you want to start this step?"
-          );
-
-          if (confirmStart) {
-            // Mark this phase as in progress for this roadmap
-            if (!inProgressStatus[index]) {
-              inProgressStatus[index] = {};
-            }
-            inProgressStatus[index][i] = true;
-
-            loadRoadmap(currentIndex);
-
-            // Redirect to the phase page after a short delay so UI updates
-            setTimeout(() => {
-              window.location.href = phase.href;
-            }, 200);
-          }
-          // If cancel, do nothing (stay on page)
-        });
-
-        const title = document.createElement("h3");
-        title.appendChild(link);
-
-        const text = document.createElement("p");
-        text.textContent = phase.text;
-
-        const statusHTML = getStatusLabel(index, i);
-        const status = document.createElement("div");
-        status.innerHTML = statusHTML;
-
-        card.appendChild(title);
-        card.appendChild(text);
-        card.appendChild(status);
+        card.innerHTML = `
+          <h3>${phase.title}</h3>
+          <p>${phase.text}</p>
+          ${getStatusLabel(status)}
+        `;
 
         content.appendChild(card);
       });
     }
 
-    // Initialize page
-    loadRoadmap(currentIndex);
+    // Load user progress on page load
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        loadRoadmap(currentIndex);
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:8081/api/roadmap/progress", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (response.ok) {
+          userProgress = await response.json();
+          console.log("✅ Loaded roadmap progress:", userProgress);
+        }
+      } catch (error) {
+        console.error("Error loading progress:", error);
+      }
+
+      loadRoadmap(currentIndex);
+    });
   </script>
 </body>
 </html>

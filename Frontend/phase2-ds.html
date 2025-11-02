@@ -104,7 +104,17 @@
     <h2>Video Tutorial</h2>
     <iframe src="https://www.youtube.com/embed/r-uOLxNrNk8" title="Python for Data Science Crash Course" allowfullscreen></iframe>
 
-    <button class="btn" onclick="alert('✅ Phase 2 marked as completed!')">Mark as Completed</button>
+    <button class="btn" onclick="markCompleted()">Mark as Completed</button>
   </div>
+
+  <script>
+    const ROADMAP_ID = 2; // Data Science Roadmap
+    const PHASE_NUMBER = 2;
+
+    function markCompleted() {
+      // Here you could add AJAX or fetch request to save progress
+      alert(`✅ Phase ${PHASE_NUMBER} marked as completed for roadmap ${ROADMAP_ID}!`);
+    }
+  </script>
 </body>
 </html>

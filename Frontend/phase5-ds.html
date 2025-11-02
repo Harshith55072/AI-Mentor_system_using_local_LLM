@@ -109,7 +109,17 @@
       <li>Include links in your resume and LinkedIn profile.</li>
     </ul>
 
-    <button class="btn" onclick="alert('✅ Phase 5 marked as completed!')">Mark as Completed</button>
+    <button class="btn" onclick="markCompleted()">Mark as Completed</button>
   </div>
+
+  <script>
+    const ROADMAP_ID = 2; // Data Science Roadmap
+    const PHASE_NUMBER = 5;
+
+    function markCompleted() {
+      alert(`✅ Phase ${PHASE_NUMBER} marked as completed for roadmap ${ROADMAP_ID}!`);
+      // Future: send completion data via fetch/AJAX
+    }
+  </script>
 </body>
 </html>

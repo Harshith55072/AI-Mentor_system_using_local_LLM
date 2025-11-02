@@ -26,6 +26,7 @@
     h1 {
       color: #8b5cf6;
       margin-bottom: 1rem;
+      text-align: center;
     }
 
     h2 {
@@ -37,6 +38,7 @@
     p {
       line-height: 1.6;
       margin-bottom: 1rem;
+      text-align: center;
     }
 
     ul {
@@ -63,22 +65,37 @@
       margin: 2rem auto 0;
       background: #8b5cf6;
       color: #fff;
-      font-weight: 600;
+      font-weight: 700;
       border: none;
       border-radius: 0.75rem;
-      padding: 0.75rem 1.5rem;
+      padding: 0.85rem 2rem;
       cursor: pointer;
       transition: background 0.3s ease;
+      box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+      font-size: 1rem;
     }
 
     .btn:hover {
       background: #6d28d9;
     }
+
+    .btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .completed-message {
+      text-align: center;
+      color: #10b981;
+      font-weight: 600;
+      display: none;
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Phase 4: MLOps & Deployment</h1>
+    <h1>🚀 Phase 4: MLOps & Deployment</h1>
     <p>This phase introduces how to deploy, serve, and monitor machine learning models in production environments. You’ll also explore tools like Docker, FastAPI, and cloud services to enable scalable AI systems.</p>
 
     <h2>Topics to Learn</h2>
@@ -106,7 +123,75 @@
     <h2>Video Tutorial</h2>
     <iframe src="https://www.youtube.com/embed/0sOvCWFmrtA" title="Deploy ML Model with FastAPI & Docker" allowfullscreen></iframe>
 
-    <button class="btn" onclick="alert('✅ Phase 4 marked as completed!')">Mark as Completed</button>
+    <button class="btn" id="completeBtn" onclick="markComplete()">✅ Mark as Completed</button>
+    <div class="completed-message" id="completedMessage">✅ Phase Completed!</div>
   </div>
+
+  <script>
+    const ROADMAP_ID = 3;  // AI/ML Engineer Roadmap
+    const PHASE_NUMBER = 4; // Phase 4
+
+    async function markComplete() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please log in to track progress");
+        return;
+      }
+
+      const btn = document.getElementById("completeBtn");
+      btn.disabled = true;
+      btn.textContent = "Saving...";
+
+      try {
+        const response = await fetch(`http://localhost:8081/api/roadmap/complete/${ROADMAP_ID}/${PHASE_NUMBER}`, {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error("Failed to save progress");
+
+        document.getElementById("completedMessage").style.display = "block";
+        btn.textContent = "✅ Completed";
+
+        // Redirect to roadmap after a short delay
+        setTimeout(() => {
+          window.location.href = "roadmap.html";
+        }, 2000);
+
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to save progress. Please try again.");
+        btn.disabled = false;
+        btn.textContent = "✅ Mark as Completed";
+      }
+    }
+
+    // Auto-check completion status
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const response = await fetch("http://localhost:8081/api/roadmap/progress", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!response.ok) return;
+
+        const progress = await response.json();
+        const status = progress[ROADMAP_ID]?.[PHASE_NUMBER];
+
+        if (status === "COMPLETED") {
+          const btn = document.getElementById("completeBtn");
+          const msg = document.getElementById("completedMessage");
+          btn.textContent = "✅ Completed";
+          btn.disabled = true;
+          msg.style.display = "block";
+        }
+      } catch (error) {
+        console.error("Error checking progress:", error);
+      }
+    });
+  </script>
 </body>
 </html>
