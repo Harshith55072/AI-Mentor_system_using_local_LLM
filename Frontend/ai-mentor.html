@@ -178,6 +178,12 @@
       flex-direction: column;
     }
 
+    .message.loading {
+      background: #fef3c7;
+      color: #92400e;
+      font-style: italic;
+    }
+
     .divider {
       border-top: 1px solid #e5e7eb;
       margin-top: 0.5rem;
@@ -238,8 +244,13 @@
       transition: background 0.2s;
     }
 
-    .chat-input button:hover {
+    .chat-input button:hover:not(:disabled) {
       background: #7c3aed;
+    }
+
+    .chat-input button:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
     }
 
     .loading-indicator {
@@ -277,7 +288,7 @@
 
       <div class="chat-input">
         <input type="text" id="userInput" placeholder="Type your message..." onkeypress="handleEnter(event)" />
-        <button onclick="sendMessage()">Send</button>
+        <button id="sendBtn" onclick="sendMessage()">Send</button>
       </div>
     </div>
   </div>
@@ -294,6 +305,8 @@
   </div>
 
   <script>
+    let isLoading = false;
+
     // ===== Navigation =====
     function navigate(page) {
       window.location.href = page;
@@ -318,7 +331,7 @@
     }
 
     function handleEnter(event) {
-      if (event.key === "Enter") {
+      if (event.key === "Enter" && !isLoading) {
         sendMessage();
       }
     }
@@ -354,7 +367,6 @@
 
         const history = await response.json();
         console.log("✅ History loaded:", history.length, "messages");
-        console.log("History data:", history);
 
         loadingDiv.remove();
 
@@ -407,28 +419,43 @@
       if (scroll) scrollToBottom();
     }
 
-    // ===== Send message =====
+    function addLoadingMessage() {
+      const messages = document.getElementById("chatMessages");
+      const loadingMsg = document.createElement("div");
+      loadingMsg.className = "message loading";
+      loadingMsg.id = "loadingMsg";
+      loadingMsg.textContent = "🤔 Thinking...";
+      messages.insertBefore(loadingMsg, document.getElementById("scrollAnchor"));
+      scrollToBottom();
+    }
+
+    function removeLoadingMessage() {
+      const loadingMsg = document.getElementById("loadingMsg");
+      if (loadingMsg) loadingMsg.remove();
+    }
+
+    // ===== Send message (NON-STREAMING) =====
     async function sendMessage() {
+      if (isLoading) return;
+
       const input = document.getElementById("userInput");
+      const sendBtn = document.getElementById("sendBtn");
       const userText = input.value.trim();
+      
       if (!userText) return;
 
+      // Update UI
       addUserMessage(userText);
       input.value = "";
-
-      const botPlaceholder = document.createElement("div");
-      botPlaceholder.className = "message bot";
-      const botTextElement = document.createElement("span");
-      botPlaceholder.appendChild(botTextElement);
-      document.getElementById("chatMessages").insertBefore(
-        botPlaceholder,
-        document.getElementById("scrollAnchor")
-      );
-      scrollToBottom();
+      isLoading = true;
+      sendBtn.disabled = true;
+      sendBtn.textContent = "Sending...";
+      addLoadingMessage();
 
       try {
         const token = localStorage.getItem("token");
         const headers = { "Content-Type": "application/json" };
+        
         if (token) {
           headers["Authorization"] = `Bearer ${token}`;
           console.log("🔐 Sending message with auth token");
@@ -436,58 +463,43 @@
           console.log("⚠️ Sending message without auth (won't be saved)");
         }
 
-        const response = await fetch("http://localhost:8081/api/chat/stream", {
+        const response = await fetch("http://localhost:8081/api/chat/message", {
           method: "POST",
           headers: headers,
-          body: JSON.stringify({ userInput: userText, role: "USER" }),
+          body: JSON.stringify({ 
+            userInput: userText, 
+            role: "USER" 
+          })
         });
+
+        removeLoadingMessage();
 
         if (!response.ok) {
           const errText = await response.text();
-          botTextElement.textContent = `⚠️ Server error: ${errText || response.status}`;
+          addBotMessage(`⚠️ Server error: ${errText || response.status}`);
           return;
         }
 
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder("utf-8");
-        let fullText = "";
-
-        while (true) {
-          const { value, done } = await reader.read();
-          if (done) break;
-
-          const chunk = decoder.decode(value, { stream: true });
-          const lines = chunk.split("\n");
-
-          for (const line of lines) {
-            if (!line.trim()) continue;
-            if (line.startsWith("data:")) {
-              const text = line.replace(/^data:\s*/, "");
-              if (text === "[DONE]") continue;
-              fullText += text;
-            } else {
-              fullText += line;
-            }
-            botTextElement.textContent = fullText;
-            scrollToBottom();
+        const data = await response.json();
+        console.log("✅ Response received:", data);
+        
+        if (data.response) {
+          addBotMessage(data.response);
+          if (data.generation_time) {
+            console.log(`⚡ Generated in ${data.generation_time.toFixed(2)}s`);
           }
+        } else {
+          addBotMessage("⚠️ No response from server");
         }
 
-        botPlaceholder.innerHTML = `
-          <div class="bot-text">${fullText}</div>
-          <div class="divider"></div>
-          <div class="actions">
-            <button onclick="copyMessage(this)" title="Copy">📋</button>
-            <button onclick="toggleSpeech(this)" title="Speak">🔊</button>
-            <button onclick="toggleLike(this)" title="Like">👍</button>
-            <button onclick="toggleDislike(this)" title="Dislike">👎</button>
-          </div>
-        `;
-        scrollToBottom();
-
       } catch (error) {
-        console.error("Chat stream failed:", error);
-        botPlaceholder.textContent = `⚠️ Something went wrong: ${error.message}`;
+        console.error("❌ Chat failed:", error);
+        removeLoadingMessage();
+        addBotMessage(`⚠️ Something went wrong: ${error.message}`);
+      } finally {
+        isLoading = false;
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Send";
       }
     }
 

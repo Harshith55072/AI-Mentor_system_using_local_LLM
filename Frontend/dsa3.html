@@ -2,198 +2,374 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Part 3: Trees & Recursion</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
       font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+      background: linear-gradient(135deg, #e0f2fe 0%, #ede9fe 100%);
       color: #1f2937;
+      min-height: 100vh;
+      padding: 2rem;
     }
 
     .container {
       max-width: 900px;
       margin: 0 auto;
-      padding: 2rem;
+      background: #fff;
+      border-radius: 1.5rem;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
     }
 
-    .header {
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      color: #8b5cf6;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .back-btn:hover { color: #6d28d9; }
+
+    h1 {
       text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .header h1 {
-      font-size: 2rem;
+      color: #6d28d9;
+      margin-bottom: 1rem;
+      font-size: 2.3rem;
       font-weight: 700;
     }
 
-    .video-section {
-      background: #ffffff;
-      padding: 1.5rem;
-      border-radius: 1.5rem;
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
-      margin-bottom: 2rem;
-      border: 1px solid #e5e7eb;
+    .intro {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-size: 1.1rem;
+      color: #6b7280;
+      line-height: 1.6;
     }
 
-    .video-title {
-      font-weight: 600;
-      margin-bottom: 1rem;
+    .video-section {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 1rem;
+      border-left: 4px solid #8b5cf6;
+      transition: 0.2s;
     }
+
+    .video-section:hover { transform: translateX(5px); }
 
     iframe {
       width: 100%;
-      height: 315px;
+      height: 420px;
+      border: none;
+      border-radius: 1rem;
+    }
+
+    .video-title {
+      font-weight: 700;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      color: #5b21b6;
+    }
+
+    /* MCQ Section */
+    .mcq-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 3px solid #e5e7eb;
+      display: none;
+    }
+
+    .mcq-section h2 {
+      text-align: center;
+      color: #7c3aed;
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .mcq-card {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 2px solid #e5e7eb;
+      margin-bottom: 1.5rem;
+    }
+
+    .option {
+      background: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: 2px solid #e5e7eb;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+    }
+
+    .option:hover { transform: translateX(5px); border-color: #8b5cf6; }
+
+    .option.correct { background: #d1fae5; border-color: #10b981; }
+    .option.incorrect { background: #fee2e2; border-color: #ef4444; }
+
+    .submit-quiz-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #8b5cf6;
+      color: white;
       border: none;
       border-radius: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .quiz-results {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      text-align: center;
+      margin-top: 2rem;
+      display: none;
     }
 
     .complete-btn {
       display: block;
       width: 100%;
-      background-color: #10b981;
+      padding: 1rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       border: none;
-      padding: 1rem;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 0.75rem;
+      border-radius: 1rem;
+      font-size: 1.2rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .complete-btn:hover {
-      background-color: #059669;
+      margin-top: 3rem;
     }
 
     .complete-btn:disabled {
-      background-color: #9ca3af;
+      background: #9ca3af;
       cursor: not-allowed;
     }
 
     .completed-message {
       margin-top: 1rem;
       text-align: center;
+      font-weight: 700;
       color: #10b981;
-      font-weight: 600;
       display: none;
-    }
-
-    .back-btn {
-      display: inline-block;
-      margin-bottom: 1rem;
-      color: #8b5cf6;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .back-btn:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <a href="dsa.html" class="back-btn">← Back to DSA</a>
+<div class="container">
 
-    <header class="header">
-      <h1>Part 3: Trees & Recursion</h1>
-      <p>Learn how recursive logic powers tree traversal and problem solving in DSA.</p>
-    </header>
+  <a href="dsa.html" class="back-btn">← Back to DSA</a>
 
-    <section class="video-section">
-      <div class="video-title">1. Introduction to Binary Trees</div>
-      <iframe src="https://www.youtube.com/embed/_ANrF3FJm7I" allowfullscreen></iframe>
-    </section>
+  <h1>Part 3: Trees & Recursion</h1>
+  <p class="intro">Learn how recursive logic powers tree traversal and problem solving in DSA.</p>
 
-    <section class="video-section">
-      <div class="video-title">2. Recursion Explained (with examples)</div>
-      <iframe src="https://www.youtube.com/embed/kQ3IYk0je3s" allowfullscreen></iframe>
-    </section>
-
-    <section class="video-section">
-      <div class="video-title">3. Tree Traversal: DFS and BFS</div>
-      <iframe src="https://www.youtube.com/embed/5o-kdjv7FD0" allowfullscreen></iframe>
-    </section>
-
-    <section class="video-section">
-      <div class="video-title">4. Recursion Practice Problems</div>
-      <iframe src="https://www.youtube.com/embed/YxwW8yWhZtY" allowfullscreen></iframe>
-    </section>
-
-    <button class="complete-btn" id="completeBtn" onclick="markComplete()">✔ Mark as Complete</button>
-    <div class="completed-message" id="completedMessage">✅ Marked as Complete!</div>
+  <!-- Video Sections -->
+  <div class="video-section">
+    <div class="video-title">1. Introduction to Binary Trees</div>
+    <iframe src="https://www.youtube.com/embed/_ANrF3FJm7I" allowfullscreen></iframe>
   </div>
 
-  <script>
-    const PART_NUMBER = 3; // Updated for this section
+  <div class="video-section">
+    <div class="video-title">2. Recursion Explained (with examples)</div>
+    <iframe src="https://www.youtube.com/embed/kQ3IYk0je3s" allowfullscreen></iframe>
+  </div>
 
-    async function markComplete() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('Please log in to track your progress');
-        return;
-      }
+  <div class="video-section">
+    <div class="video-title">3. Tree Traversal: DFS & BFS</div>
+    <iframe src="https://www.youtube.com/embed/5o-kdjv7FD0" allowfullscreen></iframe>
+  </div>
 
-      const btn = document.getElementById('completeBtn');
-      btn.disabled = true;
-      btn.textContent = 'Saving...';
+  <div class="video-section">
+    <div class="video-title">4. Recursion Practice Problems</div>
+    <iframe src="https://www.youtube.com/embed/YxwW8yWhZtY" allowfullscreen></iframe>
+  </div>
 
-      try {
-        const response = await fetch(`http://localhost:8081/api/progress/complete/${PART_NUMBER}`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+  <!-- MCQ SECTION -->
+  <section class="mcq-section" id="mcqSection">
 
-        if (!response.ok) throw new Error('Failed to save progress');
+    <h2>📝 Test Your Knowledge</h2>
 
-        const progress = await response.json();
-        console.log('✅ Progress saved:', progress);
+    <!-- Q1 -->
+    <div class="mcq-card" data-question="1">
+      <p><strong>Q1:</strong> What is the time complexity of searching a value in a balanced binary search tree (BST)?</p>
+      <label class="option"><input type="radio" name="q1"><span>O(n)</span></label>
+      <label class="option"><input type="radio" name="q1" data-correct="true"><span>O(log n)</span></label>
+      <label class="option"><input type="radio" name="q1"><span>O(n log n)</span></label>
+      <label class="option"><input type="radio" name="q1"><span>O(1)</span></label>
+    </div>
 
-        document.getElementById('completedMessage').style.display = 'block';
-        btn.textContent = '✔ Completed';
+    <!-- Q2 -->
+    <div class="mcq-card" data-question="2">
+      <p><strong>Q2:</strong> Which traversal visits nodes in Left → Root → Right order?</p>
+      <label class="option"><input type="radio" name="q2"><span>Preorder</span></label>
+      <label class="option"><input type="radio" name="q2" data-correct="true"><span>Inorder</span></label>
+      <label class="option"><input type="radio" name="q2"><span>Postorder</span></label>
+      <label class="option"><input type="radio" name="q2"><span>BFS</span></label>
+    </div>
 
-        // Optional redirect after 2 seconds
-        setTimeout(() => {
-          window.location.href = 'dashboard.html';
-        }, 2000);
+    <!-- Q3 -->
+    <div class="mcq-card" data-question="3">
+      <p><strong>Q3:</strong> What is the base case in recursion?</p>
+      <label class="option"><input type="radio" name="q3" data-correct="true"><span>A condition where recursion stops</span></label>
+      <label class="option"><input type="radio" name="q3"><span>The recursive step</span></label>
+      <label class="option"><input type="radio" name="q3"><span>A loop inside recursion</span></label>
+      <label class="option"><input type="radio" name="q3"><span>A condition that restarts recursion</span></label>
+    </div>
 
-      } catch (error) {
-        console.error('Error saving progress:', error);
-        alert('Failed to save progress. Please try again.');
-        btn.disabled = false;
-        btn.textContent = '✔ Mark as Complete';
+    <!-- Q4 -->
+    <div class="mcq-card" data-question="4">
+      <p><strong>Q4:</strong> BFS uses which data structure internally?</p>
+      <label class="option"><input type="radio" name="q4" data-correct="true"><span>Queue</span></label>
+      <label class="option"><input type="radio" name="q4"><span>Stack</span></label>
+      <label class="option"><input type="radio" name="q4"><span>Priority Queue</span></label>
+      <label class="option"><input type="radio" name="q4"><span>Graph</span></label>
+    </div>
+
+    <!-- Q5 -->
+    <div class="mcq-card" data-question="5">
+      <p><strong>Q5:</strong> What is the worst problem with naive recursion (like Fibonacci)?</p>
+      <label class="option"><input type="radio" name="q5"><span>It uses loops</span></label>
+      <label class="option"><input type="radio" name="q5" data-correct="true"><span>It repeats the same computations</span></label>
+      <label class="option"><input type="radio" name="q5"><span>It cannot handle large numbers at all</span></label>
+      <label class="option"><input type="radio" name="q5"><span>It uses constant space</span></label>
+    </div>
+
+    <button class="submit-quiz-btn" id="submitQuizBtn" onclick="submitQuiz()">Submit Quiz</button>
+
+    <div class="quiz-results" id="quizResults">
+      <h3 id="scoreDisplay"></h3>
+      <p id="resultMessage"></p>
+    </div>
+
+  </section>
+
+  <button class="complete-btn" id="completeBtn" onclick="markComplete()" disabled>Complete Part 3 ✅</button>
+  <div class="completed-message" id="completedMessage">✅ Part Completed!</div>
+
+</div>
+
+<script>
+  const PART_NUMBER = 3;
+  const TOTAL_QUESTIONS = 5;
+  const PASSING_SCORE = 0.7;
+  let quizSubmitted = false;
+
+  document.querySelectorAll('.option').forEach(option => {
+    option.addEventListener('click', function() {
+      if (quizSubmitted) return;
+      const input = this.querySelector('input');
+      input.checked = true;
+      this.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+
+  function submitQuiz() {
+    if (quizSubmitted) return;
+
+    let allAnswered = true;
+    for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+      if (!document.querySelector(`input[name="q${i}"]:checked`)) allAnswered = false;
+    }
+    if (!allAnswered) return alert("Please answer all questions.");
+
+    quizSubmitted = true;
+    let correct = 0;
+
+    for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      const card = document.querySelector(`[data-question="${i}"]`);
+      const correctOption = card.querySelector('[data-correct="true"]');
+
+      if (selected.hasAttribute('data-correct')) {
+        correct++;
+        selected.closest('.option').classList.add('correct');
+      } else {
+        selected.closest('.option').classList.add('incorrect');
+        correctOption.closest('.option').classList.add('correct');
       }
     }
 
-    // Check progress on load
-    document.addEventListener('DOMContentLoaded', async () => {
-      const token = localStorage.getItem('token');
-      if (!token) return;
+    const score = correct / TOTAL_QUESTIONS;
+    document.getElementById("quizResults").style.display = "block";
+    document.getElementById("scoreDisplay").textContent = `${correct}/${TOTAL_QUESTIONS} Correct`;
 
-      try {
-        const response = await fetch('http://localhost:8081/api/progress', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+    if (score >= PASSING_SCORE) {
+      document.getElementById("resultMessage").textContent = "🎉 You passed! You can now complete this part.";
+      document.getElementById("resultMessage").style.color = "#059669";
+      document.getElementById("completeBtn").disabled = false;
+    } else {
+      document.getElementById("resultMessage").textContent = "You need at least 70% to pass.";
+      document.getElementById("resultMessage").style.color = "#dc2626";
+    }
 
-        if (!response.ok) return;
+    document.getElementById("submitQuizBtn").disabled = true;
+  }
 
-        const progress = await response.json();
-        const isComplete = progress[`part${PART_NUMBER}Complete`];
+  document.addEventListener("DOMContentLoaded", async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
-        if (isComplete) {
-          document.getElementById('completedMessage').style.display = 'block';
-          const btn = document.getElementById('completeBtn');
-          btn.textContent = '✔ Completed';
-          btn.disabled = true;
-        }
-      } catch (error) {
-        console.error('Error checking progress:', error);
-      }
+    const res = await fetch("http://localhost:8081/api/progress", {
+      headers: { Authorization: `Bearer ${token}` }
     });
-  </script>
+    const progress = await res.json();
+
+    // Unlock MCQ only if Part 2 is complete
+    if (progress.part2Complete) {
+      document.getElementById("mcqSection").style.display = "block";
+    } else {
+      document.getElementById("mcqSection").innerHTML =
+        `<h2 style="text-align:center;">🔒 Complete Part 2 to unlock this quiz.</h2>`;
+      return;
+    }
+
+    if (progress.part3Complete) {
+      document.getElementById("completedMessage").style.display = "block";
+      const btn = document.getElementById("completeBtn");
+      btn.textContent = "✅ Completed";
+      btn.disabled = true;
+    }
+  });
+
+  async function markComplete() {
+    const token = localStorage.getItem("token");
+    if (!token) return alert("Please log in.");
+
+    const btn = document.getElementById("completeBtn");
+    btn.disabled = true;
+    btn.textContent = "Saving...";
+
+    const res = await fetch(`http://localhost:8081/api/progress/complete/${PART_NUMBER}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!res.ok) {
+      alert("Failed to save progress.");
+      btn.disabled = false;
+      btn.textContent = "Complete Part 3";
+      return;
+    }
+
+    document.getElementById("completedMessage").style.display = "block";
+    btn.textContent = "✅ Completed";
+
+    setTimeout(() => (window.location.href = "dsa.html"), 2000);
+  }
+</script>
+
 </body>
 </html>

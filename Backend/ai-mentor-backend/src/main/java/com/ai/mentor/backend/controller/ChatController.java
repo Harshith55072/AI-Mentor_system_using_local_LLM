@@ -4,25 +4,24 @@ import com.ai.mentor.backend.model.ChatHistory;
 import com.ai.mentor.backend.model.User;
 import com.ai.mentor.backend.repository.ChatHistoryRepository;
 import com.ai.mentor.backend.repository.UserRepository;
-import com.ai.mentor.backend.service.ChatService;
 import com.ai.mentor.backend.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
+import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = {"http://localhost:5500", "http://127.0.0.1:5500"}, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/chat")
 public class ChatController {
-
-    @Autowired
-    private ChatService chatService;
 
     @Autowired
     private JwtService jwtService;
@@ -33,26 +32,83 @@ public class ChatController {
     @Autowired
     private UserRepository userRepository;
 
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final String PYTHON_API_URL = "http://127.0.0.1:8000/chat";
+
     /**
-     * Stream chat response (with optional authentication)
+     * Non-streaming chat endpoint
      */
-    @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> getChatResponse(
+    @PostMapping(value = "/message")
+    public ResponseEntity<?> getChatResponse(
             @RequestBody ChatRequest request,
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
 
-        String email = null;
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            try {
-                String token = authHeader.substring(7);
-                email = jwtService.extractUsername(token); // Extracts email from JWT
-                System.out.println("✅ Authenticated user: " + email);
-            } catch (Exception e) {
-                System.err.println("⚠️ Invalid token, continuing without auth");
+        try {
+            // Validate input
+            if (request.getUserInput() == null || request.getUserInput().trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "User input is required"));
             }
-        }
 
-        return chatService.getChatResponseStream(request.getUserInput(), request.getRole(), email);
+            // Extract user email if authenticated
+            String email = null;
+            User user = null;
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                try {
+                    String token = authHeader.substring(7);
+                    email = jwtService.extractUsername(token);
+                    user = userRepository.findByEmail(email).orElse(null);
+                    System.out.println("✅ Authenticated user: " + email);
+                } catch (Exception e) {
+                    System.err.println("⚠️ Invalid token, continuing without auth");
+                }
+            }
+
+            // Call Python microservice
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            Map<String, String> body = new HashMap<>();
+            body.put("userInput", request.getUserInput());
+            body.put("role", request.getRole() != null ? request.getRole() : "Career_mentor");
+
+            HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
+
+            ResponseEntity<Map> response = restTemplate.postForEntity(
+                    PYTHON_API_URL,
+                    entity,
+                    Map.class
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                String botResponse = (String) response.getBody().get("response");
+
+                // Save to database if user is authenticated
+                if (user != null && botResponse != null) {
+                    try {
+                        ChatHistory chatHistory = new ChatHistory(
+                                request.getUserInput(),
+                                botResponse,
+                                user
+                        );
+                        chatHistoryRepository.save(chatHistory);
+                        System.out.println("💾 Chat saved to history for user: " + email);
+                    } catch (Exception e) {
+                        System.err.println("⚠️ Failed to save chat history: " + e.getMessage());
+                    }
+                }
+
+                return ResponseEntity.ok(response.getBody());
+            } else {
+                return ResponseEntity.status(500)
+                        .body(Map.of("error", "Failed to get response from AI service"));
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Error in chat endpoint: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500)
+                    .body(Map.of("error", "Error: " + e.getMessage()));
+        }
     }
 
     /**
@@ -69,17 +125,15 @@ public class ChatController {
 
         try {
             String token = authHeader.substring(7);
-            String email = jwtService.extractUsername(token); // This actually extracts email
+            String email = jwtService.extractUsername(token);
             System.out.println("✅ Loading history for user: " + email);
 
-            // Find by email instead of username
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("User not found: " + email));
 
             List<ChatHistory> history = chatHistoryRepository.findByUser(user);
             System.out.println("📦 Found " + history.size() + " chat messages");
 
-            // Convert to DTO
             List<ChatHistoryDTO> dtoList = history.stream()
                     .map(chat -> new ChatHistoryDTO(
                             chat.getId(),
@@ -121,6 +175,33 @@ public class ChatController {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<?> health() {
+        try {
+            ResponseEntity<String> response = restTemplate.getForEntity(
+                    "http://127.0.0.1:8000/health",
+                    String.class
+            );
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return ResponseEntity.ok(Map.of(
+                        "status", "healthy",
+                        "pythonService", "connected",
+                        "mode", "non-streaming"
+                ));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(503)
+                    .body(Map.of(
+                            "status", "unhealthy",
+                            "error", "Python microservice not reachable"
+                    ));
+        }
+
+        return ResponseEntity.status(503)
+                .body(Map.of("status", "unhealthy"));
     }
 
     // Request DTO

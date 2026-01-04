@@ -109,7 +109,7 @@ public class RoadmapController {
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
             // Validate inputs
-            if (roadmapId < 1 || roadmapId > 3) {
+            if (roadmapId < 1 || roadmapId > 5) {
                 return ResponseEntity.badRequest().body("Invalid roadmap ID: " + roadmapId);
             }
             if (phaseNumber < 1 || phaseNumber > 5) {

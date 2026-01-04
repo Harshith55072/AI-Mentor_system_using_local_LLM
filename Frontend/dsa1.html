@@ -1,199 +1,641 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Part 1: Basics & Arrays</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
-            color: #1f2937;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Part 1: Basics & Arrays</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #1f2937;
+      min-height: 100vh;
+      padding: 2rem;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 1.5rem;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      color: #8b5cf6;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
 
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-        }
+    .back-btn:hover { color: #6d28d9; }
 
-        .video-section {
-            background: #ffffff;
-            padding: 1.5rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
-            border: 1px solid #e5e7eb;
-        }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #7c3aed;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
 
-        .video-title {
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
+    .intro {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-size: 1.125rem;
+      color: #6b7280;
+      line-height: 1.6;
+    }
 
-        iframe {
-            width: 100%;
-            height: 315px;
-            border: none;
-            border-radius: 0.75rem;
-        }
+    .video-section {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 1rem;
+      border-left: 4px solid #8b5cf6;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-        .complete-btn {
-            display: block;
-            width: 100%;
-            background-color: #10b981;
-            color: white;
-            border: none;
-            padding: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    .video-section:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+    }
 
-        .complete-btn:hover {
-            background-color: #059669;
-        }
+    .video-title {
+      font-weight: 700;
+      font-size: 1.375rem;
+      margin-bottom: 1rem;
+      color: #5b21b6;
+    }
 
-        .complete-btn:disabled {
-            background-color: #9ca3af;
-            cursor: not-allowed;
-        }
+    .video-wrap {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
 
-        .completed-message {
-            margin-top: 1rem;
-            text-align: center;
-            color: #10b981;
-            font-weight: 600;
-            display: none;
-        }
+    iframe {
+      width: 100%;
+      height: 420px;
+      border: none;
+      display: block;
+    }
 
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 1rem;
-            color: #8b5cf6;
-            text-decoration: none;
-            font-weight: 600;
-        }
+    /* MCQ Section */
+    .mcq-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 3px solid #e5e7eb;
+    }
 
-        .back-btn:hover {
-            text-decoration: underline;
-        }
-    </style>
+    .mcq-section h2 {
+      text-align: center;
+      color: #7c3aed;
+      margin-bottom: 1rem;
+      font-size: 1.75rem;
+    }
+
+    .mcq-intro {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .mcq-card {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin-bottom: 1.5rem;
+      border: 2px solid #e5e7eb;
+    }
+
+    .question-header {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .question-number {
+      background: #8b5cf6;
+      color: white;
+      font-weight: 700;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    .question-text {
+      font-weight: 600;
+      color: #374151;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+
+    .options {
+      margin-top: 1rem;
+    }
+
+    .option {
+      background: white;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      border-radius: 0.5rem;
+      border: 2px solid #e5e7eb;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+    }
+
+    .option:hover {
+      border-color: #8b5cf6;
+      transform: translateX(5px);
+    }
+
+    .option input[type="radio"] {
+      margin-right: 0.75rem;
+      cursor: pointer;
+    }
+
+    .option.selected {
+      border-color: #8b5cf6;
+      background: #f3f4f6;
+    }
+
+    .option.correct {
+      border-color: #10b981;
+      background: #d1fae5;
+    }
+
+    .option.incorrect {
+      border-color: #ef4444;
+      background: #fee2e2;
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .feedback.correct {
+      background: #d1fae5;
+      color: #065f46;
+      display: block;
+    }
+
+    .feedback.incorrect {
+      background: #fee2e2;
+      color: #991b1b;
+      display: block;
+    }
+
+    .submit-quiz-btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+      margin-top: 2rem;
+    }
+
+    .submit-quiz-btn:hover {
+      background: #7c3aed;
+    }
+
+    .submit-quiz-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .quiz-results {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      text-align: center;
+      margin-top: 2rem;
+      display: none;
+    }
+
+    .quiz-results.show {
+      display: block;
+    }
+
+    .score-display {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #7c3aed;
+      margin-bottom: 1rem;
+    }
+
+    .complete-btn {
+      display: block;
+      margin: 3rem auto 0;
+      padding: 1rem 3rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1.25rem;
+      box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(102, 126, 234, 0.5);
+    }
+
+    .complete-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .completed-message {
+      margin-top: 1.5rem;
+      text-align: center;
+      color: #10b981;
+      font-weight: 700;
+      font-size: 1.25rem;
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      iframe { height: 260px; }
+      .container { padding: 1.5rem; }
+      h1 { font-size: 1.9rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <a href="dsa.html" class="back-btn">← Back to DSA</a>
-        
-        <header class="header">
-            <h1>Part 1: Basics & Arrays</h1>
-            <p>Start your DSA journey by mastering time complexity, arrays, and strings.</p>
-        </header>
+  <div class="container">
+    <a href="dsa.html" class="back-btn">← Back to DSA</a>
 
-        <section class="video-section">
-            <div class="video-title">1. Big O Notation (Time & Space Complexity)</div>
-            <iframe src="https://www.youtube.com/embed/D6xkbGLQesk" allowfullscreen></iframe>
-        </section>
+    <h1>📚 Part 1: Basics & Arrays</h1>
+    <p class="intro">
+      Start your DSA journey by mastering time complexity, arrays, and strings. Watch the videos and test your knowledge with the quiz below!
+    </p>
 
-        <section class="video-section">
-            <div class="video-title">2. Arrays in Data Structures</div>
-            <iframe src="https://www.youtube.com/embed/6n1C6hG9p6k" allowfullscreen></iframe>
-        </section>
-
-        <section class="video-section">
-            <div class="video-title">3. String Manipulation Basics</div>
-            <iframe src="https://www.youtube.com/embed/NpIJM6F3gko" allowfullscreen></iframe>
-        </section>
-
-        <section class="video-section">
-            <div class="video-title">4. Array Problems Practice</div>
-            <iframe src="https://www.youtube.com/embed/2JU3e4N-o3o" allowfullscreen></iframe>
-        </section>
-
-        <button class="complete-btn" id="completeBtn" onclick="markComplete()">✔ Mark as Complete</button>
-        <div class="completed-message" id="completedMessage">✅ Marked as Complete!</div>
+    <div class="video-section">
+      <h2 class="video-title">1. Big O Notation (Time & Space Complexity)</h2>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/D6xkbGLQesk" allowfullscreen></iframe>
+      </div>
     </div>
 
-    <script>
-        const PART_NUMBER = 1; // Change this for each DSA page
+    <div class="video-section">
+      <h2 class="video-title">2. Arrays in Data Structures</h2>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/6n1C6hG9p6k" allowfullscreen></iframe>
+      </div>
+    </div>
 
-        async function markComplete() {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('Please log in to track your progress');
-                return;
-            }
+    <div class="video-section">
+      <h2 class="video-title">3. String Manipulation Basics</h2>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/NpIJM6F3gko" allowfullscreen></iframe>
+      </div>
+    </div>
 
-            const btn = document.getElementById('completeBtn');
-            btn.disabled = true;
-            btn.textContent = 'Saving...';
+    <div class="video-section">
+      <h2 class="video-title">4. Array Problems Practice</h2>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/2JU3e4N-o3o" allowfullscreen></iframe>
+      </div>
+    </div>
 
-            try {
-                const response = await fetch(`http://localhost:8081/api/progress/complete/${PART_NUMBER}`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
+    <section class="mcq-section" id="mcqSection">
+      <h2>📝 Test Your Knowledge</h2>
+      <p class="mcq-intro">Answer these questions to reinforce your understanding. Score at least 70% to complete this part!</p>
 
-                if (!response.ok) throw new Error('Failed to save progress');
+      <div class="mcq-card" data-question="1">
+        <div class="question-header">
+          <div class="question-number">Q1</div>
+          <div class="question-text">What is the time complexity of accessing an element in an array by index?</div>
+        </div>
+        <div class="options">
+          <label class="option" data-correct="false">
+            <input type="radio" name="q1" value="a">
+            <span>O(n)</span>
+          </label>
+          <label class="option" data-correct="false">
+            <input type="radio" name="q1" value="b">
+            <span>O(log n)</span>
+          </label>
+          <label class="option" data-correct="true">
+            <input type="radio" name="q1" value="c">
+            <span>O(1)</span>
+          </label>
+          <label class="option" data-correct="false">
+            <input type="radio" name="q1" value="d">
+            <span>O(n²)</span>
+          </label>
+        </div>
+        <div class="feedback"></div>
+      </div>
 
-                const progress = await response.json();
-                console.log('✅ Progress saved:', progress);
+      <div class="mcq-card" data-question="2">
+        <div class="question-header">
+          <div class="question-number">Q2</div>
+          <div class="question-text">Which operation is most expensive in a dynamic array when it's full?</div>
+        </div>
+        <div class="options">
+          <label class="option" data-correct="false">
+            <input type="radio" name="q2" value="a">
+            <span>Reading an element</span>
+          </label>
+          <label class="option" data-correct="true">
+            <input type="radio" name="q2" value="b">
+            <span>Inserting an element (causing resize)</span>
+          </label>
+          <label class="option" data-correct="false">
+            <input type="radio" name="q2" value="c">
+            <span>Deleting an element</span>
+          </label>
+          <label class="option" data-correct="false">
+            <input type="radio" name="q2" value="d">
+            <span>Finding the length</span>
+          </label>
+        </div>
+        <div class="feedback"></div>
+      </div>
 
-                document.getElementById('completedMessage').style.display = 'block';
-                btn.textContent = '✔ Completed';
-                
-                // Optional: redirect to dashboard after 2 seconds
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 2000);
+      <div class="mcq-card" data-question="3">
+        <div class="question-header">
+          <div class="question-number">Q3</div>
+          <div class="question-text">What does O(log n) typically indicate?</div>
+        </div>
+        <div class="options">
+          <label class="option" data-correct="false">
+            <input type="radio" name="q3" value="a">
+            <span>Linear search</span>
+          </label>
+          <label class="option" data-correct="true">
+            <input type="radio" name="q3" value="b">
+            <span>Binary search or divide-and-conquer approach</span>
+          </label>
+          <label class="option" data-correct="false">
+            <input type="radio" name="q3" value="c">
+            <span>Nested loops</span>
+          </label>
+          <label class="option" data-correct="false">
+            <input type="radio" name="q3" value="d">
+            <span>Constant time operation</span>
+          </label>
+        </div>
+        <div class="feedback"></div>
+      </div>
 
-            } catch (error) {
-                console.error('Error saving progress:', error);
-                alert('Failed to save progress. Please try again.');
-                btn.disabled = false;
-                btn.textContent = '✔ Mark as Complete';
-            }
-        }
+      <div class="mcq-card" data-question="4">
+        <div class="question-header">
+          <div class="question-number">Q4</div>
+          <div class="question-text">In string manipulation, what is the time complexity of concatenating two strings of length n and m?</div>
+        </div>
+        <div class="options">
+          <label class="option" data-correct="false">
+            <input type="radio" name="q4" value="a">
+            <span>O(1)</span>
+          </label>
+          <label class="option" data-correct="true">
+            <input type="radio" name="q4" value="b">
+            <span>O(n + m)</span>
+          </label>
+          <label class="option" data-correct="false">
+            <input type="radio" name="q4" value="c">
+            <span>O(n * m)</span>
+          </label>
+          <label class="option" data-correct="false">
+            <input type="radio" name="q4" value="d">
+            <span>O(log n)</span>
+          </label>
+        </div>
+        <div class="feedback"></div>
+      </div>
 
-        // Check if already completed on page load
-        document.addEventListener('DOMContentLoaded', async () => {
-            const token = localStorage.getItem('token');
-            if (!token) return;
+      <div class="mcq-card" data-question="5">
+        <div class="question-header">
+          <div class="question-number">Q5</div>
+          <div class="question-text">Which algorithm would be best for finding the maximum element in an unsorted array?</div>
+        </div>
+        <div class="options">
+          <label class="option" data-correct="false">
+            <input type="radio" name="q5" value="a">
+            <span>Binary search</span>
+          </label>
+          <label class="option" data-correct="true">
+            <input type="radio" name="q5" value="b">
+            <span>Linear scan through the array</span>
+          </label>
+          <label class="option" data-correct="false">
+            <input type="radio" name="q5" value="c">
+            <span>Quick sort first, then access last element</span>
+          </label>
+          <label class="option" data-correct="false">
+            <input type="radio" name="q5" value="d">
+            <span>Hash table lookup</span>
+          </label>
+        </div>
+        <div class="feedback"></div>
+      </div>
 
-            try {
-                const response = await fetch('http://localhost:8081/api/progress', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
+      <button class="submit-quiz-btn" id="submitQuizBtn" onclick="submitQuiz()">Submit Quiz</button>
 
-                if (!response.ok) return;
+      <div class="quiz-results" id="quizResults">
+        <div class="score-display" id="scoreDisplay"></div>
+        <p id="resultMessage"></p>
+      </div>
+    </section>
 
-                const progress = await response.json();
-                const isComplete = progress[`part${PART_NUMBER}Complete`];
+    <button class="complete-btn" id="completeBtn" onclick="markComplete()" disabled>Complete Part 1 ✅</button>
+    <div class="completed-message" id="completedMessage">✅ Part Completed!</div>
+  </div>
 
-                if (isComplete) {
-                    document.getElementById('completedMessage').style.display = 'block';
-                    const btn = document.getElementById('completeBtn');
-                    btn.textContent = '✔ Completed';
-                    btn.disabled = true;
-                }
-            } catch (error) {
-                console.error('Error checking progress:', error);
-            }
+  <script>
+    const PART_NUMBER = 1;
+    const TOTAL_QUESTIONS = 5;
+    const PASSING_SCORE = 0.7; // 70%
+
+    let quizSubmitted = false;
+    let quizScore = 0;
+
+    // Add click handlers to options
+    document.querySelectorAll('.option').forEach(option => {
+      option.addEventListener('click', function() {
+        if (quizSubmitted) return;
+        
+        const input = this.querySelector('input[type="radio"]');
+        input.checked = true;
+        
+        // Remove selected class from siblings
+        this.parentElement.querySelectorAll('.option').forEach(opt => {
+          opt.classList.remove('selected');
         });
-    </script>
+        
+        // Add selected class to this option
+        this.classList.add('selected');
+      });
+    });
+
+    function submitQuiz() {
+      if (quizSubmitted) {
+        alert('Quiz already submitted!');
+        return;
+      }
+
+      let answeredAll = true;
+      for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+        const answered = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!answered) {
+          answeredAll = false;
+          break;
+        }
+      }
+
+      if (!answeredAll) {
+        alert('Please answer all questions before submitting!');
+        return;
+      }
+
+      quizSubmitted = true;
+      let correctCount = 0;
+
+      // Check each question
+      for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+        const card = document.querySelector(`[data-question="${i}"]`);
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const correctOption = card.querySelector('[data-correct="true"]');
+        const feedback = card.querySelector('.feedback');
+
+        if (selected) {
+          const selectedOption = selected.closest('.option');
+          
+          if (selected.parentElement.hasAttribute('data-correct')) {
+            correctCount++;
+            selectedOption.classList.add('correct');
+            feedback.classList.add('correct');
+            feedback.textContent = '✓ Correct!';
+          } else {
+            selectedOption.classList.add('incorrect');
+            correctOption.closest('.option').classList.add('correct');
+            feedback.classList.add('incorrect');
+            feedback.textContent = '✗ Incorrect. The correct answer is highlighted.';
+          }
+        }
+      }
+
+      quizScore = correctCount / TOTAL_QUESTIONS;
+
+      // Show results
+      const resultsDiv = document.getElementById('quizResults');
+      const scoreDisplay = document.getElementById('scoreDisplay');
+      const resultMessage = document.getElementById('resultMessage');
+
+      scoreDisplay.textContent = `${correctCount} / ${TOTAL_QUESTIONS} Correct`;
+      
+      if (quizScore >= PASSING_SCORE) {
+        resultMessage.textContent = `🎉 Great job! You passed with ${Math.round(quizScore * 100)}%. You can now complete this part.`;
+        resultMessage.style.color = '#059669';
+        document.getElementById('completeBtn').disabled = false;
+      } else {
+        resultMessage.textContent = `You scored ${Math.round(quizScore * 100)}%. You need at least 70% to complete this part. Review the material and try again!`;
+        resultMessage.style.color = '#dc2626';
+      }
+
+      resultsDiv.classList.add('show');
+      document.getElementById('submitQuizBtn').disabled = true;
+      document.getElementById('submitQuizBtn').textContent = 'Quiz Submitted';
+
+      // Scroll to results
+      resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    async function markComplete() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please log in to track your progress');
+        return;
+      }
+
+      if (!quizSubmitted || quizScore < PASSING_SCORE) {
+        alert('Please complete the quiz with at least 70% score first!');
+        return;
+      }
+
+      const btn = document.getElementById('completeBtn');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+
+      try {
+        const response = await fetch(`http://localhost:8081/api/progress/complete/${PART_NUMBER}`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to save progress');
+
+        document.getElementById('completedMessage').style.display = 'block';
+        btn.textContent = '✅ Completed';
+
+        setTimeout(() => {
+          window.location.href = 'dsa.html';
+        }, 2000);
+
+      } catch (error) {
+        console.error('Error saving progress:', error);
+        alert('Failed to save progress. Please try again.');
+        btn.disabled = false;
+        btn.textContent = 'Complete Part 1 ✅';
+      }
+    }
+
+    // Check if already completed on page load
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const response = await fetch('http://localhost:8081/api/progress', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!response.ok) return;
+
+        const progress = await response.json();
+        const isComplete = progress[`part${PART_NUMBER}Complete`];
+
+        if (isComplete) {
+          document.getElementById('completedMessage').style.display = 'block';
+          const btn = document.getElementById('completeBtn');
+          btn.textContent = '✅ Completed';
+          btn.disabled = true;
+          
+          // Show quiz as already passed
+          document.getElementById('submitQuizBtn').disabled = true;
+          document.getElementById('submitQuizBtn').textContent = 'Already Completed';
+        }
+      } catch (error) {
+        console.error('Error checking progress:', error);
+      }
+    });
+  </script>
 </body>
 </html>

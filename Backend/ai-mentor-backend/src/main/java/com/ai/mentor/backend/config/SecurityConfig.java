@@ -57,7 +57,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/chat/history",
                                 "/api/progress/**",
-                                "/api/roadmap/**" // ✅ Require auth for roadmap
+                                "/api/roadmap/**",
+                                "/api/quiz/**" // ✅ Require auth for quiz
                         ).authenticated()
                         .anyRequest().authenticated()
                 )

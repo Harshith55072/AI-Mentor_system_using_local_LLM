@@ -378,22 +378,13 @@ server.port=8082
 
 ---
 
-## 🎨 Future Enhancements
+## 🎨 Project Status
 
-### Short Term
-- [ ] Add more career roadmaps (DevOps, Mobile Dev, etc.)
-- [ ] Implement quiz system for knowledge testing
-- [ ] Add resource recommendations based on progress
-- [ ] Email notifications for milestones
+This project is currently *feature-complete* and in *maintenance mode*.
 
-### Long Term
-- [ ] Migrate frontend to React/Next.js
-- [ ] Implement real-time collaboration features
-- [ ] Add video tutorial integration
-- [ ] Create mobile app (React Native)
-- [ ] Fine-tune AI model on software engineering Q&A
-- [ ] Add mentor matching with senior developers
-- [ ] Implement gamification (badges, leaderboards)
+- No active development is planned
+- The project is stable in its current form
+- Future improvements (e.g., Docker support or polish) may be added if time permits
 
 ---
 
@@ -417,10 +408,22 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👨‍💻 Authors
 
 - **Harshith B** - backend and AI integration - [GitHub Profile](https://github.com/Harshith55072)
-- **aayush** - Frontend - [GitHub Profile]()
+- **aayush** - Frontend - [GitHub Profile](https://github.com/tiwariaayush004-ui)
 
 ---
+## ⚠️ Important Update (v1.1.0)
 
+The project architecture has been updated.
+
+- The built-in AI microservice is *no longer the default* due to performance limitations.
+- The project now relies on *Oobabooga Text Generation WebUI* as the LLM backend.
+- Users must install and run Oobabooga *separately* and connect it to this project.
+
+The original microservice implementation is *still included* in the repository for
+reference and experimentation, but it is *not actively maintained*.
+
+No Docker setup is currently provided.
+---
 ## 🙏 Acknowledgments
 
 - Hugging Face for transformer models and hosting
@@ -432,9 +435,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📊 Project Status
 
-**Current Version**: 1.0.0  
-**Status**: Active Development  
-**Last Updated**: November 2025
+**Current Version**: 1.1.0  
+**Status**: Maintenance Mode  
+**Last Updated**: January 2026
 
 ---
 

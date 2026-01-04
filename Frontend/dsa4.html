@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Part 4: Advanced Topics</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -51,6 +53,7 @@
       border-radius: 0.75rem;
     }
 
+    /* Buttons + MCQ Styling (same as Part 3) */
     .complete-btn {
       display: block;
       width: 100%;
@@ -63,16 +66,11 @@
       border-radius: 0.75rem;
       cursor: pointer;
       transition: background-color 0.3s ease;
+      margin-top: 2rem;
     }
 
-    .complete-btn:hover {
-      background-color: #059669;
-    }
-
-    .complete-btn:disabled {
-      background-color: #9ca3af;
-      cursor: not-allowed;
-    }
+    .complete-btn:hover { background-color: #059669; }
+    .complete-btn:disabled { background-color: #9ca3af; cursor: not-allowed; }
 
     .completed-message {
       margin-top: 1rem;
@@ -90,13 +88,68 @@
       font-weight: 600;
     }
 
-    .back-btn:hover {
-      text-decoration: underline;
+    .back-btn:hover { text-decoration: underline; }
+
+    /* MCQ Section */
+    .mcq-section {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+      margin-top: 2rem;
+      display: none;
+    }
+
+    .mcq-card {
+      background: #f9fafb;
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 1rem;
+    }
+
+    .option {
+      background: white;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      border: 2px solid #e5e7eb;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      display: block;
+      transition: all 0.2s;
+    }
+
+    .option:hover { border-color: #8b5cf6; }
+
+    .option.correct { background: #d1fae5; border-color: #10b981; }
+    .option.incorrect { background: #fee2e2; border-color: #ef4444; }
+
+    .submit-quiz-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+
+    .quiz-results {
+      padding: 1rem;
+      border-radius: 1rem;
+      text-align: center;
+      background: #f9fafb;
+      margin-top: 1rem;
+      display: none;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
+
     <a href="dsa.html" class="back-btn">← Back to DSA</a>
 
     <header class="header">
@@ -124,76 +177,185 @@
       <iframe src="https://www.youtube.com/embed/nqowUJzG-iM" allowfullscreen></iframe>
     </section>
 
-    <button class="complete-btn" id="completeBtn" onclick="markComplete()">✔ Mark as Complete</button>
+    <!-- MCQ SECTION -->
+    <section class="mcq-section" id="mcqSection">
+      <h2 style="text-align:center; color:#6d28d9;">📝 Final Quiz</h2>
+
+      <!-- Q1 -->
+      <div class="mcq-card" data-question="1">
+        <p><strong>Q1:</strong> What is the average time complexity of QuickSort?</p>
+        <label class="option"><input type="radio" name="q1"><span>O(n²)</span></label>
+        <label class="option"><input type="radio" name="q1" data-correct="true"><span>O(n log n)</span></label>
+        <label class="option"><input type="radio" name="q1"><span>O(log n)</span></label>
+        <label class="option"><input type="radio" name="q1"><span>O(n)</span></label>
+      </div>
+
+      <!-- Q2 -->
+      <div class="mcq-card" data-question="2">
+        <p><strong>Q2:</strong> Binary Search only works on...</p>
+        <label class="option"><input type="radio" name="q2" data-correct="true"><span>Sorted arrays</span></label>
+        <label class="option"><input type="radio" name="q2"><span>Graphs</span></label>
+        <label class="option"><input type="radio" name="q2"><span>Binary trees</span></label>
+        <label class="option"><input type="radio" name="q2"><span>Random lists</span></label>
+      </div>
+
+      <!-- Q3 -->
+      <div class="mcq-card" data-question="3">
+        <p><strong>Q3:</strong> BFS uses which data structure?</p>
+        <label class="option"><input type="radio" name="q3"><span>Stack</span></label>
+        <label class="option"><input type="radio" name="q3" data-correct="true"><span>Queue</span></label>
+        <label class="option"><input type="radio" name="q3"><span>Heap</span></label>
+        <label class="option"><input type="radio" name="q3"><span>Tree</span></label>
+      </div>
+
+      <!-- Q4 -->
+      <div class="mcq-card" data-question="4">
+        <p><strong>Q4:</strong> What is the main idea of Dynamic Programming?</p>
+        <label class="option"><input type="radio" name="q4" data-correct="true"><span>Store results to avoid repeated work</span></label>
+        <label class="option"><input type="radio" name="q4"><span>Use depth-first recursion</span></label>
+        <label class="option"><input type="radio" name="q4"><span>Sort data before processing</span></label>
+        <label class="option"><input type="radio" name="q4"><span>Break code into classes</span></label>
+      </div>
+
+      <!-- Q5 -->
+      <div class="mcq-card" data-question="5">
+        <p><strong>Q5:</strong> MergeSort is based on what paradigm?</p>
+        <label class="option"><input type="radio" name="q5"><span>Greedy</span></label>
+        <label class="option"><input type="radio" name="q5"><span>Backtracking</span></label>
+        <label class="option"><input type="radio" name="q5" data-correct="true"><span>Divide and Conquer</span></label>
+        <label class="option"><input type="radio" name="q5"><span>Graph Traversal</span></label>
+      </div>
+
+      <button class="submit-quiz-btn" onclick="submitQuiz()" id="submitQuizBtn">Submit Quiz</button>
+
+      <div class="quiz-results" id="quizResults">
+        <h3 id="scoreDisplay"></h3>
+        <p id="resultMessage"></p>
+      </div>
+
+    </section>
+
+    <button class="complete-btn" id="completeBtn" onclick="markComplete()" disabled>✔ Mark as Complete</button>
     <div class="completed-message" id="completedMessage">✅ Marked as Complete!</div>
+
   </div>
 
   <script>
-    const PART_NUMBER = 4; // Updated for this DSA part
+    const PART_NUMBER = 4;
+    const TOTAL_QUESTIONS = 5;
+    const PASSING_SCORE = 0.7;
+    let quizSubmitted = false;
 
-    async function markComplete() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('Please log in to track your progress');
+    // Option selection UI
+    document.querySelectorAll('.option').forEach(option => {
+      option.addEventListener('click', () => {
+        if (quizSubmitted) return;
+        const input = option.querySelector('input');
+        input.checked = true;
+        const parent = option.closest('.mcq-card');
+        parent.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+      });
+    });
+
+    function submitQuiz() {
+      if (quizSubmitted) return;
+
+      // Ensure all answered
+      for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+        if (!document.querySelector(`input[name="q${i}"]:checked`)) {
+          alert("Please answer all questions.");
+          return;
+        }
+      }
+
+      quizSubmitted = true;
+      let correct = 0;
+
+      for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const card = document.querySelector(`[data-question="${i}"]`);
+        const correctOption = card.querySelector('[data-correct="true"]');
+
+        if (selected.hasAttribute("data-correct")) {
+          correct++;
+          selected.closest(".option").classList.add("correct");
+        } else {
+          selected.closest(".option").classList.add("incorrect");
+          correctOption.closest(".option").classList.add("correct");
+        }
+      }
+
+      document.getElementById("quizResults").style.display = "block";
+      document.getElementById("scoreDisplay").textContent = `${correct}/${TOTAL_QUESTIONS} Correct`;
+
+      if (correct / TOTAL_QUESTIONS >= PASSING_SCORE) {
+        document.getElementById("resultMessage").textContent = "🎉 You passed! You can now complete this part.";
+        document.getElementById("resultMessage").style.color = "#059669";
+        document.getElementById("completeBtn").disabled = false;
+      } else {
+        document.getElementById("resultMessage").textContent = "You need at least 70% to pass.";
+        document.getElementById("resultMessage").style.color = "#dc2626";
+      }
+
+      document.getElementById("submitQuizBtn").disabled = true;
+    }
+
+    // On load → check API progress
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const res = await fetch("http://localhost:8081/api/progress", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const progress = await res.json();
+
+      // Show quiz only if Part 3 complete
+      if (progress.part3Complete) {
+        document.getElementById("mcqSection").style.display = "block";
+      } else {
+        document.getElementById("mcqSection").innerHTML =
+          `<h2 style='text-align:center;'>🔒 Complete Part 3 to unlock this quiz.</h2>`;
         return;
       }
 
-      const btn = document.getElementById('completeBtn');
-      btn.disabled = true;
-      btn.textContent = 'Saving...';
-
-      try {
-        const response = await fetch(`http://localhost:8081/api/progress/complete/${PART_NUMBER}`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-
-        if (!response.ok) throw new Error('Failed to save progress');
-
-        const progress = await response.json();
-        console.log('✅ Progress saved:', progress);
-
-        document.getElementById('completedMessage').style.display = 'block';
-        btn.textContent = '✔ Completed';
-        
-        // Optional: redirect to dashboard after 2 seconds
-        setTimeout(() => {
-          window.location.href = 'dashboard.html';
-        }, 2000);
-
-      } catch (error) {
-        console.error('Error saving progress:', error);
-        alert('Failed to save progress. Please try again.');
-        btn.disabled = false;
-        btn.textContent = '✔ Mark as Complete';
-      }
-    }
-
-    // Check if already completed on load
-    document.addEventListener('DOMContentLoaded', async () => {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-
-      try {
-        const response = await fetch('http://localhost:8081/api/progress', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-
-        if (!response.ok) return;
-
-        const progress = await response.json();
-        const isComplete = progress[`part${PART_NUMBER}Complete`];
-
-        if (isComplete) {
-          document.getElementById('completedMessage').style.display = 'block';
-          const btn = document.getElementById('completeBtn');
-          btn.textContent = '✔ Completed';
-          btn.disabled = true;
-        }
-      } catch (error) {
-        console.error('Error checking progress:', error);
+      // If already completed
+      if (progress.part4Complete) {
+        const btn = document.getElementById("completeBtn");
+        btn.textContent = "✔ Completed";
+        btn.disabled = true;
+        document.getElementById("completedMessage").style.display = "block";
       }
     });
+
+    // Save progress
+    async function markComplete() {
+      const token = localStorage.getItem("token");
+      if (!token) return alert("Please log in.");
+
+      const btn = document.getElementById("completeBtn");
+      btn.disabled = true;
+      btn.textContent = "Saving...";
+
+      const res = await fetch(`http://localhost:8081/api/progress/complete/${PART_NUMBER}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!res.ok) {
+        alert("Failed to save progress.");
+        btn.disabled = false;
+        btn.textContent = "✔ Mark as Complete";
+        return;
+      }
+
+      btn.textContent = "✔ Completed";
+      document.getElementById("completedMessage").style.display = "block";
+
+      setTimeout(() => window.location.href = "dashboard.html", 2000);
+    }
   </script>
+
 </body>
 </html>

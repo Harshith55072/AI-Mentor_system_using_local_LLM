@@ -6,115 +6,503 @@
   <title>Phase 2: Python for Data Science</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
       font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      background: #f9fafb;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: #1f2937;
+      min-height: 100vh;
+      padding: 2rem;
     }
 
     .container {
       max-width: 900px;
-      margin: auto;
-      background: #ffffff;
-      border-radius: 1rem;
-      padding: 2rem;
-      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 1.5rem;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
 
-    h1 {
-      color: #8b5cf6;
-      margin-bottom: 1rem;
-    }
-
-    h2 {
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-      color: #4b5563;
-    }
-
-    p {
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-
-    ul {
-      margin-left: 1.5rem;
-    }
-
-    a {
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1.5rem;
       color: #8b5cf6;
       text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    img, iframe {
-      width: 100%;
-      border-radius: 0.75rem;
-      margin: 1rem 0;
-    }
-
-    .btn {
-      display: block;
-      margin: 2rem auto 0;
-      background: #8b5cf6;
-      color: #fff;
       font-weight: 600;
-      border: none;
-      border-radius: 0.75rem;
-      padding: 0.75rem 1.5rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
+      transition: color 0.3s;
     }
 
-    .btn:hover {
-      background: #6d28d9;
+    .back-btn:hover { color: #6d28d9; }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #7c3aed;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .intro {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-size: 1.125rem;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .roadmap-step {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 1rem;
+      border-left: 4px solid #8b5cf6;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .roadmap-step:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1.375rem;
+      margin-bottom: 0.75rem;
+      color: #5b21b6;
+    }
+
+    .step-description {
+      color: #6b7280;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .resources a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: #8b5cf6;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .resources a:hover { color: #6d28d9; }
+
+    .locked-message {
+      text-align: center;
+      color: #dc2626;
+      font-weight: 600;
+      background: #fee2e2;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin: 2rem 0;
+      display: none;
+    }
+
+    .video-wrap {
+      margin: 1.25rem 0 2rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    iframe {
+      width: 100%;
+      height: 420px;
+      border: none;
+      display: block;
+    }
+
+    .quiz {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 3px solid #e5e7eb;
+    }
+
+    .quiz h2 {
+      text-align: center;
+      color: #7c3aed;
+      margin-bottom: 1.5rem;
+      font-size: 1.75rem;
+    }
+
+    .quiz-note {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .question {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 1rem;
+      border: 2px solid #e5e7eb;
+      transition: border-color 0.3s;
+    }
+
+    .question:hover { border-color: #8b5cf6; }
+
+    .question h3 {
+      font-size: 1.125rem;
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+
+    .question label {
+      display: block;
+      margin-bottom: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .question label:hover { background: #f3f4f6; }
+
+    input[type="radio"] { margin-right: 0.75rem; }
+
+    .correct {
+      background: #d1fae5 !important;
+      color: #065f46;
+      font-weight: 600;
+      border: 2px solid #10b981;
+    }
+
+    .incorrect {
+      background: #fee2e2 !important;
+      color: #991b1b;
+      border: 2px solid #ef4444;
+    }
+
+    .quiz-result {
+      font-weight: 700;
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 1.5rem;
+      padding: 1rem;
+      border-radius: 1rem;
+      display: none;
+    }
+
+    .complete-btn {
+      display: block;
+      margin: 3rem auto 0;
+      padding: 1rem 3rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1.25rem;
+      box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(102, 126, 234, 0.5);
+    }
+
+    .complete-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .completed-message {
+      margin-top: 1.5rem;
+      text-align: center;
+      color: #10b981;
+      font-weight: 700;
+      font-size: 1.25rem;
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      iframe { height: 260px; }
+      .container { padding: 1.5rem; }
+      h1 { font-size: 1.9rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Phase 2: Python for Data Science</h1>
-    <p>Master Python programming with a focus on data science libraries like NumPy, Pandas, and Matplotlib. These tools are essential for analyzing and manipulating data efficiently.</p>
+    <a href="roadmap.html" class="back-btn">← Back to Roadmap</a>
 
-    <h2>Topics to Learn</h2>
-    <ul>
-      <li>Python Basics & Jupyter Notebooks</li>
-      <li>NumPy for numerical operations</li>
-      <li>Pandas for data manipulation</li>
-      <li>Matplotlib & Seaborn for data visualization</li>
-      <li>Working with CSV, Excel, and JSON files</li>
-    </ul>
+    <h1>🐍 Phase 2: Python for Data Science</h1>
+    <p class="intro">
+      Master Python programming with essential data science libraries: NumPy for numerical computing, Pandas for data manipulation, and Matplotlib for visualization.
+    </p>
 
-    <h2>Recommended Tutorials</h2>
-    <ul>
-      <li><a href="https://www.youtube.com/watch?v=LHBE6Q9XlzI" target="_blank">Python for Data Science - YouTube</a></li>
-      <li><a href="https://www.kaggle.com/learn/python" target="_blank">Kaggle: Python Course</a></li>
-      <li><a href="https://pandas.pydata.org/docs/getting_started/index.html" target="_blank">Pandas Documentation</a></li>
-      <li><a href="https://numpy.org/learn/" target="_blank">NumPy Tutorials</a></li>
-    </ul>
+    <div class="roadmap-step">
+      <h2 class="step-title">Python Basics & Jupyter Notebooks</h2>
+      <p class="step-description">Learn Python syntax, data structures, and interactive development with Jupyter for data exploration.</p>
+      <div class="resources">
+        <a href="https://www.kaggle.com/learn/python" target="_blank" rel="noopener">🎓 Kaggle Python Course</a>
+      </div>
+    </div>
 
-    <h2>Visual Example</h2>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Pandas_logo.svg" alt="Pandas Library Logo" />
+    <div class="roadmap-step">
+      <h2 class="step-title">NumPy for Numerical Computing</h2>
+      <p class="step-description">Master arrays, vectorized operations, broadcasting, and linear algebra with NumPy.</p>
+      <div class="resources">
+        <a href="https://numpy.org/learn/" target="_blank" rel="noopener">🔢 NumPy Tutorials</a>
+      </div>
+    </div>
 
-    <h2>Video Tutorial</h2>
-    <iframe src="https://www.youtube.com/embed/r-uOLxNrNk8" title="Python for Data Science Crash Course" allowfullscreen></iframe>
+    <div class="roadmap-step">
+      <h2 class="step-title">Pandas for Data Manipulation</h2>
+      <p class="step-description">Work with DataFrames, clean data, handle missing values, and perform powerful data transformations.</p>
+      <div class="resources">
+        <a href="https://pandas.pydata.org/docs/getting_started/index.html" target="_blank" rel="noopener">🐼 Pandas Documentation</a>
+      </div>
+    </div>
 
-    <button class="btn" onclick="markCompleted()">Mark as Completed</button>
+    <div class="roadmap-step">
+      <h2 class="step-title">Data Visualization</h2>
+      <p class="step-description">Create insightful visualizations with Matplotlib and Seaborn to communicate data insights effectively.</p>
+      <div class="resources">
+        <a href="https://matplotlib.org/stable/tutorials/index.html" target="_blank" rel="noopener">📊 Matplotlib Guide</a>
+      </div>
+    </div>
+
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/r-uOLxNrNk8" title="Python for Data Science Crash Course" allowfullscreen></iframe>
+    </div>
+
+    <div class="locked-message" id="lockedMessage">
+      🔒 You must complete <strong>Phase 1: Statistics & Math</strong> before starting this phase.
+    </div>
+
+    <section class="quiz" id="quizSection">
+      <h2>🧠 Knowledge Check</h2>
+      <p class="quiz-note">Answer all questions correctly (8/10 minimum) to complete this phase.</p>
+      <div id="quizQuestions"></div>
+      <div class="quiz-result" id="quizResult"></div>
+    </section>
+
+    <button class="complete-btn" id="completeBtn">Take Quiz & Complete Phase ✅</button>
+    <div class="completed-message" id="completedMessage">✅ Phase Completed!</div>
   </div>
 
   <script>
-    const ROADMAP_ID = 2; // Data Science Roadmap
+    const ROADMAP_ID = 2;
     const PHASE_NUMBER = 2;
+    const PREVIOUS_PHASE = 1;
+    const PASSING_SCORE = 8;
 
-    function markCompleted() {
-      // Here you could add AJAX or fetch request to save progress
-      alert(`✅ Phase ${PHASE_NUMBER} marked as completed for roadmap ${ROADMAP_ID}!`);
+    const quizData = [
+      { q: "1. Which library is used for numerical operations in Python?", options: ["Pandas", "NumPy", "Matplotlib", "Seaborn"], answer: 1 },
+      { q: "2. What is a DataFrame in Pandas?", options: ["A plot", "A 2D labeled data structure", "An array", "A dictionary"], answer: 1 },
+      { q: "3. Which function reads a CSV file in Pandas?", options: ["read_csv()", "load_csv()", "import_csv()", "get_csv()"], answer: 0 },
+      { q: "4. NumPy arrays are more efficient than Python lists for:", options: ["Text processing", "Large numerical computations", "Web scraping", "File handling"], answer: 1 },
+      { q: "5. Which library is primarily used for data visualization?", options: ["NumPy", "Pandas", "Matplotlib", "Requests"], answer: 2 },
+      { q: "6. What does .shape return in NumPy?", options: ["Data type", "Dimensions of array", "Sum of elements", "Memory size"], answer: 1 },
+      { q: "7. How do you select a column named 'age' in a DataFrame df?", options: ["df.age or df['age']", "df(age)", "df->age", "df:age"], answer: 0 },
+      { q: "8. Which method handles missing values in Pandas?", options: ["remove_na()", "fillna()", "delete_missing()", "clean_data()"], answer: 1 },
+      { q: "9. Jupyter Notebook files have which extension?", options: [".py", ".ipynb", ".jup", ".nb"], answer: 1 },
+      { q: "10. Seaborn is built on top of:", options: ["Pandas", "NumPy", "Matplotlib", "SciPy"], answer: 2 }
+    ];
+
+    let quizCompleted = false;
+    let userAnswers = [];
+
+    function generateQuiz() {
+      const container = document.getElementById("quizQuestions");
+      quizData.forEach((item, i) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `
+          <h3>${item.q}</h3>
+          ${item.options.map((opt, j) => `
+            <label>
+              <input type="radio" name="q${i}" value="${j}" onchange="saveAnswer(${i}, ${j})">
+              ${opt}
+            </label>
+          `).join('')}
+        `;
+        container.appendChild(div);
+      });
     }
+
+    function saveAnswer(questionIndex, answerIndex) {
+      userAnswers[questionIndex] = answerIndex;
+    }
+
+    async function handleQuiz() {
+      if (!quizCompleted) {
+        await gradeAndSubmitQuiz();
+      } else {
+        await markPhaseComplete();
+      }
+    }
+
+    document.getElementById("completeBtn").onclick = handleQuiz;
+
+    async function gradeAndSubmitQuiz() {
+      const questions = document.querySelectorAll(".question");
+      let allAnswered = true;
+      
+      questions.forEach((q) => {
+        if (!q.querySelector("input:checked")) allAnswered = false;
+      });
+
+      if (!allAnswered) {
+        alert("⚠️ Please answer all questions before submitting.");
+        return;
+      }
+
+      let score = 0;
+      questions.forEach((q, i) => {
+        const selected = q.querySelector("input:checked");
+        const correct = quizData[i].answer;
+        
+        q.querySelectorAll("label").forEach((label, j) => {
+          label.classList.remove("correct", "incorrect");
+          if (j === correct) label.classList.add("correct");
+          if (selected && parseInt(selected.value) === j && j !== correct) {
+            label.classList.add("incorrect");
+          }
+        });
+        
+        if (selected && parseInt(selected.value) === correct) score++;
+      });
+
+      const passed = score >= PASSING_SCORE;
+      const result = document.getElementById("quizResult");
+      result.style.display = "block";
+      result.textContent = `You scored ${score}/${quizData.length}`;
+      
+      if (passed) {
+        result.style.color = "#10b981";
+        result.style.background = "#d1fae5";
+        result.textContent += " - Excellent! 🎉";
+      } else {
+        result.style.color = "#ef4444";
+        result.style.background = "#fee2e2";
+        result.textContent += ` - You need ${PASSING_SCORE} to pass. Try again!`;
+      }
+
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("Please log in to save your quiz results");
+          return;
+        }
+
+        await fetch("http://localhost:8081/api/quiz/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            roadmapId: ROADMAP_ID,
+            phaseNumber: PHASE_NUMBER,
+            score: score,
+            totalQuestions: quizData.length,
+            answers: JSON.stringify(userAnswers),
+            passed: passed
+          })
+        });
+
+        console.log("✅ Quiz results saved");
+
+        if (passed) {
+          quizCompleted = true;
+          document.getElementById("completeBtn").textContent = "Submit Completion ✅";
+        }
+      } catch (error) {
+        console.error("Error saving quiz:", error);
+      }
+    }
+
+    async function markPhaseComplete() {
+      const token = localStorage.getItem("token");
+      if (!token) return alert("Please log in");
+
+      const btn = document.getElementById("completeBtn");
+      btn.disabled = true;
+      btn.textContent = "Saving...";
+
+      try {
+        const response = await fetch(
+          `http://localhost:8081/api/roadmap/complete/${ROADMAP_ID}/${PHASE_NUMBER}`,
+          { method: "POST", headers: { "Authorization": `Bearer ${token}` } }
+        );
+
+        if (!response.ok) throw new Error("Failed");
+
+        document.getElementById("completedMessage").style.display = "block";
+        btn.textContent = "✅ Completed";
+
+        setTimeout(() => (window.location.href = "roadmap.html"), 2000);
+      } catch (error) {
+        alert("Failed to save progress");
+        btn.disabled = false;
+        btn.textContent = "Submit Completion ✅";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      generateQuiz();
+
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const progressRes = await fetch("http://localhost:8081/api/roadmap/progress", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (progressRes.ok) {
+          const progress = await progressRes.json();
+          const prevStatus = progress[ROADMAP_ID]?.[PREVIOUS_PHASE];
+          const currStatus = progress[ROADMAP_ID]?.[PHASE_NUMBER];
+
+          if (prevStatus !== "COMPLETED") {
+            document.getElementById("quizSection").style.display = "none";
+            document.getElementById("completeBtn").disabled = true;
+            document.getElementById("lockedMessage").style.display = "block";
+            return;
+          }
+
+          if (currStatus === "COMPLETED") {
+            document.getElementById("completedMessage").style.display = "block";
+            document.getElementById("completeBtn").textContent = "✅ Completed";
+            document.getElementById("completeBtn").disabled = true;
+            return;
+          }
+        }
+
+        const quizRes = await fetch(
+          `http://localhost:8081/api/quiz/result/${ROADMAP_ID}/${PHASE_NUMBER}`,
+          { headers: { "Authorization": `Bearer ${token}` } }
+        );
+
+        if (quizRes.ok) {
+          const quizResult = await quizRes.json();
+          if (quizResult.exists && quizResult.passed) {
+            quizCompleted = true;
+            document.getElementById("completeBtn").textContent = "Submit Completion ✅";
+            document.getElementById("quizResult").style.display = "block";
+            document.getElementById("quizResult").style.color = "#10b981";
+            document.getElementById("quizResult").style.background = "#d1fae5";
+            document.getElementById("quizResult").textContent = 
+              `Previous score: ${quizResult.score}/${quizResult.totalQuestions} ✅`;
+          }
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    });
   </script>
 </body>
 </html>

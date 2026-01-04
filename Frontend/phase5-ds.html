@@ -6,120 +6,694 @@
   <title>Phase 5: Real-World Projects</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
       font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      background: #f9fafb;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: #1f2937;
+      min-height: 100vh;
+      padding: 2rem;
     }
 
     .container {
       max-width: 900px;
-      margin: auto;
-      background: #ffffff;
-      border-radius: 1rem;
-      padding: 2rem;
-      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 1.5rem;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      color: #8b5cf6;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .back-btn:hover { color: #6d28d9; }
 
     h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #7c3aed;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .intro {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-size: 1.125rem;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .roadmap-step {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 1rem;
+      border-left: 4px solid #8b5cf6;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .roadmap-step:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1.375rem;
+      margin-bottom: 0.75rem;
+      color: #5b21b6;
+    }
+
+    .step-description {
+      color: #6b7280;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .resources a {
+      display: inline-block;
+      margin-top: 0.5rem;
       color: #8b5cf6;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .resources a:hover { color: #6d28d9; }
+
+    .locked-message {
+      text-align: center;
+      color: #dc2626;
+      font-weight: 600;
+      background: #fee2e2;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin: 2rem 0;
+      display: none;
+    }
+
+    .video-wrap {
+      margin: 1.25rem 0 2rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    iframe {
+      width: 100%;
+      height: 420px;
+      border: none;
+      display: block;
+    }
+
+    /* Project Tracker Section */
+    .project-tracker {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 3px solid #e5e7eb;
+    }
+
+    .project-tracker h2 {
+      text-align: center;
+      color: #7c3aed;
+      margin-bottom: 1rem;
+      font-size: 1.75rem;
+    }
+
+    .tracker-intro {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .project-form {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin-bottom: 2rem;
+      border: 2px solid #e5e7eb;
+    }
+
+    .form-group {
       margin-bottom: 1rem;
     }
 
-    h2 {
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #8b5cf6;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .add-project-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 1rem;
+    }
+
+    .add-project-btn:hover {
+      background: #7c3aed;
+    }
+
+    .projects-list {
       margin-top: 2rem;
+    }
+
+    .project-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 1rem;
       margin-bottom: 1rem;
+      border: 2px solid #e5e7eb;
+      transition: all 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: #8b5cf6;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-title {
+      font-weight: 700;
+      color: #7c3aed;
+      font-size: 1.25rem;
+    }
+
+    .project-status {
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .status-planning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-in-progress {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .status-completed {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-deployed {
+      background: #e9d5ff;
+      color: #5b21b6;
+    }
+
+    .project-description {
+      color: #6b7280;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .tech-tag {
+      background: #f3f4f6;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
       color: #4b5563;
     }
 
-    p {
-      line-height: 1.6;
+    .project-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .action-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.875rem;
+    }
+
+    .update-btn {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .update-btn:hover {
+      background: #bfdbfe;
+    }
+
+    .delete-btn {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .delete-btn:hover {
+      background: #fecaca;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #9ca3af;
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
       margin-bottom: 1rem;
     }
 
-    ul {
-      margin-left: 1.5rem;
-    }
-
-    a {
-      color: #8b5cf6;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    img, iframe {
-      width: 100%;
-      border-radius: 0.75rem;
-      margin: 1rem 0;
-    }
-
-    .btn {
+    .complete-btn {
       display: block;
-      margin: 2rem auto 0;
-      background: #8b5cf6;
-      color: #fff;
-      font-weight: 600;
+      margin: 3rem auto 0;
+      padding: 1rem 3rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
       border: none;
-      border-radius: 0.75rem;
-      padding: 0.75rem 1.5rem;
+      border-radius: 1rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.3s ease;
+      font-size: 1.25rem;
+      box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .btn:hover {
-      background: #6d28d9;
+    .complete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(102, 126, 234, 0.5);
+    }
+
+    .complete-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .completed-message {
+      margin-top: 1.5rem;
+      text-align: center;
+      color: #10b981;
+      font-weight: 700;
+      font-size: 1.25rem;
+      display: none;
+    }
+
+    .progress-indicator {
+      background: #f9fafb;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .progress-text {
+      color: #6b7280;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar-container {
+      background: #e5e7eb;
+      height: 8px;
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 100%;
+      transition: width 0.3s;
+    }
+
+    @media (max-width: 640px) {
+      iframe { height: 260px; }
+      .container { padding: 1.5rem; }
+      h1 { font-size: 1.9rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Phase 5: Real-World Projects</h1>
-    <p>Put your skills to the test by building and deploying real-world data science projects. This phase will help you create a portfolio that showcases your ability to solve meaningful problems with data.</p>
+    <a href="roadmap.html" class="back-btn">← Back to Roadmap</a>
 
-    <h2>Project Ideas</h2>
-    <ul>
-      <li>Predictive Model for House Prices (Regression)</li>
-      <li>Customer Churn Classification</li>
-      <li>Sentiment Analysis on Tweets</li>
-      <li>Movie Recommendation System</li>
-      <li>Image Classifier using CNN</li>
-    </ul>
+    <h1>📊 Phase 5: Real-World Projects</h1>
+    <p class="intro">
+      Put your skills to the test by building and deploying real-world data science projects. Create a portfolio that showcases your ability to solve meaningful problems with data.
+    </p>
 
-    <h2>Platforms to Practice</h2>
-    <ul>
-      <li><a href="https://www.kaggle.com/competitions" target="_blank">Kaggle Competitions</a></li>
-      <li><a href="https://colab.research.google.com" target="_blank">Google Colab for Notebook Hosting</a></li>
-      <li><a href="https://huggingface.co/spaces" target="_blank">Hugging Face Spaces (for ML apps)</a></li>
-      <li><a href="https://vercel.com" target="_blank">Vercel (for deploying web dashboards)</a></li>
-    </ul>
+    <div class="roadmap-step">
+      <h2 class="step-title">Predictive Modeling Projects</h2>
+      <p class="step-description">Build regression and classification models for real-world problems like house price prediction, customer churn, and fraud detection.</p>
+      <div class="resources">
+        <a href="https://www.kaggle.com/competitions" target="_blank" rel="noopener">🏆 Kaggle Competitions</a>
+      </div>
+    </div>
 
-    <h2>Video Tutorial</h2>
-    <iframe src="https://www.youtube.com/embed/tPYj3fFJGjk" title="End-to-End Machine Learning Project" allowfullscreen></iframe>
+    <div class="roadmap-step">
+      <h2 class="step-title">Data Visualization Dashboards</h2>
+      <p class="step-description">Create interactive dashboards using Plotly, Dash, or Streamlit to present insights from your data analysis.</p>
+      <div class="resources">
+        <a href="https://streamlit.io/gallery" target="_blank" rel="noopener">📈 Streamlit Gallery</a>
+      </div>
+    </div>
 
-    <h2>Portfolio Tips</h2>
-    <ul>
-      <li>Create GitHub repositories with clean READMEs.</li>
-      <li>Deploy projects with live demos where possible.</li>
-      <li>Write blog posts explaining your approach and results.</li>
-      <li>Include links in your resume and LinkedIn profile.</li>
-    </ul>
+    <div class="roadmap-step">
+      <h2 class="step-title">End-to-End ML Pipelines</h2>
+      <p class="step-description">Build complete ML pipelines from data collection and preprocessing to model deployment and monitoring.</p>
+      <div class="resources">
+        <a href="https://huggingface.co/spaces" target="_blank" rel="noopener">🤗 Hugging Face Spaces</a>
+      </div>
+    </div>
 
-    <button class="btn" onclick="markCompleted()">Mark as Completed</button>
+    <div class="roadmap-step">
+      <h2 class="step-title">Portfolio & Documentation</h2>
+      <p class="step-description">Document your projects with clean READMEs, write blog posts about your approach, and deploy live demos.</p>
+      <div class="resources">
+        <a href="https://github.com" target="_blank" rel="noopener">💻 GitHub Portfolio</a>
+      </div>
+    </div>
+
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/tPYj3fFJGjk" title="End-to-End Machine Learning Project" allowfullscreen></iframe>
+    </div>
+
+    <div class="locked-message" id="lockedMessage">
+      🔒 You must complete <strong>Phase 4: Machine Learning Fundamentals</strong> before starting this phase.
+    </div>
+
+    <section class="project-tracker" id="projectSection">
+      <h2>📋 Project Portfolio Tracker</h2>
+      <p class="tracker-intro">Track your data science projects from planning to deployment. Complete at least 3 projects to finish this phase!</p>
+
+      <div class="progress-indicator">
+        <div class="progress-text" id="progressText">0 of 3 projects completed</div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="project-form">
+        <h3 style="margin-bottom: 1rem; color: #374151;">Add New Project</h3>
+        <div class="form-group">
+          <label for="projectName">Project Name</label>
+          <input type="text" id="projectName" placeholder="e.g., House Price Prediction Model">
+        </div>
+        <div class="form-group">
+          <label for="projectDescription">Description</label>
+          <textarea id="projectDescription" placeholder="Brief description of your project..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="projectTech">Technologies/Tools (comma-separated)</label>
+          <input type="text" id="projectTech" placeholder="e.g., Python, Pandas, Scikit-learn, Streamlit">
+        </div>
+        <div class="form-group">
+          <label for="projectStatus">Status</label>
+          <select id="projectStatus">
+            <option value="planning">Planning</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+            <option value="deployed">Deployed</option>
+          </select>
+        </div>
+        <button class="add-project-btn" onclick="addProject()">Add Project</button>
+      </div>
+
+      <div class="projects-list" id="projectsList">
+        <div class="empty-state">
+          <div class="empty-state-icon">📊</div>
+          <p>No projects yet. Start by adding your first data science project!</p>
+        </div>
+      </div>
+    </section>
+
+    <button class="complete-btn" id="completeBtn" onclick="markPhaseComplete()" disabled>Complete Phase (3 projects required) ✅</button>
+    <div class="completed-message" id="completedMessage">✅ Phase Completed!</div>
   </div>
 
   <script>
-    const ROADMAP_ID = 2; // Data Science Roadmap
+    const ROADMAP_ID = 2;
     const PHASE_NUMBER = 5;
+    const PREVIOUS_PHASE = 4;
+    const REQUIRED_PROJECTS = 3;
 
-    function markCompleted() {
-      alert(`✅ Phase ${PHASE_NUMBER} marked as completed for roadmap ${ROADMAP_ID}!`);
-      // Future: send completion data via fetch/AJAX
+    let projects = [];
+
+    function loadProjects() {
+      const saved = localStorage.getItem(`projects_${ROADMAP_ID}_${PHASE_NUMBER}`);
+      if (saved) {
+        projects = JSON.parse(saved);
+        renderProjects();
+        updateProgress();
+      }
     }
+
+    function saveProjects() {
+      localStorage.setItem(`projects_${ROADMAP_ID}_${PHASE_NUMBER}`, JSON.stringify(projects));
+    }
+
+    function addProject() {
+      const name = document.getElementById('projectName').value.trim();
+      const description = document.getElementById('projectDescription').value.trim();
+      const tech = document.getElementById('projectTech').value.trim();
+      const status = document.getElementById('projectStatus').value;
+
+      if (!name) {
+        alert('Please enter a project name');
+        return;
+      }
+
+      const project = {
+        id: Date.now(),
+        name,
+        description,
+        technologies: tech.split(',').map(t => t.trim()).filter(t => t),
+        status,
+        createdAt: new Date().toISOString()
+      };
+
+      projects.push(project);
+      saveProjects();
+      renderProjects();
+      updateProgress();
+
+      // Clear form
+      document.getElementById('projectName').value = '';
+      document.getElementById('projectDescription').value = '';
+      document.getElementById('projectTech').value = '';
+      document.getElementById('projectStatus').value = 'planning';
+    }
+
+    function updateProjectStatus(id, newStatus) {
+      const project = projects.find(p => p.id === id);
+      if (project) {
+        project.status = newStatus;
+        saveProjects();
+        renderProjects();
+        updateProgress();
+      }
+    }
+
+    function deleteProject(id) {
+      if (confirm('Are you sure you want to delete this project?')) {
+        projects = projects.filter(p => p.id !== id);
+        saveProjects();
+        renderProjects();
+        updateProgress();
+      }
+    }
+
+    function getStatusClass(status) {
+      return `status-${status}`;
+    }
+
+    function getStatusLabel(status) {
+      const labels = {
+        'planning': 'Planning',
+        'in-progress': 'In Progress',
+        'completed': 'Completed',
+        'deployed': 'Deployed'
+      };
+      return labels[status] || status;
+    }
+
+    function renderProjects() {
+      const container = document.getElementById('projectsList');
+      
+      if (projects.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📊</div>
+            <p>No projects yet. Start by adding your first data science project!</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = projects.map(project => `
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-title">${project.name}</div>
+            <div class="project-status ${getStatusClass(project.status)}">
+              ${getStatusLabel(project.status)}
+            </div>
+          </div>
+          ${project.description ? `<div class="project-description">${project.description}</div>` : ''}
+          ${project.technologies.length > 0 ? `
+            <div class="project-tech">
+              ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+            </div>
+          ` : ''}
+          <div class="project-actions">
+            <select class="action-btn update-btn" onchange="updateProjectStatus(${project.id}, this.value); this.blur();">
+              <option value="">Update Status...</option>
+              <option value="planning">Planning</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="deployed">Deployed</option>
+            </select>
+            <button class="action-btn delete-btn" onclick="deleteProject(${project.id})">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updateProgress() {
+      const completedProjects = projects.filter(p => p.status === 'completed' || p.status === 'deployed').length;
+      const progressPercent = Math.min((completedProjects / REQUIRED_PROJECTS) * 100, 100);
+      
+      document.getElementById('progressText').textContent = 
+        `${completedProjects} of ${REQUIRED_PROJECTS} projects completed`;
+      document.getElementById('progressBar').style.width = `${progressPercent}%`;
+      
+      const completeBtn = document.getElementById('completeBtn');
+      if (completedProjects >= REQUIRED_PROJECTS) {
+        completeBtn.disabled = false;
+        completeBtn.textContent = 'Complete Phase ✅';
+      } else {
+        completeBtn.disabled = true;
+        completeBtn.textContent = `Complete Phase (${REQUIRED_PROJECTS - completedProjects} more projects needed) ✅`;
+      }
+    }
+
+    async function markPhaseComplete() {
+      const token = localStorage.getItem("token");
+      if (!token) return alert("Please log in");
+
+      const btn = document.getElementById("completeBtn");
+      btn.disabled = true;
+      btn.textContent = "Saving...";
+
+      try {
+        const response = await fetch(
+          `http://localhost:8081/api/roadmap/complete/${ROADMAP_ID}/${PHASE_NUMBER}`,
+          { method: "POST", headers: { "Authorization": `Bearer ${token}` } }
+        );
+
+        if (!response.ok) throw new Error("Failed");
+
+        document.getElementById("completedMessage").style.display = "block";
+        btn.textContent = "✅ Completed";
+
+        setTimeout(() => (window.location.href = "roadmap.html"), 2000);
+      } catch (error) {
+        alert("Failed to save progress");
+        btn.disabled = false;
+        updateProgress();
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      loadProjects();
+
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const progressRes = await fetch("http://localhost:8081/api/roadmap/progress", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (progressRes.ok) {
+          const progress = await progressRes.json();
+          const prevStatus = progress[ROADMAP_ID]?.[PREVIOUS_PHASE];
+          const currStatus = progress[ROADMAP_ID]?.[PHASE_NUMBER];
+
+          if (prevStatus !== "COMPLETED") {
+            document.getElementById("projectSection").style.display = "none";
+            document.getElementById("completeBtn").style.display = "none";
+            document.getElementById("lockedMessage").style.display = "block";
+            return;
+          }
+
+          if (currStatus === "COMPLETED") {
+            document.getElementById("completedMessage").style.display = "block";
+            document.getElementById("completeBtn").textContent = "✅ Completed";
+            document.getElementById("completeBtn").disabled = true;
+            return;
+          }
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    });
   </script>
 </body>
 </html>

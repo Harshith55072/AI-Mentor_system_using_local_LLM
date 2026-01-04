@@ -6,262 +6,478 @@
   <title>Phase 3: Front-End Frameworks</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
       font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      background: #f9fafb;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: #1f2937;
+      min-height: 100vh;
+      padding: 2rem;
     }
+
     .container {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
-      background: #ffffff;
-      border-radius: 1rem;
-      padding: 2.5rem 3rem;
-      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+      background: #fff;
+      border-radius: 1.5rem;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
-    h1 {
-      font-size: 2rem;
-      color: #7c3aed;
+
+    .back-btn {
+      display: inline-block;
       margin-bottom: 1.5rem;
+      color: #8b5cf6;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .back-btn:hover { color: #6d28d9; }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #7c3aed;
+      margin-bottom: 1rem;
       text-align: center;
     }
-    p {
+
+    .intro {
+      text-align: center;
       max-width: 700px;
-      margin: 0 0 2.5rem 0;
+      margin: 0 auto 3rem;
+      font-size: 1.125rem;
+      color: #6b7280;
       line-height: 1.6;
-      color: #374151;
     }
-    .roadmap {
-      border-left: 4px solid #e5e7eb;
-      padding-left: 2rem;
-      position: relative;
-      max-width: 700px;
-      margin-bottom: 3rem;
-    }
+
     .roadmap-step {
       margin-bottom: 2.5rem;
-      position: relative;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 1rem;
+      border-left: 4px solid #8b5cf6;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .roadmap-step::before {
-      content: '';
-      position: absolute;
-      left: -2.2rem;
-      top: 0.35rem;
-      width: 1rem;
-      height: 1rem;
-      background-color: #8b5cf6;
-      border-radius: 50%;
+
+    .roadmap-step:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
     }
+
     .step-title {
-      font-weight: 600;
-      font-size: 1.25rem;
-      margin-bottom: 0.4rem;
-      color: #7c3aed;
-      display: flex;
-      align-items: center;
+      font-weight: 700;
+      font-size: 1.375rem;
+      margin-bottom: 0.75rem;
+      color: #5b21b6;
     }
+
     .step-description {
-      color: #4b5563;
-      margin-bottom: 1rem;
+      color: #6b7280;
+      margin-bottom: 0.75rem;
       line-height: 1.5;
     }
-    ul {
-      padding-left: 1.5rem;
-      color: #4b5563;
-      margin: 0;
-      line-height: 1.5;
-    }
-    ul li {
-      margin-bottom: 0.5rem;
-    }
-    a {
-      color: #7c3aed;
+
+    .resources a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: #8b5cf6;
       text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
     }
-    a:hover {
-      text-decoration: underline;
+
+    .resources a:hover { color: #6d28d9; }
+
+    .locked-message {
+      text-align: center;
+      color: #dc2626;
+      font-weight: 600;
+      background: #fee2e2;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin: 2rem 0;
+      display: none;
     }
-    .images {
-      max-width: 700px;
-      margin-left: 2rem;
-      margin-bottom: 3rem;
-      display: flex;
-      gap: 1.5rem;
+
+    .quiz {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 3px solid #e5e7eb;
     }
-    .images img {
-      width: 80px;
-      height: auto;
-      border-radius: 0.75rem;
-      object-fit: contain;
-      flex-shrink: 0;
+
+    .quiz h2 {
+      text-align: center;
+      color: #7c3aed;
+      margin-bottom: 1.5rem;
+      font-size: 1.75rem;
     }
-    iframe {
-      max-width: 700px;
-      width: 100%;
-      height: 350px;
-      border-radius: 0.75rem;
-      margin-bottom: 3rem;
+
+    .quiz-note {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .question {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 1rem;
+      border: 2px solid #e5e7eb;
+      transition: border-color 0.3s;
+    }
+
+    .question:hover { border-color: #8b5cf6; }
+
+    .question h3 {
+      font-size: 1.125rem;
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+
+    .question label {
       display: block;
-      margin-left: 2rem;
+      margin-bottom: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
     }
+
+    .question label:hover { background: #f3f4f6; }
+
+    input[type="radio"] { margin-right: 0.75rem; }
+
+    .correct {
+      background: #d1fae5 !important;
+      color: #065f46;
+      font-weight: 600;
+      border: 2px solid #10b981;
+    }
+
+    .incorrect {
+      background: #fee2e2 !important;
+      color: #991b1b;
+      border: 2px solid #ef4444;
+    }
+
+    .quiz-result {
+      font-weight: 700;
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 1.5rem;
+      padding: 1rem;
+      border-radius: 1rem;
+      display: none;
+    }
+
     .complete-btn {
       display: block;
-      margin-left: 2rem;
-      padding: 0.75rem 2rem;
-      background: #7c3aed;
+      margin: 3rem auto 0;
+      padding: 1rem 3rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       border: none;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      font-size: 1rem;
+      border-radius: 1rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.3s;
-      text-align: center;
-      max-width: 700px;
-      box-shadow: 0 4px 10px rgba(139, 92, 246, 0.4);
+      font-size: 1.25rem;
+      box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+
     .complete-btn:hover {
-      background: #5b21b6;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(102, 126, 234, 0.5);
     }
+
     .complete-btn:disabled {
       background: #9ca3af;
       cursor: not-allowed;
+      transform: none;
     }
+
     .completed-message {
-      margin-top: 1rem;
-      margin-left: 2rem;
+      margin-top: 1.5rem;
+      text-align: center;
       color: #10b981;
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 1.25rem;
       display: none;
-    }
-    @media (max-width: 768px) {
-      .images {
-        justify-content: center;
-        margin-left: 0;
-      }
-      .images img {
-        width: 30%;
-      }
-      iframe {
-        margin-left: 0;
-      }
-      .complete-btn {
-        margin-left: 0;
-        width: 100%;
-      }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <a href="roadmap.html" class="back-btn">← Back to Roadmap</a>
+
     <h1>⚛️ Phase 3: Front-End Frameworks</h1>
-    <p>This phase introduces you to modern front-end frameworks, which help you build dynamic and professional web applications efficiently. We’ll focus on React.js, but also provide references for Angular and Vue.js.</p>
+    <p class="intro">
+      Master modern front-end frameworks like React, Angular, and Vue.js to build dynamic, component-based applications efficiently.
+    </p>
 
-    <div class="roadmap">
-      <div class="roadmap-step">
-        <div class="step-title">Topics to Learn</div>
-        <ul>
-          <li>React.js: Components, Props, State, Hooks</li>
-          <li>Building single-page applications (SPAs)</li>
-          <li>Routing using React Router</li>
-          <li>Basics of Angular and Vue.js for comparison</li>
-          <li>Project structure and modular development</li>
-        </ul>
-      </div>
-
-      <div class="roadmap-step">
-        <div class="step-title">Recommended Tutorials</div>
-        <ul>
-          <li><a href="https://www.youtube.com/playlist?list=PL4cUxeGkcC9gXdVXVJBmHpSI7zCEcjLUX" target="_blank" rel="noopener noreferrer">React JS Crash Course - YouTube</a></li>
-          <li><a href="https://reactjs.org/tutorial/tutorial.html" target="_blank" rel="noopener noreferrer">Official React Tutorial</a></li>
-          <li><a href="https://www.youtube.com/watch?v=htPYk6QxacQ" target="_blank" rel="noopener noreferrer">Angular Full Course - YouTube</a></li>
-          <li><a href="https://vuejs.org/guide/introduction.html" target="_blank" rel="noopener noreferrer">Vue.js Official Guide</a></li>
-          <li><a href="https://www.freecodecamp.org/news/learn-react-by-building-a-simple-app-e8b3b53b0ad2/" target="_blank" rel="noopener noreferrer">React Project Tutorial - FreeCodeCamp</a></li>
-        </ul>
+    <div class="roadmap-step">
+      <h2 class="step-title">React Fundamentals</h2>
+      <p class="step-description">Learn components, props, state, hooks, and JSX syntax for building interactive UIs.</p>
+      <div class="resources">
+        <a href="https://react.dev/learn" target="_blank" rel="noopener">📘 React Official Docs</a>
       </div>
     </div>
 
-    <h2 style="margin-left: 2rem; margin-bottom: 1rem; color: #7c3aed;">Images & Examples</h2>
-    <div class="images">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React Logo" />
-      <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="Angular Logo" />
-      <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="Vue.js Logo" />
+    <div class="roadmap-step">
+      <h2 class="step-title">Component Architecture</h2>
+      <p class="step-description">Understand reusable components, component lifecycle, and composition patterns.</p>
+      <div class="resources">
+        <a href="https://www.patterns.dev/posts/react-component-patterns" target="_blank" rel="noopener">📚 React Component Patterns</a>
+      </div>
     </div>
 
-    <h2 style="margin-left: 2rem; margin-bottom: 1rem; color: #7c3aed;">Video Tutorial</h2>
-    <iframe src="https://www.youtube.com/embed/w7ejDZ8SWv8" title="React JS Tutorial" frameborder="0" allowfullscreen></iframe>
+    <div class="roadmap-step">
+      <h2 class="step-title">State Management</h2>
+      <p class="step-description">Master useState, useReducer, Context API, and global state management solutions.</p>
+      <div class="resources">
+        <a href="https://redux.js.org/tutorials/essentials/part-1-overview-concepts" target="_blank" rel="noopener">🔧 Redux Essentials</a>
+      </div>
+    </div>
 
-    <!-- ✅ Backend-connected completion button -->
-    <button class="complete-btn" id="completeBtn" onclick="markComplete()">✅ Mark Phase 3 as Complete</button>
+    <div class="roadmap-step">
+      <h2 class="step-title">Angular & Vue Basics</h2>
+      <p class="step-description">Explore alternative frameworks: Angular's TypeScript approach and Vue's progressive design.</p>
+      <div class="resources">
+        <a href="https://angular.io/tutorial" target="_blank" rel="noopener">🅰️ Angular Tutorial</a> | 
+        <a href="https://vuejs.org/tutorial/" target="_blank" rel="noopener">💚 Vue Tutorial</a>
+      </div>
+    </div>
+
+    <div class="locked-message" id="lockedMessage">
+      🔒 You must complete <strong>Phase 2: Web Development Fundamentals</strong> before starting this phase.
+    </div>
+
+    <section class="quiz" id="quizSection">
+      <h2>🧠 Knowledge Check</h2>
+      <p class="quiz-note">Answer all questions correctly (8/10 minimum) to complete this phase.</p>
+      <div id="quizQuestions"></div>
+      <div class="quiz-result" id="quizResult"></div>
+    </section>
+
+    <button class="complete-btn" id="completeBtn">Take Quiz & Complete Phase ✅</button>
     <div class="completed-message" id="completedMessage">✅ Phase Completed!</div>
   </div>
 
   <script>
-    // ✅ Backend connection setup
-    const ROADMAP_ID = 1;  // Software Developer
-    const PHASE_NUMBER = 3; // Phase 3
+    const ROADMAP_ID = 1;
+    const PHASE_NUMBER = 3;
+    const PREVIOUS_PHASE = 2;
+    const PASSING_SCORE = 8;
 
-    async function markComplete() {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Please log in to track your progress");
+    const quizData = [
+      { q: "1. What is React primarily used for?", options: ["Building user interfaces", "Server-side rendering only", "Database management", "Styling CSS"], answer: 0 },
+      { q: "2. Which hook manages state in React?", options: ["useState", "useEffect", "useRef", "useMemo"], answer: 0 },
+      { q: "3. JSX stands for:", options: ["JavaScript XML", "Java Syntax eXtended", "JScript eXtended", "JSON eXecute"], answer: 0 },
+      { q: "4. What is a React component?", options: ["Reusable UI block", "CSS selector", "Database model", "Server module"], answer: 0 },
+      { q: "5. Which library is used for routing in React?", options: ["React Router", "Next.js", "Axios", "jQuery"], answer: 0 },
+      { q: "6. Props are used to:", options: ["Pass data between components", "Manage internal state", "Create new components", "Style elements"], answer: 0 },
+      { q: "7. Angular is primarily written in:", options: ["TypeScript", "Java", "Python", "Ruby"], answer: 0 },
+      { q: "8. Vue.js uses which syntax for binding?", options: ["Directives (v-bind, v-model)", "Middlewares", "Decorators", "Annotations"], answer: 0 },
+      { q: "9. Single Page Applications (SPAs) improve UX by:", options: ["Avoiding full page reloads", "Disabling JavaScript", "Reloading entire pages", "Using only PHP"], answer: 0 },
+      { q: "10. React uses which approach for efficient updates?", options: ["Virtual DOM", "Real DOM only", "Shadow DOM", "XR DOM"], answer: 0 }
+    ];
+
+    let quizCompleted = false;
+    let userAnswers = [];
+
+    function generateQuiz() {
+      const container = document.getElementById("quizQuestions");
+      quizData.forEach((item, i) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `
+          <h3>${item.q}</h3>
+          ${item.options.map((opt, j) => `
+            <label>
+              <input type="radio" name="q${i}" value="${j}" onchange="saveAnswer(${i}, ${j})">
+              ${opt}
+            </label>
+          `).join('')}
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function saveAnswer(questionIndex, answerIndex) {
+      userAnswers[questionIndex] = answerIndex;
+    }
+
+    async function handleQuiz() {
+      if (!quizCompleted) {
+        await gradeAndSubmitQuiz();
+      } else {
+        await markPhaseComplete();
+      }
+    }
+
+    document.getElementById("completeBtn").onclick = handleQuiz;
+
+    async function gradeAndSubmitQuiz() {
+      const questions = document.querySelectorAll(".question");
+      let allAnswered = true;
+      
+      questions.forEach((q) => {
+        if (!q.querySelector("input:checked")) allAnswered = false;
+      });
+
+      if (!allAnswered) {
+        alert("⚠️ Please answer all questions before submitting.");
         return;
       }
+
+      let score = 0;
+      questions.forEach((q, i) => {
+        const selected = q.querySelector("input:checked");
+        const correct = quizData[i].answer;
+        
+        q.querySelectorAll("label").forEach((label, j) => {
+          label.classList.remove("correct", "incorrect");
+          if (j === correct) label.classList.add("correct");
+          if (selected && parseInt(selected.value) === j && j !== correct) {
+            label.classList.add("incorrect");
+          }
+        });
+        
+        if (selected && parseInt(selected.value) === correct) score++;
+      });
+
+      const passed = score >= PASSING_SCORE;
+      const result = document.getElementById("quizResult");
+      result.style.display = "block";
+      result.textContent = `You scored ${score}/${quizData.length}`;
+      
+      if (passed) {
+        result.style.color = "#10b981";
+        result.style.background = "#d1fae5";
+        result.textContent += " - Excellent! 🎉";
+      } else {
+        result.style.color = "#ef4444";
+        result.style.background = "#fee2e2";
+        result.textContent += ` - You need ${PASSING_SCORE} to pass. Try again!`;
+      }
+
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("Please log in to save your quiz results");
+          return;
+        }
+
+        await fetch("http://localhost:8081/api/quiz/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            roadmapId: ROADMAP_ID,
+            phaseNumber: PHASE_NUMBER,
+            score: score,
+            totalQuestions: quizData.length,
+            answers: JSON.stringify(userAnswers),
+            passed: passed
+          })
+        });
+
+        console.log("✅ Quiz results saved");
+
+        if (passed) {
+          quizCompleted = true;
+          document.getElementById("completeBtn").textContent = "Submit Completion ✅";
+        }
+      } catch (error) {
+        console.error("Error saving quiz:", error);
+      }
+    }
+
+    async function markPhaseComplete() {
+      const token = localStorage.getItem("token");
+      if (!token) return alert("Please log in");
 
       const btn = document.getElementById("completeBtn");
       btn.disabled = true;
       btn.textContent = "Saving...";
 
       try {
-        const response = await fetch(`http://localhost:8081/api/roadmap/complete/${ROADMAP_ID}/${PHASE_NUMBER}`, {
-          method: "POST",
-          headers: { "Authorization": `Bearer ${token}` }
-        });
+        const response = await fetch(
+          `http://localhost:8081/api/roadmap/complete/${ROADMAP_ID}/${PHASE_NUMBER}`,
+          { method: "POST", headers: { "Authorization": `Bearer ${token}` } }
+        );
 
-        if (!response.ok) throw new Error("Failed to save progress");
+        if (!response.ok) throw new Error("Failed");
 
-        console.log("✅ Phase completed successfully!");
         document.getElementById("completedMessage").style.display = "block";
         btn.textContent = "✅ Completed";
 
-        // Optional: redirect back to roadmap after 2 seconds
-        setTimeout(() => {
-          window.location.href = "roadmap.html";
-        }, 2000);
-
+        setTimeout(() => (window.location.href = "roadmap.html"), 2000);
       } catch (error) {
-        console.error("Error:", error);
-        alert("Failed to save progress. Please try again.");
+        alert("Failed to save progress");
         btn.disabled = false;
-        btn.textContent = "✅ Mark Phase 3 as Complete";
+        btn.textContent = "Submit Completion ✅";
       }
     }
 
-    // ✅ Check completion status on load
     document.addEventListener("DOMContentLoaded", async () => {
+      generateQuiz();
+
       const token = localStorage.getItem("token");
       if (!token) return;
 
       try {
-        const response = await fetch("http://localhost:8081/api/roadmap/progress", {
+        const progressRes = await fetch("http://localhost:8081/api/roadmap/progress", {
           headers: { "Authorization": `Bearer ${token}` }
         });
 
-        if (!response.ok) return;
-        const progress = await response.json();
-        const status = progress[ROADMAP_ID]?.[PHASE_NUMBER];
+        if (progressRes.ok) {
+          const progress = await progressRes.json();
+          const prevStatus = progress[ROADMAP_ID]?.[PREVIOUS_PHASE];
+          const currStatus = progress[ROADMAP_ID]?.[PHASE_NUMBER];
 
-        if (status === "COMPLETED") {
-          const btn = document.getElementById("completeBtn");
-          const msg = document.getElementById("completedMessage");
-          btn.textContent = "✅ Completed";
-          btn.disabled = true;
-          msg.style.display = "block";
+          if (prevStatus !== "COMPLETED") {
+            document.getElementById("quizSection").style.display = "none";
+            document.getElementById("completeBtn").disabled = true;
+            document.getElementById("lockedMessage").style.display = "block";
+            return;
+          }
+
+          if (currStatus === "COMPLETED") {
+            document.getElementById("completedMessage").style.display = "block";
+            document.getElementById("completeBtn").textContent = "✅ Completed";
+            document.getElementById("completeBtn").disabled = true;
+            return;
+          }
+        }
+
+        const quizRes = await fetch(
+          `http://localhost:8081/api/quiz/result/${ROADMAP_ID}/${PHASE_NUMBER}`,
+          { headers: { "Authorization": `Bearer ${token}` } }
+        );
+
+        if (quizRes.ok) {
+          const quizResult = await quizRes.json();
+          if (quizResult.exists && quizResult.passed) {
+            quizCompleted = true;
+            document.getElementById("completeBtn").textContent = "Submit Completion ✅";
+            document.getElementById("quizResult").style.display = "block";
+            document.getElementById("quizResult").style.color = "#10b981";
+            document.getElementById("quizResult").style.background = "#d1fae5";
+            document.getElementById("quizResult").textContent = 
+              `Previous score: ${quizResult.score}/${quizResult.totalQuestions} ✅`;
+          }
         }
       } catch (error) {
-        console.error("Error checking progress:", error);
+        console.error("Error:", error);
       }
     });
   </script>
